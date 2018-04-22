@@ -36,7 +36,7 @@ class DeadBody extends Entity {
 	override public function update() {
 		super.update();
 		if( cd.has("bleeding") && !cd.hasSetS("bleedFx",0.03) )
-			fx.woundBleed(centerX,centerY);
+			fx.woundBleed(centerX+dir*8,centerY);
 
 		if( !onGround ) {
 			for(e in en.Cover.ALL)
@@ -45,7 +45,7 @@ class DeadBody extends Entity {
 
 			for(e in en.Mob.ALL)
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
-					violentBump(dirTo(e)*0.4, -0.2, 0.5);
+					e.violentBump(dirTo(e)*0.4, -0.2, 0.5);
 				}
 		}
 	}

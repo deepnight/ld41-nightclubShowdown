@@ -10,7 +10,7 @@ class Grenader extends en.Mob {
 		spr.anim.registerStateAnim("dummyPush",2, function() return !onGround && cd.has("bodyHit"));
 		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("dummyIdle",0);
-		spr.colorize(0x911A0D);
+		spr.colorize(0x184485);
 
 
 		var s = createSkill("shoot");

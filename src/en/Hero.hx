@@ -114,11 +114,11 @@ class Hero extends Entity {
 	override function onDamage(v:Int) {
 		super.onDamage(v);
 		game.updateHud();
+		fx.flashBangS(0xFF0000,0.2,0.2);
 	}
 
 	override function onDie() {
 		super.onDie();
-		trace(lastHitDir);
 		new en.DeadBody(this);
 	}
 

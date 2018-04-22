@@ -13,7 +13,7 @@ class Grenade extends Entity {
 		dir = e.dir;
 		gravity*=0.25;
 		frict = 0.98;
-		cd.setS("timer",2);
+		cd.setS("timer",1.25);
 		radius = 5;
 		range = Const.GRID*2;
 
@@ -46,7 +46,7 @@ class Grenade extends Entity {
 			fx.grenade(centerX,centerY,range);
 			if( distPx(game.hero)<=range ) {
 				game.hero.violentBump(dirTo(game.hero)*0.28, -0.2, 0.5);
-				game.hero.hit(1, this, true);
+				game.hero.hit(2, this, true);
 			}
 
 			for(e in en.Cover.ALL)

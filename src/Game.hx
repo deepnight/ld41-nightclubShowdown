@@ -60,8 +60,6 @@ class Game extends mt.Process {
 		var c = new en.Cover(12,4);
 		m.startCover(c,1);
 
-		vp.track(level.wid*0.33*Const.GRID, level.hei*0.5*Const.GRID);
-		//vp.track(hero);
 		vp.repos();
 
 		onResize();
