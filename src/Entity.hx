@@ -275,7 +275,6 @@ class Entity {
 			diminishingUses.set(id, diminishingUses.get(id)+1);
 
 		var n = diminishingUses.get(id);
-		trace(n);
 		if( n<=fullUses )
 			return 1;
 		else if( n>maxUses )
