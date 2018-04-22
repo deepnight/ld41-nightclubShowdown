@@ -151,7 +151,65 @@ class Fx extends mt.Process {
 		}
 	}
 
-	public function bloodHit(fx:Float, fy:Float, x:Float, y:Float, dir:Int) {
+	public function shoot(fx:Float, fy:Float, tx:Float, ty:Float, c:UInt) {
+		var dir = fx<tx ? 1 : -1;
+		var a = Math.atan2(ty-fy, tx-fx);
+
+		// Core
+		for(i in 0...4) {
+			var d = i<=2 ? 0 : rnd(0,5);
+			var p = allocTopAdd(getTile("dot"), fx+Math.cos(a)*d, fy+Math.sin(a)*d);
+			p.setFadeS(rnd(0.6,1), 0, rnd(0.1,0.12));
+			p.colorize(c);
+			p.setCenterRatio(0,0.5);
+
+			p.scaleX = rnd(8,15);
+			p.scaleXMul = rnd(0.9,0.97);
+
+			//p.moveAng(a, rnd(1,3));
+			p.rotation = a;
+			p.lifeS = 0;
+		}
+
+		// Core sides
+		for(i in 0...20) {
+			var a = a + rnd(0.2,0.5, true);
+			var d = i<=2 ? 0 : rnd(0,5);
+			var p = allocTopAdd(getTile("dot"), fx+Math.cos(a)*d, fy+Math.sin(a)*d);
+			p.setFadeS(rnd(0.4,0.6), 0, rnd(0.1,0.12));
+			p.colorize(0xF5450A);
+			p.setCenterRatio(0,0.5);
+
+			p.scaleX = rnd(3,5);
+			p.scaleXMul = rnd(0.9,0.97);
+
+			p.rotation = a;
+			p.lifeS = 0;
+		}
+
+		// Shoot line
+		var n = 40;
+		var d = Lib.distance(fx,fy,tx,ty);
+		for(i in 0...n) {
+			var d = 0.8 * d*i/(n-1) + rnd(0,6);
+			var p = allocTopAdd(getTile("dot"), fx+Math.cos(a)*d, fy+Math.sin(a)*d);
+			p.setFadeS(rnd(0.4,0.6), 0, rnd(0.1,0.12));
+			p.colorize(c);
+
+			p.scaleX = rnd(2,4);
+			p.moveAng(a, rnd(2,10));
+			p.frict = 0.8;
+			p.gy = rnd(0,0.1);
+			p.scaleXMul = rnd(0.9,0.97);
+
+			p.rotation = a;
+			p.lifeS = 0;
+		}
+	}
+
+
+	public function bloodHit(fx:Float, fy:Float, x:Float, y:Float) {
+		var dir = fx<x ? -1 : 1;
 		// Dots
 		var n = 40;
 		for( i in 0...n) {
@@ -169,7 +227,7 @@ class Fx extends mt.Process {
 
 		// Line
 		var n = 40;
-		var a = Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
+		var a = 3.14 + Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
 		for( i in 0...n) {
 			var a = a+rnd(0,0.03,true);
 			var d = rnd(0,15);

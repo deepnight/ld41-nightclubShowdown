@@ -17,6 +17,7 @@ class Game extends mt.Process {
 		createRoot(ctx);
 
 		trace("new game");
+		//Console.ME.runCommand("+ bounds");
 
 		scroller = new h2d.Layers(root);
 		vp = new Viewport();
@@ -31,11 +32,16 @@ class Game extends mt.Process {
 
 		hero = new en.Hero(8,0);
 		new en.m.GunGuy(11,3);
-		new en.m.GunGuy(13,2);
 		new en.m.GunGuy(4,1);
+		new en.Cover(6,3);
 
-		vp.track(level.wid*0.5*Const.GRID, level.hei*0.5*Const.GRID);
-		vp.track(hero);
+		var m = new en.m.GunGuy(13,2);
+		var c = new en.Cover(12,3);
+		m.startCover(c,1);
+
+		vp.track(level.wid*0.33*Const.GRID, level.hei*0.5*Const.GRID);
+		//vp.track(hero);
+		vp.repos();
 
 		onResize();
 	}

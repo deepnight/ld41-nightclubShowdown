@@ -8,6 +8,8 @@ class Mob extends Entity {
 
 		ALL.push(this);
 
+		game.scroller.add(spr, Const.DP_MOBS);
+
 		//var g = new h2d.Graphics(spr);
 		//g.beginFill(0xFF0000,1);
 		//g.drawCircle(0,-radius,radius);
@@ -27,5 +29,9 @@ class Mob extends Entity {
 
 	override public function update() {
 		super.update();
+		if( distCase(hero)<=1 && hero.target==null && !hero.cd.hasSetS("mobPush",0.2) ) {
+			hero.dx+=dirTo(hero)*0.1;
+			hero.leaveCover();
+		}
 	}
 }

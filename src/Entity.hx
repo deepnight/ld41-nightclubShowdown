@@ -6,6 +6,7 @@ class Entity {
 	public static var ALL : Array<Entity> = [];
 
 	public var game(get,never) : Game; inline function get_game() return Game.ME;
+	public var hero(get,never) : en.Hero; inline function get_hero() return Game.ME.hero;
 	public var level(get,never) : Level; inline function get_level() return Game.ME.level;
 	public var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
 	public var destroyed(default,null) = false;
@@ -40,6 +41,7 @@ class Entity {
 	var head : Area;
 	var torso : Area;
 	var legs : Area;
+	public var cover : Null<en.Cover>;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
@@ -47,9 +49,11 @@ class Entity {
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
 	public var headX(get,never) : Float; function get_headX() return footX;
 	public var headY(get,never) : Float; function get_headY() return footY-19;
-	public var shootX(get,never) : Float; inline function get_shootX() return footX+dir*8;
-	public var shootY(get,never) : Float; inline function get_shootY() return footY-radius*0.8;
+	public var shootX(get,never) : Float; function get_shootX() return footX+dir*11;
+	public var shootY(get,never) : Float; function get_shootY() return footY-radius*0.8;
+
 	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
+	public var curAnimId(get,never) : String; inline function get_curAnimId() return !isAlive() || spr==null || spr.destroyed ? "" : spr.groupName;
 
 	private function new(x,y) {
 		uid = Const.UNIQ++;
@@ -63,33 +67,47 @@ class Entity {
 
 		spr = new mt.heaps.slib.HSprite(Assets.gameElements);
 		//spr = new mt.heaps.slib.HSprite(Assets.gameElements);
-		game.scroller.add(spr, Const.DP_HERO);
+		game.scroller.add(spr, Const.DP_PROPS);
 		spr.setCenterRatio(0.5,1);
 		spr.colorAdd = cAdd = new h3d.Vector();
 
-		head = new Area(this, 4, function() return headX, function() return headY);
+		head = new Area(this, 5, function() return headX, function() return headY);
+		head.color = 0xFF0000;
+
 		torso = new Area(this, 5, function() return (headX+footX)*0.5, function() return (headY+footY-4)*0.5);
+		torso.color = 0x0080FF;
+
 		legs = new Area(this, 4, function() return footX, function() return footY-4);
+		legs.color = 0x9D55DF;
 	}
 
 	public function initLife(v) {
 		life = maxLife = v;
 	}
 
-	public function hit(dmg:Int, source:Entity) {
+	public function hit(dmg:Int, source:Entity, ?ignoreCover=false) : Bool {
 		if( source!=null )
 			lastHitDir = source.dirTo(this);
-		if( life>0 && dmg>0 ) {
-			dmg = MLib.min(life,dmg);
-			life-=dmg;
-			onDamage(dmg);
-			blink();
-			if( life<=0 )
-				onDie();
+
+		if( dmg<=0 || !isAlive() )
+			return false;
+
+		if( !ignoreCover && cover!=null && cover.isAlive() && dirTo(source)==dirTo(cover)  ) {
+			cover.hit(dmg, source);
+			return false;
 		}
+
+		dmg = MLib.min(life,dmg);
+		life-=dmg;
+		onDamage(dmg);
+		blink();
+		if( life<=0 )
+			onDie();
+		return true;
 	}
 
 	function onDamage(v:Int) {
+		//leaveCover();
 	}
 
 	function onDie() {
@@ -188,6 +206,25 @@ class Entity {
 		}
 	}
 
+	public function startCover(c:en.Cover, side:Int) {
+		for(e in ALL)
+			if( e.cover==c )
+				return false;
+
+		dx = dy = 0;
+		cover = c;
+		setPosCase(c.cx+side, c.cy);
+		xr = 0.5-side*0.25;
+		yr = 1;
+		lookAt(c);
+		return true;
+	}
+
+	public function leaveCover() {
+		cover = null;
+	}
+
+
 	public inline function rnd(min,max,?sign) return Lib.rnd(min,max,sign);
 	public inline function irnd(min,max,?sign) return Lib.irnd(min,max,sign);
 	public inline function pretty(v,?p=1) return Lib.prettyFloat(v,p);
@@ -261,20 +298,29 @@ class Entity {
 				debug = new h2d.Graphics();
 				game.scroller.add(debug, Const.DP_UI);
 			}
+			debug.setPos(footX, footY);
 			debug.clear();
+			debug.beginFill(0xFFFFFF,0.9);
+			debug.drawRect(shootX-footX, shootY-footY, 2,2);
+
 			debug.beginFill(0xE8DDB3,0.1);
 			debug.lineStyle(1,0xE8DDB3,0.2);
 			debug.drawCircle(0,-radius,radius);
 
-			var c = 0xFF0000; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
-			debug.drawCircle(head.centerX-footX, head.centerY-footY, head.radius);
+			for(a in Area.ALL)
+				if( a.owner==this ) {
+					debug.beginFill(a.color,0.2); debug.lineStyle(1,a.color,0.4);
+					debug.drawCircle(a.centerX-footX, a.centerY-footY, a.radius);
+				}
 
-			var c = 0x0080FF; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
-			debug.drawCircle(torso.centerX-footX, torso.centerY-footY, torso.radius);
-
-			var c = 0x6D5BA4; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
-			debug.drawCircle(legs.centerX-footX, legs.centerY-footY, legs.radius);
-			debug.setPos(footX, footY);
+			//var c = 0xFF0000; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			//debug.drawCircle(head.centerX-footX, head.centerY-footY, head.radius);
+//
+			//var c = 0x0080FF; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			//debug.drawCircle(torso.centerX-footX, torso.centerY-footY, torso.radius);
+//
+			//var c = 0x6D5BA4; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			//debug.drawCircle(legs.centerX-footX, legs.centerY-footY, legs.radius);
 		}
 		if( !Console.ME.has("bounds") && debug!=null ) {
 			debug.remove();
@@ -338,6 +384,9 @@ class Entity {
 		for( s in skills )
 			s.update(dt);
 
+		if( cover!=null && !cover.isAlive() )
+			leaveCover();
+
 		//// Circular collisions
 		//if( hasCircColl() )
 			//for(e in ALL)
@@ -361,6 +410,10 @@ class Entity {
 						//e.onTouch(this);
 					//}
 				//}
+
+		if( cover!=null ) {
+			dx = dy = 0;
+		}
 
 		// X
 		var steps = MLib.ceil( MLib.fabs(dx*dt) );

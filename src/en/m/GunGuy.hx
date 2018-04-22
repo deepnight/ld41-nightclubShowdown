@@ -5,7 +5,7 @@ class GunGuy extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(3);
+		initLife(4);
 
 		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("dummyIdle",0);
@@ -17,20 +17,29 @@ class GunGuy extends en.Mob {
 			lookAt(s.target);
 			spr.anim.playAndLoop("dummyAim");
 		}
-		//s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
+		s.onProgress = function(t) lookAt(s.target);
 		s.onInterrupt = function() spr.anim.stopWithStateAnims();
 		s.onExecute = function(e) {
 			dy = -0.1;
-			e.hit(1,this);
-			e.dx*=0.3;
-			e.dx+=dirTo(e)*rnd(0.06,0.10);
-			e.lockMovementsS(0.3);
-			e.lockControlsS(0.3);
-			fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
-			spr.anim.play("dummyAimShoot");
+			if( e.hit(1,this) ) {
+				e.dx*=0.3;
+				e.dx+=dirTo(e)*rnd(0.06,0.10);
+				e.lockMovementsS(0.3);
+				e.lockControlsS(0.3);
+				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
+			}
+			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFF0000);
+			spr.anim.play("dummyAimShoot").chainFor("dummyBlind",Const.FPS*0.2);
 		}
 	}
 
+	override function get_shootY():Float {
+		return switch( curAnimId ) {
+			case "dummyBlind" : footY - 13;
+			case "dummyAim" : footY - 18;
+			default : super.get_shootY();
+		}
+	}
 	override function get_headY():Float {
 		if( spr!=null && !spr.destroyed )
 			return super.get_headY() + switch( spr.groupName ) {
