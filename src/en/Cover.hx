@@ -22,6 +22,15 @@ class Cover extends Entity {
 		right.color = 0x17FF17;
 	}
 
+	override public function isBlockingHeroMoves() return true;
+
+	public function hasRoom(side:Int) {
+		for(e in Entity.ALL)
+			if( e.cover==this && dirTo(e)==side )
+				return false;
+		return true;
+	}
+
 	override public function dispose() {
 		super.dispose();
 		ALL.remove(this);

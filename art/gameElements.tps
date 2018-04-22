@@ -199,6 +199,23 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">export/crate0.png</key>
+            <key type="filename">export/iconCoverLeft.png</key>
+            <key type="filename">export/iconCoverRight.png</key>
+            <key type="filename">export/iconMove.png</key>
+            <key type="filename">export/iconShoot.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export/dot0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -213,15 +230,16 @@
                 <false/>
             </struct>
             <key type="filename">export/dummyAim0.png</key>
+            <key type="filename">export/dummyAimShoot0.png</key>
             <key type="filename">export/dummyBlind0.png</key>
-            <key type="filename">export/dummyBlind1.png</key>
+            <key type="filename">export/dummyBlindShoot0.png</key>
+            <key type="filename">export/dummyCover0.png</key>
             <key type="filename">export/dummyDeathBounce0.png</key>
             <key type="filename">export/dummyDeathFly0.png</key>
             <key type="filename">export/dummyDeathFly1.png</key>
             <key type="filename">export/dummyDeathGround0.png</key>
             <key type="filename">export/dummyHit0.png</key>
             <key type="filename">export/dummyIdle0.png</key>
-            <key type="filename">export/dummyShoot0.png</key>
             <key type="filename">export/dummyStun0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

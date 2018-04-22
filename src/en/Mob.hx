@@ -17,6 +17,8 @@ class Mob extends Entity {
 		initLife(4);
 	}
 
+	override public function isBlockingHeroMoves() return true;
+
 	override function onDie() {
 		super.onDie();
 		new en.DeadBody(this);

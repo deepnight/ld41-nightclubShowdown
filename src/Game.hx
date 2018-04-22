@@ -35,9 +35,9 @@ class Game extends mt.Process {
 		new en.m.GunGuy(4,1);
 		new en.Cover(6,3);
 
-		var m = new en.m.GunGuy(13,2);
-		var c = new en.Cover(12,3);
-		m.startCover(c,1);
+		//var m = new en.m.GunGuy(13,2);
+		//var c = new en.Cover(12,3);
+		//m.startCover(c,1);
 
 		vp.track(level.wid*0.33*Const.GRID, level.hei*0.5*Const.GRID);
 		//vp.track(hero);

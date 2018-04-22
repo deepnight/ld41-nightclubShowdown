@@ -48,7 +48,7 @@ class Entity {
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
 	public var headX(get,never) : Float; function get_headX() return footX;
-	public var headY(get,never) : Float; function get_headY() return footY-19;
+	public var headY(get,never) : Float; function get_headY() return footY-17;
 	public var shootX(get,never) : Float; function get_shootX() return footX+dir*11;
 	public var shootY(get,never) : Float; function get_shootY() return footY-radius*0.8;
 
@@ -71,15 +71,17 @@ class Entity {
 		spr.setCenterRatio(0.5,1);
 		spr.colorAdd = cAdd = new h3d.Vector();
 
-		head = new Area(this, 5, function() return headX, function() return headY);
+		head = new Area(this, 6, function() return headX, function() return headY);
 		head.color = 0xFF0000;
 
-		torso = new Area(this, 5, function() return (headX+footX)*0.5, function() return (headY+footY-4)*0.5);
+		torso = new Area(this, 8, function() return (headX+footX)*0.5, function() return (headY+footY-4)*0.5);
 		torso.color = 0x0080FF;
 
-		legs = new Area(this, 4, function() return footX, function() return footY-4);
+		legs = new Area(this, 5, function() return footX, function() return footY-4);
 		legs.color = 0x9D55DF;
 	}
+
+	public function isBlockingHeroMoves() return false;
 
 	public function initLife(v) {
 		life = maxLife = v;

@@ -63,7 +63,7 @@ class Viewport extends mt.Process {
 			var a = Math.atan2(targetPt.y-y, targetPt.x-x);
 			var d = mt.deepnight.Lib.distance(x, y, targetPt.x, targetPt.y);
 			if( d>=10 ) {
-				var s = 0.5 * MLib.fclamp(d/100,0,1);
+				var s = 2 * MLib.fclamp(d/100,0,1);
 				dx+=Math.cos(a)*s;
 				dy+=Math.sin(a)*s;
 			}
