@@ -199,11 +199,16 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">export/circle.png</key>
             <key type="filename">export/crate0.png</key>
+            <key type="filename">export/crateBroken0.png</key>
             <key type="filename">export/iconCoverLeft.png</key>
             <key type="filename">export/iconCoverRight.png</key>
             <key type="filename">export/iconMove.png</key>
+            <key type="filename">export/iconReload.png</key>
             <key type="filename">export/iconShoot.png</key>
+            <key type="filename">export/iconShootCover.png</key>
+            <key type="filename">export/iconWait.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -240,6 +245,7 @@
             <key type="filename">export/dummyDeathGround0.png</key>
             <key type="filename">export/dummyHit0.png</key>
             <key type="filename">export/dummyIdle0.png</key>
+            <key type="filename">export/dummyPush0.png</key>
             <key type="filename">export/dummyStun0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -250,6 +256,32 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/iconBullet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>1,2,1,3</rect>
+                <key>scale9Paddings</key>
+                <rect>1,2,1,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/wind.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,3,11,6</rect>
+                <key>scale9Paddings</key>
+                <rect>6,3,11,6</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
