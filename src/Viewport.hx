@@ -73,6 +73,7 @@ class Viewport extends mt.Process {
 		y+=dy;
 		dx*=0.8;
 		dy*=0.8;
+		x = MLib.fclamp(x,-screenWid,0);
 		var prioCenter = 0.3;
 		if( Console.ME.has("screen") ) {
 			game.scroller.x = -level.wid*0.5*Const.GRID + wid*0.5;

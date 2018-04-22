@@ -302,7 +302,7 @@ class Hero extends Entity {
 				icon.setPos(centerX, centerY);
 				icon.set("iconWait");
 			case Reload(_) :
-				icon.setPos(centerX, centerY);
+				icon.setPos(centerX, footY);
 				icon.set("iconReload");
 			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
 			case BlindShot(e) :

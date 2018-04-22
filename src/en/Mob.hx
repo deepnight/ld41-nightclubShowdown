@@ -33,7 +33,7 @@ class Mob extends Entity {
 		super.update();
 
 		// Dodge hero
-		if( onGround && !movementLocked() && !controlsLocked() && ( !hasSkillCharging() || canInterruptSkill() ) && distCase(hero)<=2.5 && hero.moveTarget==null && !cd.has("dodgeHero") ) {
+		if( onGround && !movementLocked() && !controlsLocked() && ( !hasSkillCharging() || canInterruptSkill() ) && distCase(hero)<=1.75 && hero.moveTarget==null && !cd.has("dodgeHero") ) {
 			if( cover==null || dirTo(cover)!=dirTo(hero) ) {
 				leaveCover();
 				for(s in skills)

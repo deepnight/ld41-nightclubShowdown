@@ -16,6 +16,8 @@ class DeadBody extends Entity {
 		spr.anim.registerStateAnim("dummyDeathBounce",2, function() return !onGround && cd.has("hitGround"));
 		spr.anim.registerStateAnim("dummyDeathFly",1, function() return !onGround);
 		spr.anim.registerStateAnim("dummyDeathGround",0);
+		spr.colorize(e.spr.color.toColor());
+		cd.setS("bleeding",2);
 	}
 
 	override public function dispose() {
@@ -33,6 +35,9 @@ class DeadBody extends Entity {
 
 	override public function update() {
 		super.update();
+		if( cd.has("bleeding") && !cd.hasSetS("bleedFx",0.03) )
+			fx.woundBleed(centerX,centerY);
+
 		if( !onGround ) {
 			for(e in en.Cover.ALL)
 				if( distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.1) )
@@ -40,7 +45,6 @@ class DeadBody extends Entity {
 
 			for(e in en.Mob.ALL)
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
-					fx.markerEntity(e);
 					e.dx = dirTo(e)*0.4;
 					e.dy = -0.2;
 					e.stunS(0.2);
