@@ -321,6 +321,22 @@ class Fx extends mt.Process {
 		p.rotation = p.getMoveAng();
 	}
 
+	public function noAmmo(x:Float, y:Float, dir:Int) {
+		var n = 9;
+		var base = dir==1 ? 0 : 3.14;
+		for( i in 0...n ) {
+			var a = base + -1.7+ 3.4*i/(n-1);
+			var p = allocTopAdd(getTile("dot"), x+Math.cos(a)*5, y+Math.sin(a)*5);
+			p.setFadeS(0.4, 0, 0.06);
+			p.rotation = a;
+			p.scaleX = i%2==0 ? 2 : 5;
+			p.scaleXMul = 0.96;
+			p.moveAng(a, 1);
+			p.frict = 0.8;
+			p.lifeS = 0.1;
+		}
+	}
+
 	function envDust() {
 		var n = 6;
 		for(i in 0...n) {

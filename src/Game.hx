@@ -15,6 +15,8 @@ class Game extends mt.Process {
 	public var isReplay : Bool;
 	public var heroHistory : Array<HistoryEntry>;
 
+	public var ammoBar : h2d.Flow;
+
 	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
 
@@ -44,6 +46,10 @@ class Game extends mt.Process {
 
 		level = new Level();
 
+		ammoBar = new h2d.Flow();
+		root.add(ammoBar, Const.DP_UI);
+		ammoBar.horizontalSpacing = 1;
+
 		hero = new en.Hero(8,0);
 		new en.Cover(6,3);
 
@@ -70,6 +76,8 @@ class Game extends mt.Process {
 		super.onResize();
 		clickTrap.width = w();
 		clickTrap.height = h();
+		ammoBar.x = w()*0.5/Const.SCALE - ammoBar.outerWidth*0.5;
+		ammoBar.y = 8;
 	}
 
 	override public function onDispose() {

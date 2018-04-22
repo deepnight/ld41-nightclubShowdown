@@ -1,40 +1,40 @@
 
 gameElements.png
-size: 120,64
+size: 125,63
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 crate0
   rotate: false
-  xy: 45, 46
+  xy: 66, 44
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 crateBroken0
   rotate: false
-  xy: 2, 50
+  xy: 26, 49
   size: 16, 12
   orig: 16, 16
   offset: 0, 0
   index: -1
 dot0
   rotate: false
-  xy: 98, 40
+  xy: 79, 38
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dummyAim0
   rotate: false
-  xy: 24, 2
+  xy: 23, 26
   size: 19, 21
   orig: 32, 32
   offset: 11, 0
   index: -1
 dummyAimShoot0
   rotate: false
-  xy: 45, 2
+  xy: 24, 2
   size: 18, 21
   orig: 32, 32
   offset: 10, 0
@@ -55,105 +55,119 @@ dummyBlindShoot0
   index: -1
 dummyCover0
   rotate: false
-  xy: 101, 27
+  xy: 83, 2
   size: 14, 14
   orig: 32, 32
   offset: 9, 0
   index: -1
 dummyDeathBounce0
   rotate: false
-  xy: 24, 25
+  xy: 97, 18
   size: 26, 7
   orig: 32, 32
   offset: 1, 0
   index: -1
 dummyDeathFly0
   rotate: false
-  xy: 65, 2
+  xy: 44, 22
   size: 16, 21
   orig: 32, 32
   offset: 11, 0
   index: -1
 dummyDeathFly1
   rotate: false
-  xy: 83, 2
+  xy: 44, 2
   size: 19, 18
   orig: 32, 32
   offset: 8, 0
   index: -1
 dummyDeathGround0
   rotate: false
-  xy: 52, 25
+  xy: 97, 27
   size: 26, 7
   orig: 32, 32
   offset: 1, 0
   index: -1
 dummyHit0
   rotate: false
-  xy: 81, 40
+  xy: 62, 22
   size: 15, 20
   orig: 32, 32
   offset: 8, 0
   index: -1
 dummyIdle0
   rotate: false
-  xy: 104, 2
+  xy: 84, 38
   size: 14, 23
   orig: 32, 32
   offset: 10, 0
   index: -1
 dummyStun0
   rotate: false
-  xy: 23, 34
+  xy: 44, 45
   size: 20, 14
   orig: 32, 32
   offset: 5, 0
   index: -1
+iconBullet
+  rotate: false
+  xy: 109, 50
+  size: 2, 6
+  orig: 2, 6
+  offset: 0, 0
+  index: -1
 iconCoverLeft
   rotate: false
-  xy: 20, 50
+  xy: 100, 36
   size: 9, 12
   orig: 16, 16
   offset: 4, 2
   index: -1
 iconCoverRight
   rotate: false
-  xy: 31, 50
+  xy: 111, 36
   size: 9, 12
   orig: 16, 16
   offset: 3, 2
   index: -1
 iconMove
   rotate: false
-  xy: 109, 43
+  xy: 100, 50
   size: 7, 11
   orig: 16, 16
   offset: 5, 3
   index: -1
+iconReload
+  rotate: false
+  xy: 99, 2
+  size: 13, 13
+  orig: 16, 16
+  offset: 2, 2
+  index: -1
 iconShoot
   rotate: false
-  xy: 63, 46
+  xy: 65, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconShootCover
   rotate: false
-  xy: 83, 22
+  xy: 79, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconWait
   rotate: false
-  xy: 98, 43
+  xy: 114, 2
   size: 9, 13
   orig: 16, 16
   offset: 3, 2
   index: -1
 wind
   rotate: false
-  xy: 45, 34
+  xy: 2, 50
   size: 22, 10
   orig: 22, 11
   offset: 0, 0

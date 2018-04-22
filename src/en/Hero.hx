@@ -11,6 +11,7 @@ enum Action {
 	Move(x:Float, y:Float);
 	TakeCover(e:Cover, side:Int);
 	Wait(sec:Float);
+	Reload(sec:Float);
 }
 
 class Hero extends Entity {
@@ -18,12 +19,16 @@ class Hero extends Entity {
 	public var afterMoveAction : Action;
 	var icon : HSprite;
 
+	var ammo : Int;
+	var maxAmmo : Int;
+
 	public function new(x,y) {
 		super(x,y);
 
 		afterMoveAction = None;
 
 		game.scroller.add(spr, Const.DP_HERO);
+		spr.anim.registerStateAnim("dummyStun",2, function() return cd.has("reloading"));
 		spr.anim.registerStateAnim("dummyCover",1, function() return cover!=null);
 		spr.anim.registerStateAnim("dummyIdle",0);
 
@@ -32,14 +37,14 @@ class Hero extends Entity {
 		icon.setCenterRatio(0.5,0.5);
 		icon.blendMode = Add;
 
-		//initLife(3);
 		isAffectBySlowMo = false;
-		initLife(Const.INFINITE);
+		setAmmo(5);
 		initLife(3);
+		initLife(Const.INFINITE);
 
 
 
-		// blindShot shot
+		// Blind shot
 		var s = createSkill("blindShot");
 		s.setTimers(0.25,0,0.1);
 		s.onStart = function() {
@@ -47,6 +52,11 @@ class Hero extends Entity {
 			spr.anim.playAndLoop("dummyBlind");
 		}
 		s.onExecute = function(e) {
+			if( !useAmmo() ) {
+				spr.anim.play("dummyBlindShoot").chainFor("dummyBlind",cd.getF("controlLock"));
+				return;
+			}
+
 			if( e.hit(1,this) ) {
 				var r = e.getDiminishingReturnFactor("blindShot",1,3);
 				e.dx*=0.3;
@@ -68,12 +78,35 @@ class Hero extends Entity {
 			spr.anim.playAndLoop("dummyAim");
 		}
 		s.onExecute = function(e) {
+			if( !useAmmo() ) {
+				spr.anim.play("dummyAimShoot").chainFor("dummyAim",cd.getF("controlLock"));
+				return;
+			}
+
 			if( e.hit(999,this,true) )
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.shoot(shootX, shootY, e.headX, e.headY, 0xFFFF00);
 
 			dy = -0.1;
 			spr.anim.play("dummyAimShoot");
+		}
+	}
+
+	public function setAmmo(v) {
+		ammo = maxAmmo = v;
+		updateAmmo();
+	}
+
+	function useAmmo() {
+		if( ammo<=0 ) {
+			fx.noAmmo(shootX, shootY, dir);
+			lockControlsS(0.2);
+			return false;
+		}
+		else {
+			ammo--;
+			updateAmmo();
+			return true;
 		}
 	}
 
@@ -149,7 +182,8 @@ class Hero extends Entity {
 				a = Move(x,footY);
 		}
 
-		if( MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		// Wait
+		if( ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Wait(0.3);
 
 		// Take cover
@@ -174,6 +208,10 @@ class Hero extends Entity {
 			else
 				a = BlindShot(best);
 
+		// Relaod
+		if( ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+			a = Reload(0.6);
+
 		return a;
 	}
 
@@ -185,6 +223,11 @@ class Hero extends Entity {
 
 			case Wait(t) :
 				lockControlsS(t);
+
+			case Reload(t) :
+				cd.setS("reloading",t);
+				lockControlsS(t);
+				setAmmo(maxAmmo);
 
 			case Move(x,y) :
 				moveTarget = new FPoint(x,y);
@@ -218,6 +261,24 @@ class Hero extends Entity {
 		}
 	}
 
+	function updateAmmo() {
+		game.ammoBar.removeChildren();
+		for( i in 0...maxAmmo ) {
+			var e = Assets.gameElements.h_get("iconBullet", game.ammoBar);
+			//e.scaleY = 5;
+			//e.x = i*2;
+			e.colorize(i+1<=ammo ? 0xFFFFFF : 0xFF0000);
+			e.alpha = i+1<=ammo ? 1 : 0.8;
+			e.blendMode = Add;
+		}
+	}
+
+	override public function postUpdate() {
+		super.postUpdate();
+		//ammoBar.x = headX-2;
+		//ammoBar.y = headY-4;
+	}
+
 	override public function update() {
 		super.update();
 
@@ -236,6 +297,9 @@ class Hero extends Entity {
 			case Wait(_) :
 				icon.setPos(centerX, centerY);
 				icon.set("iconWait");
+			case Reload(_) :
+				icon.setPos(centerX, centerY);
+				icon.set("iconReload");
 			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
 			case BlindShot(e) :
 				icon.setPos(e.torso.centerX, e.torso.centerY+3);
