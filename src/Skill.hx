@@ -2,6 +2,7 @@ import mt.MLib;
 
 class Skill {
 	public var id : String;
+	var owner : Null<Entity>;
 
 	public var chargeS : Float;
 	public var cooldownS : Float;
@@ -13,8 +14,9 @@ class Skill {
 	public var onProgress : Float->Void;
 	public var onInterrupt: Void->Void;
 
-	public function new(id) {
+	public function new(id, ?e:Entity) {
 		this.id = id;
+		owner = e;
 		chargeS = 1;
 		cooldownS = 1;
 		curChargeS = -1;
@@ -55,11 +57,11 @@ class Skill {
 
 	public function update(dt:Float) {
 		if( curCdS>0 ) {
-			curCdS-=1/Const.FPS;
+			curCdS-=dt*1/Const.FPS;
 		}
 
 		if( curChargeS>=0 ) {
-			curChargeS+=1/Const.FPS;
+			curChargeS+=dt*1/Const.FPS;
 			onProgress( MLib.fclamp(curChargeS/chargeS, 0, 1) );
 			if( curChargeS>=chargeS ) {
 				curChargeS = -1;

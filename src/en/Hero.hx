@@ -13,14 +13,8 @@ class Hero extends Entity {
 		g.beginFill(0x00FF00,1);
 		g.drawCircle(0,-radius,radius);
 
-		var g = new h2d.Graphics(game.scroller);
-		g.lineStyle(1,0xFFFF00,1);
-		g.moveTo(0,0);
-		g.lineTo(600,0);
-		g.y = 100;
-
-		initLife(3);
-		//initLife(Const.INFINITE);
+		//initLife(3);
+		initLife(Const.INFINITE);
 	}
 
 	override function onLand() {
@@ -34,5 +28,7 @@ class Hero extends Entity {
 	override public function update() {
 		super.update();
 		//setLabel(""+dy);
+		var m = game.getMouse();
+		setLabel(m.cx+","+m.cy);
 	}
 }

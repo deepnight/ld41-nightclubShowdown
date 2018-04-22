@@ -53,6 +53,19 @@ class Game extends mt.Process {
 		super.postUpdate();
 	}
 
+	public function getMouse() {
+		var gx = hxd.Stage.getInstance().mouseX;
+		var gy = hxd.Stage.getInstance().mouseY;
+		var x = (gx-scroller.x)/Const.SCALE;
+		var y = (gy-scroller.y)/Const.SCALE;
+		return {
+			x : x,
+			y : y,
+			cx : Std.int(x/Const.GRID),
+			cy : Std.int(y/Const.GRID),
+		}
+	}
+
 	override public function update() {
 		super.update();
 

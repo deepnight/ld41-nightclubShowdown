@@ -10,6 +10,7 @@ class GunGuy extends en.Mob {
 		var s = createSkill("shoot");
 		s.setTimers(1,2);
 		s.onStart = function() setLabel("preparing...");
+		s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
 		s.onInterrupt = function() setLabel("CANCEL!");
 		s.onExecute = function() {
 			var e = game.hero;
@@ -18,8 +19,8 @@ class GunGuy extends en.Mob {
 			e.dx+=dirTo(e)*rnd(0.06,0.10);
 			setLabel("bang!");
 		}
-
 	}
+
 
 	override public function update() {
 		super.update();

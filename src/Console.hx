@@ -32,6 +32,21 @@ class Console extends h2d.Console {
 		});
 		this.addAlias("+","set");
 		this.addAlias("-","unset");
+
+		this.addCommand("grid", [], function() {
+			var level = Game.ME.level;
+			var g = level.debug;
+			g.endFill();
+			g.lineStyle(1,0xFFFF00,0.4);
+			for(cx in 0...level.wid) {
+				g.moveTo(cx*Const.GRID,0);
+				g.lineTo(cx*Const.GRID,level.hei*Const.GRID);
+			}
+			for(cy in 0...level.hei) {
+				g.moveTo(0, cy*Const.GRID);
+				g.lineTo(level.wid*Const.GRID, cy*Const.GRID);
+			}
+		});
 		#end
 	}
 

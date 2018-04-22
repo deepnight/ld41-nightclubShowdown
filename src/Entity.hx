@@ -83,7 +83,7 @@ class Entity {
 	}
 
 	public function createSkill(id:String) : Skill {
-		var s = new Skill(id);
+		var s = new Skill(id, this);
 		skills.push(s);
 		return s;
 	}
