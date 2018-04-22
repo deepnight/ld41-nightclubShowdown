@@ -37,6 +37,7 @@ class Hero extends Entity {
 		//initLife(3);
 		isAffectBySlowMo = false;
 		initLife(Const.INFINITE);
+		initLife(3);
 
 
 
@@ -76,6 +77,11 @@ class Hero extends Entity {
 			dy = -0.1;
 			spr.anim.play("dummyAimShoot");
 		}
+	}
+
+	override function onDie() {
+		super.onDie();
+		new en.DeadBody(this);
 	}
 
 	override public function dispose() {
@@ -145,7 +151,7 @@ class Hero extends Entity {
 				a = Move(x,footY);
 		}
 
-		if( MLib.fabs(centerX-x)<=Const.GRID*0.7 && MLib.fabs(centerY-y)<=Const.GRID )
+		if( MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Wait(0.3);
 
 		// Take cover

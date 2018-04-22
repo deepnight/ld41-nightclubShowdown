@@ -61,7 +61,7 @@ class GunGuy extends en.Mob {
 	override public function update() {
 		super.update();
 
-		if( !controlsLocked() && onGround && getSkill("shoot").isReady() )
+		if( !controlsLocked() && onGround && getSkill("shoot").isReady() && game.hero.isAlive() )
 			getSkill("shoot").prepareOn(game.hero);
 	}
 }
