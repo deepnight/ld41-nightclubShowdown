@@ -12,8 +12,6 @@ class Hero extends Entity {
 		var g = new h2d.Graphics(spr);
 		g.beginFill(0x00FF00,1);
 		g.drawCircle(0,-radius,radius);
-		frict = 1;
-		dx = 0.2;
 
 		var g = new h2d.Graphics(game.scroller);
 		g.lineStyle(1,0xFFFF00,1);
@@ -21,7 +19,8 @@ class Hero extends Entity {
 		g.lineTo(600,0);
 		g.y = 100;
 
-		initLife(Const.INFINITE);
+		initLife(3);
+		//initLife(Const.INFINITE);
 	}
 
 	override function onLand() {

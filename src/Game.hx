@@ -24,7 +24,7 @@ class Game extends mt.Process {
 		level = new Level();
 
 		hero = new en.Hero(5,0);
-		new en.Mob(8,0);
+		new en.m.GunGuy(8,0);
 
 		//vp.target = hero;
 		//vp.repos();

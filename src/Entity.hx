@@ -61,6 +61,23 @@ class Entity {
 		life = maxLife = v;
 	}
 
+	public function hit(dmg:Int) {
+		if( life>0 ) {
+			life-=dmg;
+			blink();
+			if( life<=0 )
+				onDie();
+		}
+	}
+
+	public function onDie() {
+		destroy();
+	}
+
+	public inline function isAlive() {
+		return life>0 && !destroyed;
+	}
+
 	public function toString() {
 		return Type.getClassName(Type.getClass(this))+"#"+uid;
 	}
