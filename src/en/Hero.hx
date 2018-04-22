@@ -20,6 +20,8 @@ class Hero extends Entity {
 		g.moveTo(0,0);
 		g.lineTo(600,0);
 		g.y = 100;
+
+		initLife(Const.INFINITE);
 	}
 
 	override function onLand() {

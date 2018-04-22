@@ -30,6 +30,10 @@ class Entity {
 	public var dir(default,set) = 1;
 	public var hasColl = true;
 
+	public var life : Int;
+	public var maxLife : Int;
+	var skills : Array<Skill>;
+
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
 	public var headX(get,never) : Float; inline function get_headX() return (cx+xr)*Const.GRID;
@@ -43,6 +47,8 @@ class Entity {
 		cd = new mt.Cooldown(Const.FPS);
 		radius = Const.GRID*0.6;
 		setPosCase(x,y);
+		initLife(3);
+		skills = [];
 
 		spr = new mt.heaps.slib.HSprite();
 		//spr = new mt.heaps.slib.HSprite(Assets.gameElements);
@@ -51,10 +57,26 @@ class Entity {
 		spr.colorAdd = cAdd = new h3d.Vector();
 	}
 
+	public function initLife(v) {
+		life = maxLife = v;
+	}
+
 	public function toString() {
 		return Type.getClassName(Type.getClass(this))+"#"+uid;
 	}
 
+	public function createSkill(id:String) : Skill {
+		var s = new Skill(id);
+		skills.push(s);
+		return s;
+	}
+
+	public function getSkill(id:String) : Null<Skill> {
+		for(s in skills)
+			if( s.id==id )
+				return s;
+		return null;
+	}
 	//public function pop(str:String, ?c=0x30D9E7) {
 		//var tf = new h2d.Text(Assets.font);
 		//game.scroller.add(tf, Const.DP_UI);
@@ -145,6 +167,7 @@ class Entity {
 		ALL.remove(this);
 		cd.destroy();
 		spr.remove();
+		skills = null;
 		if( label!=null )
 			label.remove();
 		//if( debug!=null )
@@ -213,6 +236,9 @@ class Entity {
 	}
 
 	public function update() {
+		for( s in skills )
+			s.update(dt);
+
 		//// Circular collisions
 		//if( hasCircColl() )
 			//for(e in ALL)
