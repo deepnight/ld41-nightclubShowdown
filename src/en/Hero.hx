@@ -18,29 +18,39 @@ class Hero extends Entity {
 		target = new FPoint(footX, footY);
 
 
-		// Blind shot
-		var s = createSkill("blind");
-		s.setTimers(0.2,0,0.1);
+		// blindShot shot
+		var s = createSkill("blindShot");
+		s.setTimers(0.25,0,0.1);
+		s.onStart = function() {
+			lookAt(s.target);
+			spr.anim.playAndLoop("dummyBlind");
+		}
+		s.onExecute = function(e) {
+			e.hit(1,this);
+
+			var r = e.getDiminishingReturnFactor("blindShot",1,2);
+			e.dx*=0.3;
+			e.dx+=dirTo(e)*rnd(0.03,0.05)*r;
+			e.stunS(0.7*r);
+			fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
+
+			dy = -0.1;
+			spr.anim.play("dummyBlindShoot");
+		}
+
+		// Head shot
+		var s = createSkill("headShot");
+		s.setTimers(0.6,0,0.1);
 		s.onStart = function() {
 			lookAt(s.target);
 			spr.anim.playAndLoop("dummyAim");
 		}
-		//s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
-		//s.onInterrupt = function() setLabel("CANCEL!");
 		s.onExecute = function(e) {
-			e.hit(1,this);
-
-			var r = e.getDiminishingReturnFactor("blind",1,2);
-			e.dx*=0.3;
-			e.dx+=dirTo(e)*rnd(0.03,0.05)*r;
-			e.stunS(0.7*r);
-			if( !e.isAlive() )
-				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
-			else
-				fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
+			e.hit(999,this);
+			fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 
 			dy = -0.1;
-			spr.anim.play("dummyShoot");
+			spr.anim.play("dummyAimShoot");
 		}
 	}
 
@@ -71,8 +81,12 @@ class Hero extends Entity {
 					dh.remove( function(e) return e.distPxFree(x,y)>=30 );
 					dh.score( function(e) return -e.distPxFree(x,y) );
 					var e = dh.getBest();
-					if( e!=null && getSkill("blind").isReady() )
-						getSkill("blind").prepareOn(e);
+					if( e!=null ) {
+						if( e.head.contains(x,y) && getSkill("headShot").isReady() )
+							getSkill("headShot").prepareOn(e);
+						else if( getSkill("blindShot").isReady() )
+							getSkill("blindShot").prepareOn(e);
+					}
 			}
 
 	}

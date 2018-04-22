@@ -213,6 +213,8 @@
                 <false/>
             </struct>
             <key type="filename">export/dummyAim0.png</key>
+            <key type="filename">export/dummyBlind0.png</key>
+            <key type="filename">export/dummyBlind1.png</key>
             <key type="filename">export/dummyDeathBounce0.png</key>
             <key type="filename">export/dummyDeathFly0.png</key>
             <key type="filename">export/dummyDeathFly1.png</key>

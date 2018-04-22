@@ -27,7 +27,7 @@ class GunGuy extends en.Mob {
 			e.lockMovementsS(0.3);
 			e.lockControlsS(0.3);
 			fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
-			spr.anim.play("dummyShoot");
+			spr.anim.play("dummyAimShoot");
 		}
 	}
 

@@ -15,7 +15,8 @@ class Assets {
 		#end
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
-		gameElements.defineAnim("dummyShoot","0(5)");
+		gameElements.defineAnim("dummyAimShoot","0(5)");
+		gameElements.defineAnim("dummyBlindShoot","0(5)");
 		gameElements.defineAnim("dummyHit","0(8)");
 		gameElements.defineAnim("dummyDeathFly","0(30), 1(9999)");
 

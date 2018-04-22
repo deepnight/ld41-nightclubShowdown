@@ -46,7 +46,7 @@ class Entity {
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
 	public var headX(get,never) : Float; function get_headX() return footX;
-	public var headY(get,never) : Float; function get_headY() return footY-radius*1.8;
+	public var headY(get,never) : Float; function get_headY() return footY-19;
 	public var shootX(get,never) : Float; inline function get_shootX() return footX+dir*8;
 	public var shootY(get,never) : Float; inline function get_shootY() return footY-radius*0.8;
 	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
