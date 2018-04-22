@@ -41,7 +41,7 @@ class Hero extends Entity {
 		isAffectBySlowMo = false;
 		setAmmo(5);
 		initLife(2);
-		//initLife(Const.INFINITE);
+		initLife(Const.INFINITE);
 
 
 

@@ -1,215 +1,229 @@
 
 gameElements.png
-size: 122,239
+size: 243,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 bigDirt0
   rotate: false
-  xy: 110, 170
+  xy: 233, 68
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 bigDirt1
   rotate: false
-  xy: 114, 110
+  xy: 235, 76
   size: 6, 7
   orig: 6, 7
   offset: 0, 0
   index: -1
 circle
   rotate: false
-  xy: 23, 222
+  xy: 197, 94
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 crate0
   rotate: false
-  xy: 104, 204
+  xy: 120, 110
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 crateBroken0
   rotate: false
-  xy: 83, 206
+  xy: 161, 94
   size: 16, 10
   orig: 16, 16
   offset: 0, 0
   index: -1
 dot0
   rotate: false
-  xy: 94, 181
+  xy: 115, 110
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dummyAim0
   rotate: false
-  xy: 24, 184
-  size: 19, 21
-  orig: 32, 32
-  offset: 11, 0
-  index: -1
-dummyAimShoot0
-  rotate: false
-  xy: 94, 110
-  size: 18, 21
-  orig: 32, 32
-  offset: 10, 0
-  index: -1
-dummyBlind0
-  rotate: false
-  xy: 2, 184
-  size: 20, 22
+  xy: 32, 92
+  size: 21, 24
   orig: 32, 32
   offset: 9, 0
   index: -1
+dummyAimShoot0
+  rotate: false
+  xy: 214, 29
+  size: 21, 24
+  orig: 32, 32
+  offset: 7, 0
+  index: -1
+dummyAimShoot1
+  rotate: false
+  xy: 55, 92
+  size: 20, 24
+  orig: 32, 32
+  offset: 9, 0
+  index: -1
+dummyBlind0
+  rotate: false
+  xy: 214, 2
+  size: 23, 25
+  orig: 32, 32
+  offset: 6, 0
+  index: -1
 dummyBlindShoot0
   rotate: false
-  xy: 2, 208
-  size: 19, 22
+  xy: 2, 92
+  size: 28, 29
   orig: 32, 32
-  offset: 8, 0
+  offset: 3, 0
+  index: -1
+dummyBlindShoot1
+  rotate: false
+  xy: 214, 2
+  size: 23, 25
+  orig: 32, 32
+  offset: 5, 0
   index: -1
 dummyCover0
   rotate: false
-  xy: 67, 204
+  xy: 197, 111
   size: 14, 14
   orig: 32, 32
   offset: 9, 0
   index: -1
 dummyDeathBounce0
   rotate: false
-  xy: 94, 92
+  xy: 32, 118
   size: 26, 7
   orig: 32, 32
   offset: 1, 0
   index: -1
 dummyDeathFly0
   rotate: false
-  xy: 94, 133
+  xy: 179, 94
   size: 16, 21
   orig: 32, 32
   offset: 11, 0
   index: -1
 dummyDeathFly1
   rotate: false
-  xy: 66, 184
+  xy: 214, 80
   size: 19, 18
   orig: 32, 32
   offset: 8, 0
   index: -1
 dummyDeathGround0
   rotate: false
-  xy: 94, 101
+  xy: 60, 119
   size: 26, 7
   orig: 32, 32
   offset: 1, 0
   index: -1
 dummyHit0
   rotate: false
-  xy: 87, 184
-  size: 15, 20
+  xy: 214, 55
+  size: 17, 23
   orig: 32, 32
-  offset: 8, 0
+  offset: 7, 0
   index: -1
 dummyIdle0
   rotate: false
-  xy: 94, 156
-  size: 14, 23
+  xy: 77, 92
+  size: 15, 25
   orig: 32, 32
-  offset: 10, 0
+  offset: 9, 0
   index: -1
 dummyPush0
   rotate: false
-  xy: 104, 181
+  xy: 214, 100
   size: 16, 21
   orig: 32, 32
   offset: 11, 0
   index: -1
 dummyStun0
   rotate: false
-  xy: 45, 205
+  xy: 115, 94
   size: 20, 14
   orig: 32, 32
   offset: 5, 0
   index: -1
 grenade0
   rotate: false
-  xy: 114, 119
+  xy: 235, 85
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
   index: -1
 iconBullet
   rotate: false
-  xy: 39, 207
+  xy: 239, 2
   size: 2, 6
   orig: 2, 6
   offset: 0, 0
   index: -1
 iconCoverLeft
   rotate: false
-  xy: 87, 218
+  xy: 232, 100
   size: 9, 12
   orig: 16, 16
   offset: 4, 2
   index: -1
 iconCoverRight
   rotate: false
-  xy: 110, 156
+  xy: 232, 114
   size: 9, 12
   orig: 16, 16
   offset: 3, 2
   index: -1
 iconHeart
   rotate: false
-  xy: 112, 146
+  xy: 174, 117
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 iconMove
   rotate: false
-  xy: 112, 133
+  xy: 233, 55
   size: 7, 11
   orig: 16, 16
   offset: 5, 3
   index: -1
 iconReload
   rotate: false
-  xy: 24, 207
+  xy: 94, 113
   size: 13, 13
   orig: 16, 16
   offset: 2, 2
   index: -1
 iconShoot
   rotate: false
-  xy: 40, 221
+  xy: 138, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconShootCover
   rotate: false
-  xy: 58, 221
+  xy: 156, 106
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconWait
   rotate: false
-  xy: 76, 220
+  xy: 109, 113
   size: 9, 13
   orig: 16, 16
   offset: 3, 2
   index: -1
 radius
   rotate: false
-  xy: 2, 92
+  xy: 122, 2
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
@@ -223,14 +237,14 @@ screening
   index: -1
 smallSmoke0
   rotate: false
-  xy: 45, 184
+  xy: 94, 92
   size: 19, 19
   orig: 19, 19
   offset: 0, 0
   index: -1
 wind
   rotate: false
-  xy: 98, 222
+  xy: 137, 94
   size: 22, 10
   orig: 22, 11
   offset: 0, 0
