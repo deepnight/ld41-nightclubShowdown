@@ -19,8 +19,8 @@ class Hero extends Entity {
 	public var afterMoveAction : Action;
 	var icon : HSprite;
 
-	var ammo : Int;
-	var maxAmmo : Int;
+	public var ammo : Int;
+	public var maxAmmo : Int;
 
 	public function new(x,y) {
 		super(x,y);
@@ -28,6 +28,7 @@ class Hero extends Entity {
 		afterMoveAction = None;
 
 		game.scroller.add(spr, Const.DP_HERO);
+		spr.anim.registerStateAnim("dummyPush",3, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("dummyStun",2, function() return cd.has("reloading"));
 		spr.anim.registerStateAnim("dummyCover",1, function() return cover!=null);
 		spr.anim.registerStateAnim("dummyIdle",0);
@@ -39,8 +40,8 @@ class Hero extends Entity {
 
 		isAffectBySlowMo = false;
 		setAmmo(5);
-		initLife(3);
-		initLife(Const.INFINITE);
+		initLife(2);
+		//initLife(Const.INFINITE);
 
 
 
@@ -94,7 +95,7 @@ class Hero extends Entity {
 
 	public function setAmmo(v) {
 		ammo = maxAmmo = v;
-		updateAmmo();
+		game.updateHud();
 	}
 
 	function useAmmo() {
@@ -105,13 +106,19 @@ class Hero extends Entity {
 		}
 		else {
 			ammo--;
-			updateAmmo();
+			game.updateHud();
 			return true;
 		}
 	}
 
+	override function onDamage(v:Int) {
+		super.onDamage(v);
+		game.updateHud();
+	}
+
 	override function onDie() {
 		super.onDie();
+		trace(lastHitDir);
 		new en.DeadBody(this);
 	}
 
@@ -265,18 +272,6 @@ class Hero extends Entity {
 		}
 	}
 
-	function updateAmmo() {
-		game.ammoBar.removeChildren();
-		for( i in 0...maxAmmo ) {
-			var e = Assets.gameElements.h_get("iconBullet", game.ammoBar);
-			//e.scaleY = 5;
-			//e.x = i*2;
-			e.colorize(i+1<=ammo ? 0xFFFFFF : 0xFF0000);
-			e.alpha = i+1<=ammo ? 1 : 0.8;
-			e.blendMode = Add;
-		}
-	}
-
 	override public function postUpdate() {
 		super.postUpdate();
 		//ammoBar.x = headX-2;
@@ -299,7 +294,7 @@ class Hero extends Entity {
 			case None : icon.visible = false;
 			case Move(_) : icon.visible = false;
 			case Wait(_) :
-				icon.setPos(centerX, centerY);
+				icon.setPos(centerX, footY);
 				icon.set("iconWait");
 			case Reload(_) :
 				icon.setPos(centerX, footY);

@@ -1,5 +1,6 @@
 import mt.Process;
 import mt.MLib;
+import hxd.Key;
 
 typedef HistoryEntry = { t:Int, a:en.Hero.Action } ;
 
@@ -15,7 +16,7 @@ class Game extends mt.Process {
 	public var isReplay : Bool;
 	public var heroHistory : Array<HistoryEntry>;
 
-	public var ammoBar : h2d.Flow;
+	public var hud : h2d.Flow;
 
 	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
@@ -46,14 +47,14 @@ class Game extends mt.Process {
 
 		level = new Level();
 
-		ammoBar = new h2d.Flow();
-		root.add(ammoBar, Const.DP_UI);
-		ammoBar.horizontalSpacing = 1;
+		hud = new h2d.Flow();
+		root.add(hud, Const.DP_UI);
+		hud.horizontalSpacing = 1;
 
 		hero = new en.Hero(4,0);
-		new en.Cover(6,3);
+		new en.Cover(8,3);
 
-		new en.m.BasicGun(10,4);
+		new en.m.Grenader(10,4);
 		new en.m.BasicGun(2,4);
 		var m = new en.m.BasicGun(13,4);
 		var c = new en.Cover(12,4);
@@ -66,6 +67,33 @@ class Game extends mt.Process {
 		onResize();
 	}
 
+	public function updateHud() cd.setS("invalidateHud",Const.INFINITE);
+	function _updateHud() {
+		if( !cd.has("invalidateHud") )
+			return;
+
+		hud.removeChildren();
+		cd.unset("invalidateHud");
+
+
+		for( i in 0...MLib.min(hero.maxLife,6) ) {
+			var e = Assets.gameElements.h_get("iconHeart", hud);
+			e.colorize(i+1<=hero.life ? 0xFFFFFF : 0xFF0000);
+			e.alpha = i+1<=hero.life ? 1 : 0.8;
+			e.blendMode = Add;
+		}
+
+		hud.addSpacing(4);
+
+		for( i in 0...hero.maxAmmo ) {
+			var e = Assets.gameElements.h_get("iconBullet", hud);
+			e.colorize(i+1<=hero.ammo ? 0xFFFFFF : 0xFF0000);
+			e.alpha = i+1<=hero.ammo ? 1 : 0.8;
+			e.blendMode = Add;
+		}
+
+	}
+
 	function onMouseDown(ev:hxd.Event) {
 		var m = getMouse();
 		for(e in Entity.ALL)
@@ -76,8 +104,8 @@ class Game extends mt.Process {
 		super.onResize();
 		clickTrap.width = w();
 		clickTrap.height = h();
-		ammoBar.x = w()*0.5/Const.SCALE - ammoBar.outerWidth*0.5;
-		ammoBar.y = 8;
+		hud.x = w()*0.5/Const.SCALE - hud.outerWidth*0.5;
+		hud.y = 8;
 	}
 
 	override public function onDispose() {
@@ -101,6 +129,7 @@ class Game extends mt.Process {
 
 	override function postUpdate() {
 		super.postUpdate();
+		_updateHud();
 	}
 
 	public function getMouse() {
@@ -117,6 +146,10 @@ class Game extends mt.Process {
 	}
 
 	public function isSlowMo() {
+		#if debug
+		if( Key.isDown(Key.SHIFT) )
+			return false;
+		#end
 		return !isReplay && hero.isAlive() && !hero.controlsLocked() && en.Mob.ALL.length>0;
 	}
 

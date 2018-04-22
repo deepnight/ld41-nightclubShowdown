@@ -138,7 +138,9 @@ class Fx extends mt.Process {
 	}
 
 	function collGround(p:HParticle) {
-		return level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y+1)/Const.GRID) );
+		return
+			!level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y-2)/Const.GRID) ) &&
+			level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y+1)/Const.GRID) );
 	}
 	function _bloodPhysics(p:HParticle) {
 		if( collGround(p) && Math.isNaN(p.data0) ) {
@@ -345,6 +347,8 @@ class Fx extends mt.Process {
 			p.rotation *= 0.1;
 		}
 	}
+
+
 	public function woodCover(x:Float, y:Float, dir:Int) {
 		var c = 0x7e593e;
 
@@ -387,6 +391,128 @@ class Fx extends mt.Process {
 
 			p.lifeS = rnd(5,10);
 			p.onUpdate = _hardPhysics;
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+	}
+
+
+	public function warnZone(x:Float, y:Float, r:Float) {
+		var p = allocTopAdd(getTile("radius"), x,y);
+		p.colorize(0xFF0000);
+		p.setFadeS(0.5, 0, 0.1);
+		p.setScale( 2*r/p.t.width );
+		p.ds = 0.01;
+		p.dsFrict = 0.8;
+		p.lifeS = 0;
+	}
+
+	public function grenade(x:Float, y:Float, r:Float) {
+		var c = 0xCABB7D;
+
+		var p = allocTopAdd(getTile("radius"), x,y);
+		p.colorize(0xFF0000);
+		p.setFadeS(0.5, 0, 0.1);
+		p.setScale( 2*r/p.t.width );
+		p.lifeS = 0;
+		p.ds = 0.1;
+		p.dsFrict = 0.8;
+
+		var p = allocTopAdd(getTile("radius"), x,y);
+		p.colorize(0xFF0000);
+		p.setFadeS(0.5, 0, 0.1);
+		p.setScale( 2*r/p.t.width );
+		p.lifeS = 0;
+		p.ds = 0.02;
+		p.dsFrict = 0.8;
+
+
+		// Dots
+		var n = 100;
+		for( i in 0...n) {
+			var p = allocTopNormal(getTile("bigDirt"), x+rnd(0,3,true), y+rnd(0,4,true));
+			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+			p.colorize( Color.interpolateInt(c,0x0,rnd(0,0.1)) );
+
+			p.setScale(rnd(0.3,0.7,true));
+			p.scaleMul = rnd(0.98,0.99);
+
+			p.dx = rnd(0,9,true);
+			p.dy = i<=n*0.25 ? -rnd(6,12): -rnd(1,7);
+			p.gy = rnd(0.1,0.3);
+			p.frict = rnd(0.85,0.96);
+
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.3,true);
+
+			p.lifeS = rnd(5,10);
+			p.onUpdate = _hardPhysics;
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+
+		// Big dirt
+		var n = 20;
+		for( i in 0...n) {
+			var p = allocBgNormal(getTile("bigDirt"), x+rnd(0,3,true), y+rnd(0,4,true));
+			p.colorize( Color.interpolateInt(c,0x0,rnd(0,0.1)) );
+			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+
+			p.setScale(rnd(1,2,true));
+			p.scaleMul = rnd(0.98,0.99);
+
+			p.dx = rnd(0,5,true);
+			p.dy = rnd(-5,0);
+			p.gy = rnd(0.1,0.2);
+			p.frict = rnd(0.85,0.96);
+
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.3,true);
+
+			p.lifeS = rnd(5,10);
+			p.onUpdate = _hardPhysics;
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+
+		// Smoke
+		var n = 40;
+		for( i in 0...n) {
+			var p = allocBgNormal(getTile("smallSmoke"), x+rnd(0,5,true), y+rnd(0,7,true));
+			//p.colorize( Color.interpolateInt(0xFFFF8A,0xF23100,rnd(0,0.1)) );
+			p.colorAnimS( 0xE1451E, 0x222035, rnd(2,4));
+			p.setFadeS(rnd(0.2,0.4), 0, rnd(0.5,1));
+
+			p.setScale(rnd(1.5,2,true));
+			p.scaleMul = rnd(0.998,0.999);
+
+			p.dx = rnd(0,1.3,true);
+			p.dy = rnd(-2,0);
+			p.frict = rnd(0.93,0.96);
+			p.gy = -rnd(0.005,0.008);
+
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.02,true);
+
+			p.lifeS = rnd(4,5);
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+
+		// Fire
+		var n = 40;
+		for( i in 0...n) {
+			var p = allocTopAdd(getTile("smallSmoke"), x+rnd(0,3,true), y-rnd(0,6));
+			//p.colorize( Color.interpolateInt(0xFFFF8A,0xF23100,rnd(0,0.1)) );
+			p.colorAnimS( 0xE78F0C, 0x5A5F98, rnd(1,3));
+			p.setFadeS(rnd(0.7,1), 0, rnd(0.5,1));
+
+			p.setScale(rnd(0.8,1.5,true));
+			p.scaleMul = rnd(0.97,0.99);
+
+			p.moveAwayFrom(x,y, rnd(0,2));
+			p.frict = rnd(0.85,0.96);
+
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.03,true);
+
+			p.lifeS = rnd(1,3);
 			p.delayS = i>20 ? rnd(0,0.1) : 0;
 		}
 

@@ -26,7 +26,7 @@ class Entity {
 	public var dx = 0.;
 	public var dy = 0.;
 	public var frict = 0.9;
-	public var gravity = 0.04;
+	public var gravity = 0.02;
 	public var weight = 1.;
 	public var radius : Float;
 	public var dir(default,set) = 1;
@@ -112,6 +112,18 @@ class Entity {
 		return true;
 	}
 
+
+	public function violentBump(bdx:Float, bdy:Float, sec:Float) {
+		if( !isAlive() )
+			return;
+
+		this.dx = bdx;
+		this.dy = bdy;
+		dir = bdx>0 ? -1 : 1;
+		stunS(sec);
+		interruptSkills(false);
+	}
+
 	function onDamage(v:Int) {
 		//leaveCover();
 	}
@@ -150,18 +162,21 @@ class Entity {
 		return cd.has("moveLock") || isStunned();
 	}
 	public function lockMovementsS(t:Float) {
-		cd.setS("moveLock",t,false);
+		if( isAlive() )
+			cd.setS("moveLock",t,false);
 	}
 
 	public function controlsLocked() {
 		return cd.has("ctrlLock") || isStunned();
 	}
 	public function lockControlsS(t:Float) {
-		cd.setS("ctrlLock",t,false);
+		if( isAlive() )
+			cd.setS("ctrlLock",t,false);
 	}
 
 	public function stunS(t:Float) {
-		cd.setS("stun",t,false);
+		if( isAlive() )
+			cd.setS("stun",t,false);
 	}
 	public function isStunned() {
 		return cd.has("stun");
@@ -332,9 +347,9 @@ class Entity {
 			debug = null;
 		}
 
-		cAdd.r*=0.9;
-		cAdd.g*=0.75;
-		cAdd.b*=0.75;
+		cAdd.r*=Math.pow(0.93,dt);
+		cAdd.g*=Math.pow(0.8,dt);
+		cAdd.b*=Math.pow(0.8,dt);
 	}
 
 	//function hasCircColl() {

@@ -8,8 +8,8 @@ class DeadBody extends Entity {
 		xr = e.xr;
 		yr = e.yr;
 
-		dir = e.dir;
 		dx = e.lastHitDir * rnd(0.2,0.2);
+		dir = -e.lastHitDir;
 		gravity*=0.25;
 		frict = 0.97;
 		dy = -0.1;
@@ -45,10 +45,7 @@ class DeadBody extends Entity {
 
 			for(e in en.Mob.ALL)
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
-					e.dx = dirTo(e)*0.4;
-					e.dy = -0.2;
-					e.stunS(0.2);
-					e.interruptSkills(false);
+					violentBump(dirTo(e)*0.4, -0.2, 0.5);
 				}
 		}
 	}
