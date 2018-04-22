@@ -13,11 +13,16 @@ enum Action {
 }
 
 class Hero extends Entity {
-	public var target : FPoint;
+	public var moveTarget : FPoint;
+	public var afterMoveAction : Action;
 	var icon : HSprite;
+	public var history : Array<{ f:Int, a:Action }>;
 
 	public function new(x,y) {
 		super(x,y);
+
+		history = [];
+		afterMoveAction = None;
 
 		game.scroller.add(spr, Const.DP_HERO);
 		spr.anim.registerStateAnim("dummyCover",1, function() return cover!=null);
@@ -31,7 +36,7 @@ class Hero extends Entity {
 		//initLife(3);
 		isAffectBySlowMo = false;
 		initLife(Const.INFINITE);
-		target = new FPoint(footX, footY);
+
 
 
 		// blindShot shot
@@ -94,7 +99,7 @@ class Hero extends Entity {
 			if( s.isCharging() )
 				return true;
 
-		return super.controlsLocked() || target!=null || !onGround;
+		return super.controlsLocked() || moveTarget!=null || !onGround;
 	}
 
 	override public function onClick(x:Float, y:Float, bt) {
@@ -103,24 +108,7 @@ class Hero extends Entity {
 		if( controlsLocked() )
 			return;
 
-		var a = getActionAt(x,y);
-		switch( a ) {
-			case None :
-
-			case Move(x,y) :
-				target = new FPoint(x,y);
-				leaveCover();
-
-			case TakeCover(e,side) :
-				target = new FPoint(e.centerX+side*10, footY);
-				leaveCover();
-
-			case BlindShot(e) :
-				getSkill("blindShot").prepareOn(e);
-
-			case HeadShot(e) :
-				getSkill("headShot").prepareOn(e);
-		}
+		executeAction( getActionAt(x,y) );
 
 		//switch(bt) {
 			//case 0 :
@@ -139,6 +127,42 @@ class Hero extends Entity {
 						//getSkill("blindShot").prepareOn(e);
 				//}
 		//}
+	}
+
+	function executeAction(a:Action) {
+		switch( a ) {
+			case None :
+
+			case Move(x,y) :
+				moveTarget = new FPoint(x,y);
+				afterMoveAction = None;
+				leaveCover();
+
+			case TakeCover(c,side) :
+				if( c.isAlive() && c.hasRoom(side) )
+					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
+						moveTarget = new FPoint(c.centerX+side*10, footY);
+						afterMoveAction = a;
+						leaveCover();
+					}
+					else {
+						startCover(c,side);
+					}
+
+			case BlindShot(e) :
+				if( cover!=null && dirTo(cover)!=dirTo(e) ) {
+					leaveCover();
+					dx = -0.05;
+				}
+				getSkill("blindShot").prepareOn(e);
+
+			case HeadShot(e) :
+				if( cover!=null && dirTo(cover)!=dirTo(e) ) {
+					leaveCover();
+					dx = -0.05;
+				}
+				getSkill("headShot").prepareOn(e);
+		}
 	}
 
 	function getActionAt(x:Float, y:Float) : Action {
@@ -188,33 +212,37 @@ class Hero extends Entity {
 		var a = getActionAt(m.x,m.y);
 		icon.alpha = 0.7;
 		icon.visible = true;
+		icon.colorize(0xffffff);
 		switch( a ) {
 			case None : icon.visible = false;
 			case Move(_) : icon.visible = false;
 			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
-			case BlindShot(e) : icon.setPos(e.torso.centerX, e.torso.centerY+3); icon.set("iconShoot");
-			case HeadShot(e) : icon.setPos(e.head.centerX, e.head.centerY); icon.set("iconShoot");
+			case BlindShot(e) :
+				icon.setPos(e.torso.centerX, e.torso.centerY+3);
+				icon.set(e.isCoveredFrom(this) ? "iconShootCover" : "iconShoot");
+				icon.colorize(e.isCoveredFrom(this) ? 0xFF0000 : 0xFFFFFF);
+			case HeadShot(e) :
+				icon.setPos(e.head.centerX, e.head.centerY);
+				icon.set("iconShoot");
+				icon.colorize(0xFFA600);
 			case TakeCover(e,side) : icon.setPos(e.footX+side*14, e.footY-2); icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 
-		if( target!=null && !movementLocked() )
-			if( MLib.fabs(centerX-target.x)<=5 ) {
+		if( moveTarget!=null && !movementLocked() )
+			if( MLib.fabs(centerX-moveTarget.x)<=5 ) {
 				// Arrived
-				for(e in en.Cover.ALL)
-					if( e.left.contains(centerX,centerY) )
-						startCover(e, -1);
-					else if( e.right.contains(centerX,centerY) )
-						startCover(e, 1);
-				target = null;
+				executeAction( afterMoveAction );
+				moveTarget = null;
+				afterMoveAction = None;
 				dx*=0.5;
 			}
 			else {
 				var s = 0.015;
-				if( target.x>centerX ) {
+				if( moveTarget.x>centerX ) {
 					dir = 1;
 					dx+=s;
 				}
-				if( target.x<centerX ) {
+				if( moveTarget.x<centerX ) {
 					dir = -1;
 					dx-=s;
 				}

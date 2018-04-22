@@ -8,6 +8,8 @@ class Cover extends Entity {
 	public var left : Area;
 	public var right : Area;
 
+	public var broken : Bool;
+
 	public function new(x,y) {
 		super(x,y);
 		ALL.push(this);
@@ -22,7 +24,12 @@ class Cover extends Entity {
 		right.color = 0x17FF17;
 	}
 
-	override public function isBlockingHeroMoves() return true;
+
+	override function onDie() {
+		spr.set("crateBroken");
+	}
+
+	override public function isBlockingHeroMoves() return isAlive();
 
 	public function hasRoom(side:Int) {
 		for(e in Entity.ALL)

@@ -31,9 +31,9 @@ class Mob extends Entity {
 
 	override public function update() {
 		super.update();
-		if( distCase(hero)<=1 && hero.target==null && !hero.cd.hasSetS("mobPush",0.2) ) {
-			hero.dx+=dirTo(hero)*0.1;
-			hero.leaveCover();
+		if( !movementLocked() && !controlsLocked() && !hasSkillCharging() && onGround && distCase(hero)<=2.5 && hero.moveTarget==null && !cd.hasSetS("dodgeHero",0.3) ) {
+			dx = -dirTo(hero)*0.1;
+			dy = -0.15;
 		}
 	}
 }

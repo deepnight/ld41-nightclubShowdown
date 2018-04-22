@@ -23,7 +23,7 @@ class GunGuy extends en.Mob {
 			dy = -0.1;
 			if( e.hit(1,this) ) {
 				e.dx*=0.3;
-				e.dx+=dirTo(e)*rnd(0.06,0.10);
+				e.dx+=dirTo(e)*rnd(0.03,0.06);
 				e.lockMovementsS(0.3);
 				e.lockControlsS(0.3);
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);

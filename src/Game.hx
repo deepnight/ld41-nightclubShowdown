@@ -26,18 +26,18 @@ class Game extends mt.Process {
 		clickTrap = new h2d.Interactive(1,1,Main.ME.root);
 		//clickTrap.backgroundColor = 0x4400FF00;
 		clickTrap.onPush = onMouseDown;
-		clickTrap.enableRightButton = true;
+		//clickTrap.enableRightButton = true;
 
 		level = new Level();
 
 		hero = new en.Hero(8,0);
-		new en.m.GunGuy(11,3);
-		new en.m.GunGuy(4,1);
 		new en.Cover(6,3);
 
-		//var m = new en.m.GunGuy(13,2);
-		//var c = new en.Cover(12,3);
-		//m.startCover(c,1);
+		new en.m.GunGuy(11,3);
+		new en.m.GunGuy(4,1);
+		var m = new en.m.GunGuy(13,2);
+		var c = new en.Cover(12,3);
+		m.startCover(c,1);
 
 		vp.track(level.wid*0.33*Const.GRID, level.hei*0.5*Const.GRID);
 		//vp.track(hero);

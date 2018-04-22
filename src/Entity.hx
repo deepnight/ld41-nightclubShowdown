@@ -87,6 +87,10 @@ class Entity {
 		life = maxLife = v;
 	}
 
+	public function isCoveredFrom(source:Entity) {
+		return source==null ? false : cover!=null && cover.isAlive() && dirTo(source)==dirTo(cover);
+	}
+
 	public function hit(dmg:Int, source:Entity, ?ignoreCover=false) : Bool {
 		if( source!=null )
 			lastHitDir = source.dirTo(this);
@@ -94,7 +98,7 @@ class Entity {
 		if( dmg<=0 || !isAlive() )
 			return false;
 
-		if( !ignoreCover && cover!=null && cover.isAlive() && dirTo(source)==dirTo(cover)  ) {
+		if( !ignoreCover && isCoveredFrom(source) ) {
 			cover.hit(dmg, source);
 			return false;
 		}
@@ -209,9 +213,8 @@ class Entity {
 	}
 
 	public function startCover(c:en.Cover, side:Int) {
-		for(e in ALL)
-			if( e.cover==c )
-				return false;
+		if( !c.hasRoom(side) )
+			return false;
 
 		dx = dy = 0;
 		cover = c;
@@ -380,6 +383,13 @@ class Entity {
 
 	public function setDt(v:Float) {
 		dt = v * ( isAffectBySlowMo && game.isSlowMo() ? Const.PAUSE_SLOWMO : 1 );
+	}
+
+	public function hasSkillCharging() {
+		for(s in skills)
+			if( s.isCharging() )
+				return true;
+		return false;
 	}
 
 	public function update() {
