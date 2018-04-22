@@ -9,7 +9,7 @@ class Console extends h2d.Console {
 		super(Assets.font);
 		ME = this;
 		Main.ME.root.add(this, Const.DP_UI);
-		//mt.deepnight.Lib.redirectTracesToH2dConsole(this);
+		mt.deepnight.Lib.redirectTracesToH2dConsole(this);
 
 		flags = new Map();
 

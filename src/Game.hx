@@ -6,6 +6,8 @@ class Game extends mt.Process {
 	public var scroller : h2d.Layers;
 	//public var vp : Viewport;
 	//public var fx : Fx;
+	public var level : Level;
+	public var hero : en.Hero;
 
 	public function new(ctx:h2d.Sprite) {
 		super(Main.ME);
@@ -16,9 +18,13 @@ class Game extends mt.Process {
 		trace("new game");
 
 		scroller = new h2d.Layers(root);
+		//vp = new Viewport();
 		//fx = new Fx();
 
-		//vp = new Viewport();
+		level = new Level();
+
+		hero = new en.Hero(5,0);
+
 		//vp.target = hero;
 		//vp.repos();
 	}
@@ -28,18 +34,18 @@ class Game extends mt.Process {
 		trace("game killed");
 		if( ME==this )
 			ME = null;
-		//for(e in Entity.ALL)
-			//e.destroy();
+		for(e in Entity.ALL)
+			e.destroy();
 		gc();
 	}
 
 	function gc() {
 		var i = 0;
-		//while( i<Entity.ALL.length )
-			//if( Entity.ALL[i].destroyed )
-				//Entity.ALL[i].dispose();
-			//else
-				//i++;
+		while( i<Entity.ALL.length )
+			if( Entity.ALL[i].destroyed )
+				Entity.ALL[i].dispose();
+			else
+				i++;
 	}
 
 	override function postUpdate() {
@@ -50,13 +56,13 @@ class Game extends mt.Process {
 		super.update();
 
 		// Updates
-		//for(e in Entity.ALL) {
-			//scroller.over(e.spr);
-			//@:privateAccess e.dt = dt;
-			//if( !e.destroyed ) e.preUpdate();
-			//if( !e.destroyed ) e.update();
-			//if( !e.destroyed ) e.postUpdate();
-		//}
+		for(e in Entity.ALL) {
+			scroller.over(e.spr);
+			@:privateAccess e.dt = dt;
+			if( !e.destroyed ) e.preUpdate();
+			if( !e.destroyed ) e.update();
+			if( !e.destroyed ) e.postUpdate();
+		}
 		gc();
 
 		if( Main.ME.keyPressed(hxd.Key.R) )
