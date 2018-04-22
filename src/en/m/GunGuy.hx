@@ -5,7 +5,7 @@ class GunGuy extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(2);
+		initLife(3);
 
 		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("dummyIdle",0);

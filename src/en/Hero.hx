@@ -30,9 +30,9 @@ class Hero extends Entity {
 		s.onExecute = function(e) {
 			e.hit(1,this);
 
-			var r = e.getDiminishingReturnFactor("blind",1,3);
+			var r = e.getDiminishingReturnFactor("blind",1,2);
 			e.dx*=0.3;
-			e.dx+=dirTo(e)*rnd(0.06,0.10)*r;
+			e.dx+=dirTo(e)*rnd(0.03,0.05)*r;
 			e.stunS(0.7*r);
 			if( !e.isAlive() )
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));

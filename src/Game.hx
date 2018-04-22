@@ -30,9 +30,9 @@ class Game extends mt.Process {
 		level = new Level();
 
 		hero = new en.Hero(8,0);
-		new en.m.GunGuy(14,6);
-		//new en.m.GunGuy(18,6);
-		new en.m.GunGuy(3,6);
+		new en.m.GunGuy(14,3);
+		new en.m.GunGuy(18,2);
+		new en.m.GunGuy(3,1);
 
 		vp.track(level.wid*0.5*Const.GRID, level.hei*0.5*Const.GRID);
 
