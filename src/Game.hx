@@ -24,6 +24,7 @@ class Game extends mt.Process {
 		level = new Level();
 
 		hero = new en.Hero(5,0);
+		new en.Mob(8,0);
 
 		//vp.target = hero;
 		//vp.repos();
@@ -57,7 +58,6 @@ class Game extends mt.Process {
 
 		// Updates
 		for(e in Entity.ALL) {
-			scroller.over(e.spr);
 			@:privateAccess e.dt = dt;
 			if( !e.destroyed ) e.preUpdate();
 			if( !e.destroyed ) e.update();

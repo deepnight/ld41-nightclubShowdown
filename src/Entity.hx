@@ -13,6 +13,7 @@ class Entity {
 	public var dt : Float;
 
 	public var spr : HSprite;
+	public var label : Null<h2d.Text>;
 	var cAdd : h3d.Vector;
 
 	public var uid : Int;
@@ -22,8 +23,8 @@ class Entity {
 	public var yr = 0.;
 	public var dx = 0.;
 	public var dy = 0.;
-	public var frict = 0.7;
-	public var gravity = 0.02;
+	public var frict = 0.9;
+	public var gravity = 0.04;
 	public var weight = 1.;
 	public var radius : Float;
 	public var dir(default,set) = 1;
@@ -33,7 +34,7 @@ class Entity {
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
 	public var headX(get,never) : Float; inline function get_headX() return (cx+xr)*Const.GRID;
 	public var headY(get,never) : Float; inline function get_headY() return (cy+yr)*Const.GRID;
-	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1;
+	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
 
 	private function new(x,y) {
 		uid = Const.UNIQ++;
@@ -85,20 +86,20 @@ class Entity {
 		yr = 0.5;
 	}
 
-	//public function setLabel(?str:String, ?c=0xFFFFFF) {
-		//if( str==null && label!=null ) {
-			//label.remove();
-			//label = null;
-		//}
-		//if( str!=null ) {
-			//if( label==null ) {
-				//label = new h2d.Text(Assets.font);
-				//game.scroller.add(label, Const.DP_UI);
-			//}
-			//label.text = str;
-			//label.textColor = c;
-		//}
-	//}
+	public function setLabel(?str:String, ?c=0xFFFFFF) {
+		if( str==null && label!=null ) {
+			label.remove();
+			label = null;
+		}
+		if( str!=null ) {
+			if( label==null ) {
+				label = new h2d.Text(Assets.font);
+				game.scroller.add(label, Const.DP_UI);
+			}
+			label.text = str;
+			label.textColor = c;
+		}
+	}
 
 	public inline function rnd(min,max,?sign) return Lib.rnd(min,max,sign);
 	public inline function irnd(min,max,?sign) return Lib.irnd(min,max,sign);
@@ -144,8 +145,8 @@ class Entity {
 		ALL.remove(this);
 		cd.destroy();
 		spr.remove();
-		//if( label!=null )
-			//label.remove();
+		if( label!=null )
+			label.remove();
 		//if( debug!=null )
 			//debug.remove();
 	}
@@ -159,10 +160,9 @@ class Entity {
 		spr.y = (cy+yr)*Const.GRID;
 		spr.scaleX = dir;
 
-		//if( label!=null ) {
-			//label.visible = !game.hasCinematic();
-			//label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));
-		//}
+		if( label!=null ) {
+			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));
+		}
 
 		//if( Console.ME.has("bounds") ) {
 			//if( debug==null ) {
@@ -196,15 +196,14 @@ class Entity {
 
 	function onTouch(e:Entity) { }
 	function onBounce(pow:Float) {}
-	function onTouchWall() {
+	function onTouchWall(wallDir:Int) {
 		dx*=0.5;
 	}
 	function onTouchCeiling() {
 		dy = 0;
 	}
 	function onLand() {
-		dy = -0.5;
-		trace("onland");
+		dy = 0;
 	}
 
 	public function blink() {
@@ -239,49 +238,53 @@ class Entity {
 				//}
 
 		// X
-		xr+=dx*dt;
-		if( hasColl ) {
-			if( xr>0.7 && level.hasColl(cx+1,cy) ) {
-				xr = 0.7;
-				dx-=0.05*dt;
-				onTouchWall();
+		var steps = MLib.ceil( MLib.fabs(dx*dt) );
+		var step = dx*dt / steps;
+		while( steps>0 ) {
+			xr+=step;
+			if( hasColl ) {
+				if( xr>0.7 && level.hasColl(cx+1,cy) ) {
+					xr = 0.7;
+					onTouchWall(1);
+					steps = 0;
+				}
+				if( xr<0.3 && level.hasColl(cx-1,cy) ) {
+					xr = 0.3;
+					onTouchWall(-1);
+					steps = 0;
+				}
 			}
-			if( xr>=0.6 && level.hasColl(cx+1,cy) ) {
-				dx-=0.03*dt;
-			}
-			if( xr<0.3 && level.hasColl(cx-1,cy) ) {
-				xr = 0.3;
-				dx+=0.05*dt;
-				onTouchWall();
-			}
-			if( xr<0.4 && level.hasColl(cx-1,cy) ) {
-				dx+=0.03*dt;
-			}
+			while( xr>1 ) { xr--; cx++; }
+			while( xr<0 ) { xr++; cx--; }
+			steps--;
 		}
 		dx*=Math.pow(frict,dt);
-		while( xr>1 ) { xr--; cx++; }
-		while( xr<0 ) { xr++; cx--; }
-		if( MLib.fabs(dx)<=0.001 ) dx = 0;
 
 		// Gravity
 		if( !onGround )
-			dy+=gravity*dt;
+			dy += gravity*dt;
 
 		// Y
-		yr+=dy*dt;
-		if( hasColl ) {
-			if( yr>1 && level.hasColl(cx,cy+1) ) {
-				yr = 1;
-				onLand();
+		var steps = MLib.ceil( MLib.fabs(dy*dt) );
+		var step = dy*dt / steps;
+		while( steps>0 ) {
+			yr+=step;
+			if( hasColl ) {
+				if( yr>1 && level.hasColl(cx,cy+1) ) {
+					yr = 1;
+					onLand();
+					//steps = 0;
+				}
+				if( yr<0.3 && level.hasColl(cx,cy-1) ) {
+					yr = 0.3;
+					onTouchCeiling();
+					steps = 0;
+				}
 			}
-			if( yr<0.3 && level.hasColl(cx,cy-1) ) {
-				yr = 0.3;
-				onTouchCeiling();
-			}
+			while( yr>1 ) { yr--; cy++; }
+			while( yr<0 ) { yr++; cy--; }
+			steps--;
 		}
 		dy*=Math.pow(frict,dt);
-		while( yr>1 ) { yr--; cy++; }
-		while( yr<0 ) { yr++; cy--; }
-		if( MLib.fabs(dy)<=0.001 ) dy = 0;
 	}
 }

@@ -7,6 +7,7 @@ class Console extends h2d.Console {
 
 	public function new() {
 		super(Assets.font);
+		h2d.Console.HIDE_LOG_TIMEOUT = 30;
 		ME = this;
 		Main.ME.root.add(this, Const.DP_UI);
 		mt.deepnight.Lib.redirectTracesToH2dConsole(this);

@@ -43,7 +43,7 @@ class Boot extends hxd.App {
 				speed = speed==0 ? 1 : 0;
 
 			if( Key.isDown(Key.NUMPAD_ADD) )
-				speed = 15;
+				speed = 3;
 			else if( speed>1 )
 				speed = 1;
 		}
@@ -53,6 +53,14 @@ class Boot extends hxd.App {
 			mt.heaps.slib.SpriteLib.DT = dt*speed;
 			mt.Process.updateAll(dt*speed);
 		}
+
+		//mt.heaps.slib.SpriteLib.DT = dt;
+		//accu+=speed;
+		//while( accu>=1 ) {
+			//mt.Process.updateAll(dt);
+			//accu--;
+		//}
+
 		//accu+=dt*speed;
 		//while( accu>=1 ) {
 			//mt.Process.updateAll(1);

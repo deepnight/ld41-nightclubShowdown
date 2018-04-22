@@ -4,7 +4,7 @@ class Level extends mt.Process {
 
 	public function new() {
 		super(Game.ME);
-		wid = 20;
+		wid = 12;
 		hei = 8;
 	}
 
