@@ -17,12 +17,10 @@ class Hero extends Entity {
 	public var moveTarget : FPoint;
 	public var afterMoveAction : Action;
 	var icon : HSprite;
-	public var history : Array<{ f:Int, a:Action }>;
 
 	public function new(x,y) {
 		super(x,y);
 
-		history = [];
 		afterMoveAction = None;
 
 		game.scroller.add(spr, Const.DP_HERO);
@@ -179,7 +177,9 @@ class Hero extends Entity {
 		return a;
 	}
 
-	function executeAction(a:Action) {
+	public function executeAction(a:Action) {
+		if( !game.isReplay )
+			game.heroHistory.push( { t:game.itime, a:a } );
 		switch( a ) {
 			case None :
 

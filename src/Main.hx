@@ -89,7 +89,7 @@ class Main extends mt.Process {
 			ME = null;
 	}
 
-	public function restartGame() {
+	public function restartGame(?hist:Array<Game.HistoryEntry>) {
 		trace("restart called");
 		if( Game.ME!=null ) {
 			cd.setS("transition",Const.INFINITE);
@@ -97,14 +97,14 @@ class Main extends mt.Process {
 				Game.ME.destroy();
 				delayer.addS(function() {
 					cd.unset("transition");
-					new Game( new h2d.Sprite(cached) );
+					new Game( new h2d.Sprite(cached), hist );
 					tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 					setBlack(false);
 				},0.5);
 			});
 		}
 		else {
-			new Game( new h2d.Sprite(cached) );
+			var g = new Game( new h2d.Sprite(cached), hist );
 			tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 			setBlack(false);
 		}

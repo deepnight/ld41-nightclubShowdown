@@ -38,9 +38,9 @@ class Mob extends Entity {
 				leaveCover();
 				for(s in skills)
 					s.interrupt(false);
-				dx = -dirTo(hero)*0.1;
+				dx = -dirTo(hero)*0.12;
 				dy = -0.15;
-				cd.setS("dodgeHero",0.3);
+				cd.setS("dodgeHero",0.6);
 			}
 		}
 	}

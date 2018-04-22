@@ -1,6 +1,8 @@
 import mt.Process;
 import mt.MLib;
 
+typedef HistoryEntry = { t:Int, a:en.Hero.Action } ;
+
 class Game extends mt.Process {
 	public static var ME : Game;
 	public var scroller : h2d.Layers;
@@ -10,13 +12,25 @@ class Game extends mt.Process {
 	public var hero : en.Hero;
 	var clickTrap : h2d.Interactive;
 
-	public function new(ctx:h2d.Sprite) {
+	public var isReplay : Bool;
+	public var heroHistory : Array<HistoryEntry>;
+
+	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
 
 		ME = this;
 		createRoot(ctx);
 
-		trace("new game");
+		if( replayHistory!=null ) {
+			isReplay = true;
+			heroHistory = replayHistory.copy();
+		}
+		else {
+			heroHistory = [];
+			isReplay = false;
+		}
+
+		trace("new game, replay="+isReplay);
 		//Console.ME.runCommand("+ bounds");
 
 		scroller = new h2d.Layers(root);
@@ -33,8 +47,8 @@ class Game extends mt.Process {
 		hero = new en.Hero(8,0);
 		new en.Cover(6,3);
 
-		new en.m.GunGuy(11,3);
-		new en.m.GunGuy(4,1);
+		new en.m.GunGuy(10,4);
+		new en.m.GunGuy(4,4);
 		var m = new en.m.GunGuy(13,4);
 		var c = new en.Cover(12,4);
 		m.startCover(c,1);
@@ -95,7 +109,7 @@ class Game extends mt.Process {
 	}
 
 	public function isSlowMo() {
-		return hero.isAlive() && !hero.controlsLocked() && en.Mob.ALL.length>0;
+		return !isReplay && hero.isAlive() && !hero.controlsLocked() && en.Mob.ALL.length>0;
 	}
 
 	public function getSlowMoDt() {
@@ -120,5 +134,9 @@ class Game extends mt.Process {
 
 		if( Main.ME.keyPressed(hxd.Key.R) )
 			Main.ME.restartGame();
+			//Main.ME.restartGame( hxd.Key.isDown(hxd.Key.CTRL) ? heroHistory : null );
+
+		if( isReplay && heroHistory.length>0 && itime>=heroHistory[0].t )
+			hero.executeAction(heroHistory.shift().a);
 	}
 }
