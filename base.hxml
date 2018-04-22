@@ -1,0 +1,7 @@
+-cp src
+-main Boot
+-lib castle
+-lib heaps
+-dce full
+-D standalone
+-debug
