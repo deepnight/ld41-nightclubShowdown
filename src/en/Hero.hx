@@ -25,21 +25,19 @@ class Hero extends Entity {
 			lookAt(s.target);
 			spr.anim.playAndLoop("dummyAim");
 		}
-		s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
-		s.onInterrupt = function() setLabel("CANCEL!");
+		//s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
+		//s.onInterrupt = function() setLabel("CANCEL!");
 		s.onExecute = function(e) {
 			e.hit(1);
 
 			var r = e.getDiminishingReturnFactor("blind",1,3);
 			e.dx*=0.3;
 			e.dx+=dirTo(e)*rnd(0.06,0.10)*r;
-			e.lockMovementsS(0.3*r);
-			e.lockControlsS(0.7*r);
+			e.stunS(0.7*r);
 			//fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
 
 			dy = -0.1;
-			setLabel("bang!");
 			spr.anim.play("dummyShoot");
 		}
 	}

@@ -8,9 +8,9 @@ class Mob extends Entity {
 
 		ALL.push(this);
 
-		var g = new h2d.Graphics(spr);
-		g.beginFill(0xFF0000,1);
-		g.drawCircle(0,-radius,radius);
+		//var g = new h2d.Graphics(spr);
+		//g.beginFill(0xFF0000,1);
+		//g.drawCircle(0,-radius,radius);
 
 		initLife(4);
 	}

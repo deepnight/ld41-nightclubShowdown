@@ -112,17 +112,24 @@ class Entity {
 	}
 
 	public function movementLocked() {
-		return cd.has("moveLock");
+		return cd.has("moveLock") || isStunned();
 	}
 	public function lockMovementsS(t:Float) {
 		cd.setS("moveLock",t,false);
 	}
 
 	public function controlsLocked() {
-		return cd.has("ctrlLock");
+		return cd.has("ctrlLock") || isStunned();
 	}
 	public function lockControlsS(t:Float) {
 		cd.setS("ctrlLock",t,false);
+	}
+
+	public function stunS(t:Float) {
+		cd.setS("stun",t,false);
+	}
+	public function isStunned() {
+		return cd.has("stun");
 	}
 	//public function pop(str:String, ?c=0x30D9E7) {
 		//var tf = new h2d.Text(Assets.font);
