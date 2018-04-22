@@ -5,6 +5,7 @@ class Const {
 
 	public static var UNIQ = 0;
 	public static var INFINITE = 999999;
+	public static var PAUSE_SLOWMO= 0.03;
 
 	static var _inc=0;
 	public static var DP_BG = _inc++;

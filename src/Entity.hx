@@ -29,6 +29,7 @@ class Entity {
 	public var radius : Float;
 	public var dir(default,set) = 1;
 	public var hasColl = true;
+	public var isAffectBySlowMo = true;
 
 	public var life : Int;
 	public var maxLife : Int;
@@ -36,8 +37,10 @@ class Entity {
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
-	public var headX(get,never) : Float; inline function get_headX() return (cx+xr)*Const.GRID;
-	public var headY(get,never) : Float; inline function get_headY() return (cy+yr)*Const.GRID;
+	public var centerX(get,never) : Float; inline function get_centerX() return footX;
+	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
+	public var headX(get,never) : Float; inline function get_headX() return footX;
+	public var headY(get,never) : Float; inline function get_headY() return footY-radius*2;
 	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
 
 	private function new(x,y) {
@@ -62,15 +65,20 @@ class Entity {
 	}
 
 	public function hit(dmg:Int) {
-		if( life>0 ) {
+		if( life>0 && dmg>0 ) {
+			dmg = MLib.min(life,dmg);
 			life-=dmg;
+			onDamage(dmg);
 			blink();
 			if( life<=0 )
 				onDie();
 		}
 	}
 
-	public function onDie() {
+	function onDamage(v:Int) {
+	}
+
+	function onDie() {
 		destroy();
 	}
 
@@ -88,11 +96,30 @@ class Entity {
 		return s;
 	}
 
+	public function interruptSkills(startCd:Bool) {
+		for(s in skills)
+			s.interrupt(startCd);
+	}
+
 	public function getSkill(id:String) : Null<Skill> {
 		for(s in skills)
 			if( s.id==id )
 				return s;
 		return null;
+	}
+
+	public function movementLocked() {
+		return cd.has("moveLock");
+	}
+	public function lockMovementsS(t:Float) {
+		cd.setS("moveLock",t);
+	}
+
+	public function controlsLocked() {
+		return cd.has("ctrlLock");
+	}
+	public function lockControlsS(t:Float) {
+		cd.setS("ctrlLock",t);
 	}
 	//public function pop(str:String, ?c=0x30D9E7) {
 		//var tf = new h2d.Text(Assets.font);
@@ -150,6 +177,10 @@ class Entity {
 
 	public inline function distPx(e:Entity) {
 		return Lib.distance(footX, footY, e.footX, e.footY);
+	}
+
+	public inline function distPxFree(x:Float, y:Float) {
+		return Lib.distance(footX, footY, x, y);
 	}
 
 	//function canSeeThrough(x,y) return !level.hasColl(x,y);
@@ -234,6 +265,9 @@ class Entity {
 		//return true;
 	//}
 
+	public function onClick(x:Float, y:Float, bt:Int) {
+	}
+
 	function onTouch(e:Entity) { }
 	function onBounce(pow:Float) {}
 	function onTouchWall(wallDir:Int) {
@@ -250,6 +284,10 @@ class Entity {
 		cAdd.r = 1;
 		cAdd.g = 1;
 		cAdd.b = 1;
+	}
+
+	public function setDt(v:Float) {
+		dt = v * ( isAffectBySlowMo && game.isSlowMo() ? Const.PAUSE_SLOWMO : 1 );
 	}
 
 	public function update() {

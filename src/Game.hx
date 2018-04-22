@@ -8,6 +8,7 @@ class Game extends mt.Process {
 	//public var fx : Fx;
 	public var level : Level;
 	public var hero : en.Hero;
+	var clickTrap : h2d.Interactive;
 
 	public function new(ctx:h2d.Sprite) {
 		super(Main.ME);
@@ -21,14 +22,34 @@ class Game extends mt.Process {
 		vp = new Viewport();
 		//fx = new Fx();
 
+		clickTrap = new h2d.Interactive(1,1,Main.ME.root);
+		//clickTrap.backgroundColor = 0x4400FF00;
+		clickTrap.onPush = onMouseDown;
+		clickTrap.enableRightButton = true;
+
 		level = new Level();
 
-		hero = new en.Hero(5,0);
-		new en.m.GunGuy(8,0);
+		hero = new en.Hero(8,0);
+		new en.m.GunGuy(16,6);
+		new en.m.GunGuy(3,6);
 
 		vp.track(level.wid*0.5*Const.GRID, level.hei*0.5*Const.GRID);
 		//vp.track(hero);
 		//vp.repos();
+
+		onResize();
+	}
+
+	function onMouseDown(ev:hxd.Event) {
+		var m = getMouse();
+		for(e in Entity.ALL)
+			e.onClick(m.x, m.y, ev.button);
+	}
+
+	override public function onResize() {
+		super.onResize();
+		clickTrap.width = w();
+		clickTrap.height = h();
 	}
 
 	override public function onDispose() {
@@ -67,12 +88,16 @@ class Game extends mt.Process {
 		}
 	}
 
+	public function isSlowMo() {
+		return hero.isAlive() && !hero.controlsLocked();
+	}
+
 	override public function update() {
 		super.update();
 
 		// Updates
 		for(e in Entity.ALL) {
-			@:privateAccess e.dt = dt;
+			e.setDt(dt);
 			if( !e.destroyed ) e.preUpdate();
 			if( !e.destroyed ) e.update();
 			if( !e.destroyed ) e.postUpdate();
