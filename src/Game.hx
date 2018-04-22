@@ -4,7 +4,7 @@ import mt.MLib;
 class Game extends mt.Process {
 	public static var ME : Game;
 	public var scroller : h2d.Layers;
-	//public var vp : Viewport;
+	public var vp : Viewport;
 	//public var fx : Fx;
 	public var level : Level;
 	public var hero : en.Hero;
@@ -18,7 +18,7 @@ class Game extends mt.Process {
 		trace("new game");
 
 		scroller = new h2d.Layers(root);
-		//vp = new Viewport();
+		vp = new Viewport();
 		//fx = new Fx();
 
 		level = new Level();
@@ -26,7 +26,8 @@ class Game extends mt.Process {
 		hero = new en.Hero(5,0);
 		new en.m.GunGuy(8,0);
 
-		//vp.target = hero;
+		vp.track(level.wid*0.5*Const.GRID, level.hei*0.5*Const.GRID);
+		//vp.track(hero);
 		//vp.repos();
 	}
 
@@ -56,8 +57,8 @@ class Game extends mt.Process {
 	public function getMouse() {
 		var gx = hxd.Stage.getInstance().mouseX;
 		var gy = hxd.Stage.getInstance().mouseY;
-		var x = (gx-scroller.x)/Const.SCALE;
-		var y = (gy-scroller.y)/Const.SCALE;
+		var x = Std.int( gx/Const.SCALE-scroller.x );
+		var y = Std.int( gy/Const.SCALE-scroller.y );
 		return {
 			x : x,
 			y : y,

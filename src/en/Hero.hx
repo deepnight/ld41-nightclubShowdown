@@ -29,6 +29,6 @@ class Hero extends Entity {
 		super.update();
 		//setLabel(""+dy);
 		var m = game.getMouse();
-		setLabel(m.cx+","+m.cy);
+		//setLabel(m.x+","+m.y+" "+m.cx+","+m.cy);
 	}
 }

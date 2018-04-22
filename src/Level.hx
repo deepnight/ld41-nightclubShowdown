@@ -7,7 +7,7 @@ class Level extends mt.Process {
 	public function new() {
 		super(Game.ME);
 
-		wid = 12;
+		wid = 20;
 		hei = 8;
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
