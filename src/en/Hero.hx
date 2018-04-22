@@ -156,10 +156,10 @@ class Hero extends Entity {
 
 		// Take cover
 		for(e in en.Cover.ALL) {
-			if( e.left.contains(x,y) && e.hasRoom(-1) )
+			if( e.left.contains(x,y) && e.canHostSomeone(-1) )
 				a = TakeCover(e, -1);
 
-			if( e.right.contains(x,y) && e.hasRoom(1) )
+			if( e.right.contains(x,y) && e.canHostSomeone(1) )
 				a = TakeCover(e, 1);
 		}
 
@@ -192,7 +192,7 @@ class Hero extends Entity {
 				leaveCover();
 
 			case TakeCover(c,side) :
-				if( c.isAlive() && c.hasRoom(side) )
+				if( c.canHostSomeone(side) )
 					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
 						moveTarget = new FPoint(c.centerX+side*10, footY);
 						afterMoveAction = a;

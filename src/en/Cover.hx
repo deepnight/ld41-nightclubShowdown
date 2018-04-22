@@ -31,7 +31,10 @@ class Cover extends Entity {
 
 	override public function isBlockingHeroMoves() return isAlive();
 
-	public function hasRoom(side:Int) {
+	public function canHostSomeone(side:Int) {
+		if( !isAlive() )
+			return false;
+
 		for(e in Entity.ALL)
 			if( e.cover==this && dirTo(e)==side )
 				return false;

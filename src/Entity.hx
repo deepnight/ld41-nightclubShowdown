@@ -213,7 +213,7 @@ class Entity {
 	}
 
 	public function startCover(c:en.Cover, side:Int) {
-		if( !c.hasRoom(side) )
+		if( !c.canHostSomeone(side) )
 			return false;
 
 		dx = dy = 0;
