@@ -102,7 +102,7 @@ class Fx extends mt.Process {
 	}
 
 	public function markerFree(x:Float, y:Float, ?c=0xFF00FF, ?short=false) {
-		var p = allocTopAdd(getTile("star"), x,y);
+		var p = allocTopAdd(getTile("dot"), x,y);
 		p.setFadeS(1, 0, 0.06);
 		p.colorize(c);
 		p.setScale(3);
@@ -316,6 +316,83 @@ class Fx extends mt.Process {
 			p.delayS = i>20 ? rnd(0,0.1) : 0;
 		}
 	}
+
+	function _hardPhysics(p:HParticle) {
+		if( collGround(p) && Math.isNaN(p.data0) ) {
+			p.data0 = 1;
+			p.gy = 0;
+			p.dx*=0.5;
+			p.dy = 0;
+			p.dr = 0;
+			p.rotation *= 0.1;
+		}
+	}
+	public function woodCover(x:Float, y:Float, dir:Int) {
+		var c = 0x7e593e;
+
+		// Dots
+		var n = 100;
+		for( i in 0...n) {
+			var p = allocTopNormal(getTile("dot"), x+rnd(0,3,true), y+rnd(0,4,true));
+			p.colorize( Color.interpolateInt(c,0x0,rnd(0,0.1)) );
+			p.scaleX = rnd(1,3);
+			p.dx = dir * (i<=n*0.2 ? rnd(3,12) : rnd(-2,5) );
+			p.dy = rnd(-3,1);
+			p.gy = rnd(0.1,0.2);
+			p.frict = rnd(0.85,0.96);
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.3,true);
+			p.lifeS = rnd(5,10);
+			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+			p.onUpdate = _hardPhysics;
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+
+		// Planks
+		var n = 20;
+		for( i in 0...n) {
+			var p = allocTopNormal(getTile("dot"), x+rnd(0,3,true), y+rnd(0,4,true));
+			p.colorize( Color.interpolateInt(c,0x0,rnd(0,0.1)) );
+			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+
+			p.scaleX = rnd(3,5);
+			p.scaleY = 2;
+			p.scaleMul = rnd(0.992,0.995);
+
+			p.dx = dir * (i<=n*0.2 ? rnd(2,8) : rnd(-2,5) );
+			p.dy = rnd(-5,0);
+			p.gy = rnd(0.1,0.2);
+			p.frict = rnd(0.85,0.96);
+
+			p.rotation = rnd(0,6.28);
+			p.dr = rnd(0,0.3,true);
+
+			p.lifeS = rnd(5,10);
+			p.onUpdate = _hardPhysics;
+			p.delayS = i>20 ? rnd(0,0.1) : 0;
+		}
+
+		// Planks
+		//var n = 40;
+		//a = Lib.angularClampRad(a, dir==1 ? 3.14 : 0, 0.2);
+		//for( i in 0...n) {
+			//var a = a+rnd(0,0.03,true);
+			//var d = rnd(0,15);
+			//var p = allocTopNormal(getTile("dot"), x+Math.cos(a)*d, y+Math.sin(a)*d+rnd(0,1,true));
+			//p.colorize( Color.interpolateInt(0xFF0000,0x6F0000, rnd(0,1)) );
+			//p.scaleX = rnd(1,3);
+			//p.scaleXMul = rnd(0.92,0.97);
+			//p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
+			//p.rotation = a;
+			//p.gy = rnd(0.005,0.010);
+			//p.frict = rnd(0.97,0.98);
+			//p.lifeS = rnd(1,3);
+			//p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+			//p.onUpdate = _bloodPhysics;
+			//p.delayS = i>20 ? rnd(0,0.1) : 0;
+		//}
+	}
+
 
 	function _dust(p:HParticle) {
 		p.rotation = p.getMoveAng();

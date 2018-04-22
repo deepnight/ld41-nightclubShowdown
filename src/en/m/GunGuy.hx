@@ -7,6 +7,7 @@ class GunGuy extends en.Mob {
 
 		initLife(4);
 
+		spr.anim.registerStateAnim("dummyDeathFly",2, function() return !onGround && cd.has("bodyHit"));
 		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("dummyIdle",0);
 

@@ -222,19 +222,23 @@ class Hero extends Entity {
 			case None :
 
 			case Wait(t) :
+				spr.anim.stopWithStateAnims();
 				lockControlsS(t);
 
 			case Reload(t) :
+				spr.anim.stopWithStateAnims();
 				cd.setS("reloading",t);
 				lockControlsS(t);
 				setAmmo(maxAmmo);
 
 			case Move(x,y) :
+				spr.anim.stopWithStateAnims();
 				moveTarget = new FPoint(x,y);
 				afterMoveAction = None;
 				leaveCover();
 
 			case TakeCover(c,side) :
+				spr.anim.stopWithStateAnims();
 				if( c.canHostSomeone(side) )
 					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
 						moveTarget = new FPoint(c.centerX+side*10, footY);

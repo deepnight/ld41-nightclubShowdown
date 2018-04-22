@@ -33,5 +33,19 @@ class DeadBody extends Entity {
 
 	override public function update() {
 		super.update();
+		if( !onGround ) {
+			for(e in en.Cover.ALL)
+				if( distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.1) )
+					e.hit(3,this,true);
+
+			for(e in en.Mob.ALL)
+				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
+					fx.markerEntity(e);
+					e.dx = dirTo(e)*0.4;
+					e.dy = -0.2;
+					e.stunS(0.2);
+					e.interruptSkills(false);
+				}
+		}
 	}
 }

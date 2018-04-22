@@ -27,6 +27,7 @@ class Cover extends Entity {
 
 	override function onDie() {
 		spr.set("crateBroken");
+		fx.woodCover(centerX,centerY,lastHitDir);
 	}
 
 	override public function isBlockingHeroMoves() return isAlive();
