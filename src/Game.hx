@@ -35,8 +35,8 @@ class Game extends mt.Process {
 
 		new en.m.GunGuy(11,3);
 		new en.m.GunGuy(4,1);
-		var m = new en.m.GunGuy(13,2);
-		var c = new en.Cover(12,3);
+		var m = new en.m.GunGuy(13,4);
+		var c = new en.Cover(12,4);
 		m.startCover(c,1);
 
 		vp.track(level.wid*0.33*Const.GRID, level.hei*0.5*Const.GRID);
@@ -100,6 +100,10 @@ class Game extends mt.Process {
 
 	public function getSlowMoDt() {
 		return isSlowMo() ? dt*Const.PAUSE_SLOWMO : dt;
+	}
+
+	public function getSlowMoFactor() {
+		return isSlowMo() ? Const.PAUSE_SLOWMO : 1;
 	}
 
 	override public function update() {

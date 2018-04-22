@@ -31,9 +31,17 @@ class Mob extends Entity {
 
 	override public function update() {
 		super.update();
-		if( !movementLocked() && !controlsLocked() && !hasSkillCharging() && onGround && distCase(hero)<=2.5 && hero.moveTarget==null && !cd.hasSetS("dodgeHero",0.3) ) {
-			dx = -dirTo(hero)*0.1;
-			dy = -0.15;
+
+		// Dodge hero
+		if( onGround && !movementLocked() && !controlsLocked() && ( !hasSkillCharging() || canInterruptSkill() ) && distCase(hero)<=2.5 && hero.moveTarget==null && !cd.has("dodgeHero") ) {
+			if( cover==null || dirTo(cover)!=dirTo(hero) ) {
+				leaveCover();
+				for(s in skills)
+					s.interrupt(false);
+				dx = -dirTo(hero)*0.1;
+				dy = -0.15;
+				cd.setS("dodgeHero",0.3);
+			}
 		}
 	}
 }

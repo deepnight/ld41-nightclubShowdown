@@ -10,6 +10,7 @@ enum Action {
 	HeadShot(e:Entity);
 	Move(x:Float, y:Float);
 	TakeCover(e:Cover, side:Int);
+	Wait(sec:Float);
 }
 
 class Hero extends Entity {
@@ -129,42 +130,6 @@ class Hero extends Entity {
 		//}
 	}
 
-	function executeAction(a:Action) {
-		switch( a ) {
-			case None :
-
-			case Move(x,y) :
-				moveTarget = new FPoint(x,y);
-				afterMoveAction = None;
-				leaveCover();
-
-			case TakeCover(c,side) :
-				if( c.isAlive() && c.hasRoom(side) )
-					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
-						moveTarget = new FPoint(c.centerX+side*10, footY);
-						afterMoveAction = a;
-						leaveCover();
-					}
-					else {
-						startCover(c,side);
-					}
-
-			case BlindShot(e) :
-				if( cover!=null && dirTo(cover)!=dirTo(e) ) {
-					leaveCover();
-					dx = -0.05;
-				}
-				getSkill("blindShot").prepareOn(e);
-
-			case HeadShot(e) :
-				if( cover!=null && dirTo(cover)!=dirTo(e) ) {
-					leaveCover();
-					dx = -0.05;
-				}
-				getSkill("headShot").prepareOn(e);
-		}
-	}
-
 	function getActionAt(x:Float, y:Float) : Action {
 		var a = None;
 
@@ -179,6 +144,9 @@ class Hero extends Entity {
 			if( ok )
 				a = Move(x,footY);
 		}
+
+		if( MLib.fabs(centerX-x)<=Const.GRID*0.7 && MLib.fabs(centerY-y)<=Const.GRID )
+			a = Wait(0.3);
 
 		// Take cover
 		for(e in en.Cover.ALL) {
@@ -205,9 +173,52 @@ class Hero extends Entity {
 		return a;
 	}
 
+	function executeAction(a:Action) {
+		switch( a ) {
+			case None :
+
+			case Wait(t) :
+				lockControlsS(t);
+
+			case Move(x,y) :
+				moveTarget = new FPoint(x,y);
+				afterMoveAction = None;
+				leaveCover();
+
+			case TakeCover(c,side) :
+				if( c.isAlive() && c.hasRoom(side) )
+					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
+						moveTarget = new FPoint(c.centerX+side*10, footY);
+						afterMoveAction = a;
+						leaveCover();
+					}
+					else {
+						startCover(c,side);
+					}
+
+			case BlindShot(e) :
+				//if( cover!=null && dirTo(cover)!=dirTo(e) ) {
+					//leaveCover();
+					//dx = -0.05;
+				//}
+				getSkill("blindShot").prepareOn(e);
+
+			case HeadShot(e) :
+				//if( cover!=null && dirTo(cover)!=dirTo(e) ) {
+					//leaveCover();
+					//dx = -0.05;
+				//}
+				getSkill("headShot").prepareOn(e);
+		}
+	}
+
 	override public function update() {
 		super.update();
 
+		if( cover!=null && !hasSkillCharging() && !controlsLocked() )
+			lookAt(cover);
+
+		// HUD icon
 		var m = game.getMouse();
 		var a = getActionAt(m.x,m.y);
 		icon.alpha = 0.7;
@@ -216,6 +227,9 @@ class Hero extends Entity {
 		switch( a ) {
 			case None : icon.visible = false;
 			case Move(_) : icon.visible = false;
+			case Wait(_) :
+				icon.setPos(centerX, centerY);
+				icon.set("iconWait");
 			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
 			case BlindShot(e) :
 				icon.setPos(e.torso.centerX, e.torso.centerY+3);
@@ -225,7 +239,9 @@ class Hero extends Entity {
 				icon.setPos(e.head.centerX, e.head.centerY);
 				icon.set("iconShoot");
 				icon.colorize(0xFFA600);
-			case TakeCover(e,side) : icon.setPos(e.footX+side*14, e.footY-2); icon.set("iconCover"+(side==-1?"Left":"Right"));
+			case TakeCover(e,side) :
+				icon.setPos(e.footX+side*14, e.footY-2);
+				icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 
 		if( moveTarget!=null && !movementLocked() )

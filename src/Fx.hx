@@ -317,8 +317,40 @@ class Fx extends mt.Process {
 		}
 	}
 
+	function _dust(p:HParticle) {
+		p.rotation = p.getMoveAng();
+	}
+
+	function envDust() {
+		var n = 6;
+		for(i in 0...n) {
+			var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(0,game.vp.hei));
+			//var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(-30,0));
+			p.setFadeS(rnd(0.03,0.05), rnd(0.6,1), rnd(2,3));
+			p.scaleX = rnd(5,10);
+			p.scaleXMul = rnd(0.97,0.99);
+			p.dx = rnd(0,2);
+			p.dy = rnd(-1,2);
+			p.frict = rnd(0.94,0.97);
+			p.gx = rnd(0.01,0.03);
+			p.gy = rnd(0.01,0.02);
+			p.lifeS = rnd(2,3);
+			p.onUpdate = _dust;
+		}
+	}
+
 	override function update() {
+		speedMod = game.getSlowMoFactor();
+
 		super.update();
+
+		if( !cd.hasSetS("envInit",Const.INFINITE) )
+			for(i in 0...30 )
+				envDust();
+
+		if( !cd.hasSetS("env",0.06) )
+			envDust();
+
 		pool.update( game.getSlowMoDt() );
 	}
 }

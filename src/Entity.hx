@@ -194,7 +194,7 @@ class Entity {
 		cx = x;
 		cy = y;
 		xr = 0.5;
-		yr = 0.5;
+		yr = 1;
 	}
 
 	public function setLabel(?str:String, ?c=0xFFFFFF) {
@@ -390,6 +390,10 @@ class Entity {
 			if( s.isCharging() )
 				return true;
 		return false;
+	}
+
+	public function canInterruptSkill() {
+		return true;
 	}
 
 	public function update() {
