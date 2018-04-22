@@ -13,7 +13,7 @@ class Level extends mt.Process {
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
 
 		var bg = new h2d.Graphics(root);
-		bg.beginFill(0x0,1);
+		bg.beginFill(0x31415B,1);
 		bg.drawRect(0,0,wid*Const.GRID,hei*Const.GRID);
 
 		debug = new h2d.Graphics(root);

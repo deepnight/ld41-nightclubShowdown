@@ -3,7 +3,7 @@ import mt.deepnight.Sfx;
 
 class Assets {
 	//public static var SBANK = Sfx.importDirectory("sfx");
-	public static var tiles : h2d.Tile;
+	public static var gameElements : SpriteLib;
 	public static var font : h2d.Font;
 	public static var music : Sfx;
 
@@ -13,6 +13,9 @@ class Assets {
 		#if debug
 		Sfx.toggleMuteGroup(1);
 		#end
+
+		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
+		gameElements.defineAnim("dummyShoot","0(5)");
 
 		font = hxd.Res.minecraftiaOutline.toFont();
 		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");

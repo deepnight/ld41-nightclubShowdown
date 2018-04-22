@@ -10,9 +10,7 @@ class Hero extends Entity {
 	public function new(x,y) {
 		super(x,y);
 
-		var g = new h2d.Graphics(spr);
-		g.beginFill(0x00FF00,1);
-		g.drawCircle(0,-radius,radius);
+		spr.anim.registerStateAnim("dummyIdle",0);
 
 		//initLife(3);
 		isAffectBySlowMo = false;
@@ -23,17 +21,27 @@ class Hero extends Entity {
 		// Blind shot
 		var s = createSkill("blind");
 		s.setTimers(0.2,0,0.1);
-		s.onStart = function() setLabel("preparing...");
+		s.onStart = function() {
+			lookAt(s.target);
+			spr.anim.playAndLoop("dummyAim");
+		}
 		s.onProgress = function(t) setLabel("preparing "+Std.int(t*100)+"%");
 		s.onInterrupt = function() setLabel("CANCEL!");
 		s.onExecute = function(e) {
-			dy = -0.1;
 			e.hit(1);
+
+			var r = e.getDiminishingReturnFactor("blind",1,3);
+			trace(r);
 			e.dx*=0.3;
-			e.dx+=dirTo(e)*rnd(0.06,0.10);
-			e.lockMovementsS(0.3);
-			e.lockControlsS(0.7);
+			e.dx+=dirTo(e)*rnd(0.06,0.10)*r;
+			e.lockMovementsS(0.3*r);
+			e.lockControlsS(0.7*r);
+			fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
+			//fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
+
+			dy = -0.1;
 			setLabel("bang!");
+			spr.anim.play("dummyShoot");
 		}
 	}
 

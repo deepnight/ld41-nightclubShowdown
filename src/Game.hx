@@ -5,7 +5,7 @@ class Game extends mt.Process {
 	public static var ME : Game;
 	public var scroller : h2d.Layers;
 	public var vp : Viewport;
-	//public var fx : Fx;
+	public var fx : Fx;
 	public var level : Level;
 	public var hero : en.Hero;
 	var clickTrap : h2d.Interactive;
@@ -20,7 +20,7 @@ class Game extends mt.Process {
 
 		scroller = new h2d.Layers(root);
 		vp = new Viewport();
-		//fx = new Fx();
+		fx = new Fx();
 
 		clickTrap = new h2d.Interactive(1,1,Main.ME.root);
 		//clickTrap.backgroundColor = 0x4400FF00;
@@ -31,8 +31,8 @@ class Game extends mt.Process {
 
 		hero = new en.Hero(8,0);
 		new en.m.GunGuy(14,6);
-		new en.m.GunGuy(18,6);
-		new en.m.GunGuy(3,6);
+		//new en.m.GunGuy(18,6);
+		//new en.m.GunGuy(3,6);
 
 		vp.track(level.wid*0.5*Const.GRID, level.hei*0.5*Const.GRID);
 		//vp.track(hero);
@@ -91,6 +91,10 @@ class Game extends mt.Process {
 
 	public function isSlowMo() {
 		return hero.isAlive() && !hero.controlsLocked();
+	}
+
+	public function getSlowMoDt() {
+		return isSlowMo() ? dt*Const.PAUSE_SLOWMO : dt;
 	}
 
 	override public function update() {

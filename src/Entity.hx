@@ -7,7 +7,7 @@ class Entity {
 
 	public var game(get,never) : Game; inline function get_game() return Game.ME;
 	public var level(get,never) : Level; inline function get_level() return Game.ME.level;
-	//public var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
+	public var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
 	public var destroyed(default,null) = false;
 	public var cd : mt.Cooldown;
 	public var dt : Float;
@@ -34,13 +34,16 @@ class Entity {
 	public var life : Int;
 	public var maxLife : Int;
 	var skills : Array<Skill>;
+	var diminishingUses : Map<String,Int> = new Map();
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
 	public var headX(get,never) : Float; inline function get_headX() return footX;
-	public var headY(get,never) : Float; inline function get_headY() return footY-radius*2;
+	public var headY(get,never) : Float; inline function get_headY() return footY-radius*1.8;
+	public var shootX(get,never) : Float; inline function get_shootX() return footX+dir*8;
+	public var shootY(get,never) : Float; inline function get_shootY() return footY-radius*0.8;
 	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
 
 	private function new(x,y) {
@@ -53,7 +56,7 @@ class Entity {
 		initLife(3);
 		skills = [];
 
-		spr = new mt.heaps.slib.HSprite();
+		spr = new mt.heaps.slib.HSprite(Assets.gameElements);
 		//spr = new mt.heaps.slib.HSprite(Assets.gameElements);
 		game.scroller.add(spr, Const.DP_HERO);
 		spr.setCenterRatio(0.5,1);
@@ -112,14 +115,14 @@ class Entity {
 		return cd.has("moveLock");
 	}
 	public function lockMovementsS(t:Float) {
-		cd.setS("moveLock",t);
+		cd.setS("moveLock",t,false);
 	}
 
 	public function controlsLocked() {
 		return cd.has("ctrlLock");
 	}
 	public function lockControlsS(t:Float) {
-		cd.setS("ctrlLock",t);
+		cd.setS("ctrlLock",t,false);
 	}
 	//public function pop(str:String, ?c=0x30D9E7) {
 		//var tf = new h2d.Text(Assets.font);
@@ -264,6 +267,22 @@ class Entity {
 	//function hasCircCollWith(e:Entity) {
 		//return true;
 	//}
+
+	public function getDiminishingReturnFactor(id:String, fullUses:Int, maxUses:Int) : Float {
+		if( !diminishingUses.exists(id) )
+			diminishingUses.set(id,1);
+		else
+			diminishingUses.set(id, diminishingUses.get(id)+1);
+
+		var n = diminishingUses.get(id);
+		trace(n);
+		if( n<=fullUses )
+			return 1;
+		else if( n>maxUses )
+			return 0;
+		else
+			return 1 - ( n-fullUses ) / ( maxUses-fullUses+1 );
+	}
 
 	public function onClick(x:Float, y:Float, bt:Int) {
 	}
