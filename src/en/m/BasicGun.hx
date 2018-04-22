@@ -1,6 +1,6 @@
 package en.m;
 
-class GunGuy extends en.Mob {
+class BasicGun extends en.Mob {
 
 	public function new(x,y) {
 		super(x,y);
@@ -67,3 +67,4 @@ class GunGuy extends en.Mob {
 			getSkill("shoot").prepareOn(game.hero);
 	}
 }
+

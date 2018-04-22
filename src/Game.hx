@@ -53,9 +53,9 @@ class Game extends mt.Process {
 		hero = new en.Hero(4,0);
 		new en.Cover(6,3);
 
-		new en.m.GunGuy(10,4);
-		new en.m.GunGuy(2,4);
-		var m = new en.m.GunGuy(13,4);
+		new en.m.BasicGun(10,4);
+		new en.m.BasicGun(2,4);
+		var m = new en.m.BasicGun(13,4);
 		var c = new en.Cover(12,4);
 		m.startCover(c,1);
 
