@@ -5,7 +5,7 @@ class GunGuy extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(10);
+		initLife(2);
 
 		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("dummyIdle",0);
@@ -21,7 +21,7 @@ class GunGuy extends en.Mob {
 		s.onInterrupt = function() spr.anim.stopWithStateAnims();
 		s.onExecute = function(e) {
 			dy = -0.1;
-			e.hit(1);
+			e.hit(1,this);
 			e.dx*=0.3;
 			e.dx+=dirTo(e)*rnd(0.06,0.10);
 			e.lockMovementsS(0.3);
@@ -29,6 +29,15 @@ class GunGuy extends en.Mob {
 			fx.bloodHit(shootX, shootY, e.centerX, e.centerY, dirTo(e));
 			spr.anim.play("dummyShoot");
 		}
+	}
+
+	override function get_headY():Float {
+		if( spr!=null && !spr.destroyed )
+			return super.get_headY() + switch( spr.groupName ) {
+				case "dummyStun" : 5;
+				default : 0;
+			}
+		return super.get_headY();
 	}
 
 	override function onDamage(v:Int) {

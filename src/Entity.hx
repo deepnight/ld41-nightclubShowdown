@@ -13,6 +13,7 @@ class Entity {
 	public var dt : Float;
 
 	public var spr : HSprite;
+	public var debug : Null<h2d.Graphics>;
 	public var label : Null<h2d.Text>;
 	var cAdd : h3d.Vector;
 
@@ -30,18 +31,22 @@ class Entity {
 	public var dir(default,set) = 1;
 	public var hasColl = true;
 	public var isAffectBySlowMo = true;
+	public var lastHitDir = 0;
 
 	public var life : Int;
 	public var maxLife : Int;
 	var skills : Array<Skill>;
 	var diminishingUses : Map<String,Int> = new Map();
+	var head : Area;
+	var torso : Area;
+	var legs : Area;
 
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
-	public var headX(get,never) : Float; inline function get_headX() return footX;
-	public var headY(get,never) : Float; inline function get_headY() return footY-radius*1.8;
+	public var headX(get,never) : Float; function get_headX() return footX;
+	public var headY(get,never) : Float; function get_headY() return footY-radius*1.8;
 	public var shootX(get,never) : Float; inline function get_shootX() return footX+dir*8;
 	public var shootY(get,never) : Float; inline function get_shootY() return footY-radius*0.8;
 	public var onGround(get,never) : Bool; inline function get_onGround() return level.hasColl(cx,cy+1) && yr>=1 && dy==0;
@@ -61,13 +66,19 @@ class Entity {
 		game.scroller.add(spr, Const.DP_HERO);
 		spr.setCenterRatio(0.5,1);
 		spr.colorAdd = cAdd = new h3d.Vector();
+
+		head = new Area(this, 4, function() return headX, function() return headY);
+		torso = new Area(this, 5, function() return (headX+footX)*0.5, function() return (headY+footY-4)*0.5);
+		legs = new Area(this, 4, function() return footX, function() return footY-4);
 	}
 
 	public function initLife(v) {
 		life = maxLife = v;
 	}
 
-	public function hit(dmg:Int) {
+	public function hit(dmg:Int, source:Entity) {
+		if( source!=null )
+			lastHitDir = source.dirTo(this);
 		if( life>0 && dmg>0 ) {
 			dmg = MLib.min(life,dmg);
 			life-=dmg;
@@ -228,8 +239,8 @@ class Entity {
 		skills = null;
 		if( label!=null )
 			label.remove();
-		//if( debug!=null )
-			//debug.remove();
+		if( debug!=null )
+			debug.remove();
 	}
 
 	public function preUpdate() {
@@ -245,22 +256,30 @@ class Entity {
 			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));
 		}
 
-		//if( Console.ME.has("bounds") ) {
-			//if( debug==null ) {
-				//debug = new h2d.Graphics();
-				//game.scroller.add(debug, Const.DP_UI);
-			//}
-			//if( !cd.hasSetS("debugRedraw",1) ) {
-				//debug.beginFill(0xFFFF00,0.3);
-				//debug.lineStyle(1,0xFFFF00,0.7);
-				//debug.drawCircle(0,0,radius);
-			//}
-			//debug.setPos(footX, footY);
-		//}
-		//if( !Console.ME.has("bounds") && debug!=null ) {
-			//debug.remove();
-			//debug = null;
-		//}
+		if( Console.ME.has("bounds") ) {
+			if( debug==null ) {
+				debug = new h2d.Graphics();
+				game.scroller.add(debug, Const.DP_UI);
+			}
+			debug.clear();
+			debug.beginFill(0xE8DDB3,0.1);
+			debug.lineStyle(1,0xE8DDB3,0.2);
+			debug.drawCircle(0,-radius,radius);
+
+			var c = 0xFF0000; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			debug.drawCircle(head.centerX-footX, head.centerY-footY, head.radius);
+
+			var c = 0x0080FF; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			debug.drawCircle(torso.centerX-footX, torso.centerY-footY, torso.radius);
+
+			var c = 0x6D5BA4; debug.beginFill(c,0.2); debug.lineStyle(1,c,0.7);
+			debug.drawCircle(legs.centerX-footX, legs.centerY-footY, legs.radius);
+			debug.setPos(footX, footY);
+		}
+		if( !Console.ME.has("bounds") && debug!=null ) {
+			debug.remove();
+			debug = null;
+		}
 
 		cAdd.r*=0.9;
 		cAdd.g*=0.75;

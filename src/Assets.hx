@@ -17,6 +17,7 @@ class Assets {
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("dummyShoot","0(5)");
 		gameElements.defineAnim("dummyHit","0(8)");
+		gameElements.defineAnim("dummyDeathFly","0(30), 1(9999)");
 
 		font = hxd.Res.minecraftiaOutline.toFont();
 		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");

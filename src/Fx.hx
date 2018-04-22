@@ -159,7 +159,7 @@ class Fx extends mt.Process {
 			p.colorize( Color.interpolateInt(0xFF0000,0x6F0000, rnd(0,1)) );
 			p.dx = dir * (i<=10 ? rnd(3,12) : rnd(1,5) );
 			p.dy = rnd(-2,1);
-			p.gy = rnd(0,0.2);
+			p.gy = rnd(0.1,0.2);
 			p.frict = rnd(0.85,0.96);
 			p.lifeS = rnd(1,3);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
@@ -179,7 +179,7 @@ class Fx extends mt.Process {
 			p.scaleXMul = rnd(0.92,0.97);
 			p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
 			p.rotation = a;
-			p.gy = rnd(0,0.01);
+			p.gy = rnd(0.005,0.010);
 			p.frict = rnd(0.97,0.98);
 			p.lifeS = rnd(1,3);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
@@ -200,7 +200,7 @@ class Fx extends mt.Process {
 			p.dr = dir*rnd(0.2,0.4);
 			p.dx = dir * (i<=10 ? rnd(3,12) : rnd(1,5) );
 			p.dy = rnd(-2,1);
-			p.gy = rnd(0,0.2);
+			p.gy = rnd(0.1,0.2);
 			p.frict = rnd(0.85,0.96);
 			p.lifeS = rnd(1,3);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
@@ -220,7 +220,7 @@ class Fx extends mt.Process {
 			p.scaleXMul = rnd(0.92,0.97);
 			p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
 			p.rotation = a;
-			p.gy = rnd(0,0.01);
+			p.gy = rnd(0.01,0.02);
 			p.frict = rnd(0.97,0.98);
 			p.lifeS = rnd(1,3);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
@@ -236,14 +236,20 @@ class Fx extends mt.Process {
 			var d = rnd(0,15);
 			var p = allocTopNormal(getTile("dot"), x+Math.cos(a)*d, y+Math.sin(a)*d+rnd(0,1,true));
 			p.colorize(0xE1C684);
-			p.scaleX = rnd(1,3);
-			p.scaleXMul = rnd(0.92,0.97);
-			p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
-			p.rotation = a;
-			p.gy = rnd(0,0.01);
-			p.frict = rnd(0.97,0.98);
-			p.lifeS = rnd(1,3);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
+
+			p.scaleX = rnd(1,3);
+			p.scaleY = rnd(1.5,2);
+			p.scaleMul = rnd(0.96,0.99);
+
+			p.rotation = a;
+			p.dr = rnd(0.1,0.4)*dir;
+
+			p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
+			p.gy = rnd(0.02,0.05);
+			p.frict = rnd(0.97,0.98);
+
+			p.lifeS = rnd(1,3);
 			p.onUpdate = _bloodPhysics;
 			p.delayS = i>20 ? rnd(0,0.1) : 0;
 		}

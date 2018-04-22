@@ -15,6 +15,11 @@ class Mob extends Entity {
 		initLife(4);
 	}
 
+	override function onDie() {
+		super.onDie();
+		new en.DeadBody(this);
+	}
+
 	override public function dispose() {
 		super.dispose();
 		ALL.remove(this);

@@ -1,47 +1,75 @@
 
 gameElements.png
-size: 105,27
+size: 157,31
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 dot0
   rotate: false
-  xy: 50, 18
+  xy: 2, 27
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 dummyAim0
   rotate: false
-  xy: 2, 2
+  xy: 18, 2
   size: 22, 22
   orig: 32, 32
   offset: 9, 0
   index: -1
+dummyDeathBounce0
+  rotate: false
+  xy: 101, 22
+  size: 26, 7
+  orig: 32, 32
+  offset: 1, 0
+  index: -1
+dummyDeathFly0
+  rotate: false
+  xy: 66, 2
+  size: 16, 21
+  orig: 32, 32
+  offset: 11, 0
+  index: -1
+dummyDeathFly1
+  rotate: false
+  xy: 101, 2
+  size: 19, 18
+  orig: 32, 32
+  offset: 8, 0
+  index: -1
+dummyDeathGround0
+  rotate: false
+  xy: 129, 18
+  size: 26, 7
+  orig: 32, 32
+  offset: 1, 0
+  index: -1
 dummyHit0
   rotate: false
-  xy: 72, 2
+  xy: 84, 2
   size: 15, 20
   orig: 32, 32
   offset: 8, 0
   index: -1
 dummyIdle0
   rotate: false
-  xy: 89, 2
+  xy: 2, 2
   size: 14, 23
   orig: 32, 32
   offset: 10, 0
   index: -1
 dummyShoot0
   rotate: false
-  xy: 26, 2
+  xy: 42, 2
   size: 22, 22
   orig: 32, 32
   offset: 9, 0
   index: -1
 dummyStun0
   rotate: false
-  xy: 50, 2
+  xy: 122, 2
   size: 20, 14
   orig: 32, 32
   offset: 5, 0

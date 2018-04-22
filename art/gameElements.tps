@@ -213,8 +213,14 @@
                 <false/>
             </struct>
             <key type="filename">export/dummyAim0.png</key>
+            <key type="filename">export/dummyDeathBounce0.png</key>
+            <key type="filename">export/dummyDeathFly0.png</key>
+            <key type="filename">export/dummyDeathFly1.png</key>
+            <key type="filename">export/dummyDeathGround0.png</key>
+            <key type="filename">export/dummyHit0.png</key>
             <key type="filename">export/dummyIdle0.png</key>
             <key type="filename">export/dummyShoot0.png</key>
+            <key type="filename">export/dummyStun0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
