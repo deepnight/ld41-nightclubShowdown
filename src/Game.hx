@@ -12,6 +12,7 @@ class Game extends mt.Process {
 	public var level : Level;
 	public var hero : en.Hero;
 	var clickTrap : h2d.Interactive;
+	public var waveId : Int;
 
 	public var isReplay : Bool;
 	public var heroHistory : Array<HistoryEntry>;
@@ -45,26 +46,37 @@ class Game extends mt.Process {
 		clickTrap.onPush = onMouseDown;
 		//clickTrap.enableRightButton = true;
 
-		level = new Level();
 
 		hud = new h2d.Flow();
 		root.add(hud, Const.DP_UI);
 		hud.horizontalSpacing = 1;
 
-		hero = new en.Hero(5,0);
-		new en.Cover(4,3);
+		waveId = -1;
+		level = new Level();
+		hero = new en.Hero(2,4);
+		//nextLevel();
 
-		new en.m.Grenader(10,4);
-		new en.m.Grenader(16,4);
+		//new en.Cover(14,4);
+		//new en.m.Grenader(15,4);
+
+		//new en.m.Grenader(10,4);
+		//new en.m.Grenader(16,4);
 		//new en.m.BasicGun(2,4);
-		//var m = new en.m.BasicGun(13,4);
-		//var c = new en.Cover(12,4);
-		//m.startCover(c,1);
 
 		vp.repos();
 
 		onResize();
 	}
+
+	//function updateWave() {
+		//var n = 0;
+		//for(e in en.Cover.ALL)
+			//if( e.isAlive() )
+				//n++;
+		//for(i in n...2) {
+			//var e = new en.Cover(10,0);
+		//}
+	//}
 
 	public function updateHud() cd.setS("invalidateHud",Const.INFINITE);
 	function _updateHud() {
@@ -91,6 +103,8 @@ class Game extends mt.Process {
 			e.blendMode = Add;
 		}
 
+		onResize();
+
 	}
 
 	function onMouseDown(ev:hxd.Event) {
@@ -103,8 +117,8 @@ class Game extends mt.Process {
 		super.onResize();
 		clickTrap.width = w();
 		clickTrap.height = h();
-		hud.x = w()*0.5/Const.SCALE - hud.outerWidth*0.5;
-		hud.y = 8;
+		hud.x = Std.int( w()*0.5/Const.SCALE - hud.outerWidth*0.5 );
+		hud.y = Std.int( level.hei*Const.GRID );
 	}
 
 	override public function onDispose() {
@@ -144,12 +158,40 @@ class Game extends mt.Process {
 		}
 	}
 
+	public function announce(txt:String, ?c=0xFFFFFF) {
+		var tf = new h2d.Text(Assets.font,root);
+		tf.text = txt;
+		tf.y = Std.int( vp.hei*0.25 - tf.textHeight );
+		tw.createMs(tf.x, 500|-150>8, 200).onEnd = function() {
+			tw.createMs(tf.alpha, 1000|0, 1500).onEnd = tf.remove;
+		}
+
+	}
+
+	public function nextLevel() {
+		waveId++;
+
+		announce("Wave "+(waveId+1));
+
+		level.waveMobCount = 1;
+		delayer.addS(function() {
+			level.attacheWaveEntities(waveId);
+		}, waveId==0 ? 1 : 1);
+	}
+
 	public function isSlowMo() {
 		#if debug
 		if( Key.isDown(Key.SHIFT) )
 			return false;
 		#end
-		return !isReplay && hero.isAlive() && !hero.controlsLocked() && en.Mob.ALL.length>0;
+		if( isReplay || !hero.isAlive() || hero.controlsLocked() )
+			return false;
+
+		for(e in en.Mob.ALL)
+			if( e.isAlive() && e.canBeShot() )
+				return true;
+
+		return false;
 	}
 
 	public function getSlowMoDt() {
@@ -172,7 +214,10 @@ class Game extends mt.Process {
 		}
 		gc();
 
-		if( Main.ME.keyPressed(hxd.Key.R) )
+		if( level.waveMobCount<=0 )
+			nextLevel();
+
+		if( Main.ME.keyPressed(hxd.Key.ESCAPE) )
 			Main.ME.restartGame();
 			//Main.ME.restartGame( hxd.Key.isDown(hxd.Key.CTRL) ? heroHistory : null );
 

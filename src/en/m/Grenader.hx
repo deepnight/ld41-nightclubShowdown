@@ -5,7 +5,7 @@ class Grenader extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(5);
+		initLife(6);
 
 		spr.anim.registerStateAnim("bPush",2, function() return !onGround && cd.has("bodyHit"));
 		spr.anim.registerStateAnim("bStun",1, function() return isStunned());
@@ -67,7 +67,7 @@ class Grenader extends en.Mob {
 	override public function update() {
 		super.update();
 
-		if( !controlsLocked() && onGround && getSkill("shoot").isReady() && game.hero.isAlive() )
+		if( tx==-1 && !controlsLocked() && onGround && getSkill("shoot").isReady() && game.hero.isAlive() )
 			getSkill("shoot").prepareOn(game.hero);
 	}
 }

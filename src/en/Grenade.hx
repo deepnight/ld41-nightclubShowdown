@@ -15,7 +15,7 @@ class Grenade extends Entity {
 		frict = 0.98;
 		cd.setS("timer",1.25);
 		radius = 5;
-		range = Const.GRID*2;
+		range = Const.GRID*1;
 
 		spr.set("grenade");
 		spr.setCenterRatio(0.5,0.5);

@@ -18,6 +18,7 @@ class DeadBody extends Entity {
 		spr.anim.registerStateAnim(sid+"DeathGround",0);
 		spr.colorize(e.spr.color.toColor());
 		cd.setS("bleeding",2);
+		cd.setS("decay", rnd(20,25));
 	}
 
 	override public function dispose() {
@@ -34,6 +35,12 @@ class DeadBody extends Entity {
 		cd.setS("hitGround",Const.INFINITE);
 	}
 
+	override public function postUpdate() {
+		super.postUpdate();
+		if( cd.has("decay") )
+			spr.scaleY = cd.getRatio("decay");
+	}
+
 	override public function update() {
 		super.update();
 		if( cd.has("bleeding") && !cd.hasSetS("bleedFx",0.03) )
@@ -48,5 +55,8 @@ class DeadBody extends Entity {
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) )
 					e.violentBump(dirTo(e)*0.4, -0.2, 0.5);
 		}
+
+		if( !cd.has("decay") )
+			destroy();
 	}
 }

@@ -2,7 +2,7 @@ import mt.Process;
 import mt.MLib;
 
 class Main extends mt.Process {
-	public static var BG = 0x0e0829;
+	public static var BG = 0x0;
 	public static var ME : Main;
 	public var console : Console;
 	public var cached : h2d.CachedBitmap;
@@ -18,7 +18,6 @@ class Main extends mt.Process {
 		createRoot(Boot.ME.s2d);
 
 		cached = new h2d.CachedBitmap(root, 1,1);
-		cached.scaleX = cached.scaleY = Const.SCALE;
 
 		#if( debug && hl )
 		hxd.Res.initLocal();
@@ -83,6 +82,9 @@ class Main extends mt.Process {
 
 	override public function onResize() {
 		super.onResize();
+		Const.SCALE = MLib.ceil( w() / (20*Const.GRID) );
+		cached.scaleX = cached.scaleY = Const.SCALE;
+
 		cached.width = MLib.ceil(Boot.ME.s2d.width/cached.scaleX);
 		cached.height = MLib.ceil(Boot.ME.s2d.height/cached.scaleY);
 		black.scaleX = Boot.ME.s2d.width;

@@ -8,8 +8,6 @@ class Cover extends Entity {
 	public var left : Area;
 	public var right : Area;
 
-	public var broken : Bool;
-
 	public function new(x,y) {
 		super(x,y);
 		ALL.push(this);
@@ -27,13 +25,14 @@ class Cover extends Entity {
 
 	override function onDie() {
 		spr.set("crateBroken");
+		cd.setS("decay", 15);
 		fx.woodCover(centerX,centerY,lastHitDir);
 	}
 
 	override public function isBlockingHeroMoves() return isAlive();
 
 	public function canHostSomeone(side:Int) {
-		if( !isAlive() )
+		if( !isAlive() || !onGround )
 			return false;
 
 		for(e in Entity.ALL)
@@ -42,13 +41,36 @@ class Cover extends Entity {
 		return true;
 	}
 
+	public function coversAnyone() {
+		for(e in Entity.ALL)
+			if( e.cover==this )
+				return true;
+		return false;
+	}
+
+	override function onLand() {
+		super.onLand();
+		for(e in ALL)
+			if( e!=this && distCase(e)<=2 )
+				e.hit(999,this,true);
+	}
+
 	override public function dispose() {
 		super.dispose();
 		ALL.remove(this);
 	}
 
+	override public function postUpdate() {
+		super.postUpdate();
+		if( !isAlive() && cd.has("decay") )
+			spr.scaleY = cd.getRatio("decay");
+	}
+
 	override public function update() {
 		super.update();
+
+		if( !isAlive() && !cd.has("decay") )
+			destroy();
 	}
 }
 

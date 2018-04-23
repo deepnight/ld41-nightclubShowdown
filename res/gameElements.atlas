@@ -258,7 +258,7 @@ bigDirt0
   index: -1
 bigDirt1
   rotate: false
-  xy: 754, 117
+  xy: 776, 110
   size: 6, 7
   orig: 6, 7
   offset: 0, 0
@@ -391,7 +391,7 @@ dot0
   index: -1
 grenade0
   rotate: false
-  xy: 176, 116
+  xy: 784, 110
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
@@ -587,14 +587,14 @@ heroRun5
   index: -1
 heroStun0
   rotate: false
-  xy: 712, 109
+  xy: 734, 109
   size: 16, 14
   orig: 32, 32
   offset: 5, 0
   index: -1
 iconBullet
   rotate: false
-  xy: 183, 116
+  xy: 176, 116
   size: 2, 6
   orig: 2, 6
   offset: 0, 0
@@ -622,14 +622,14 @@ iconHeart
   index: -1
 iconMove
   rotate: false
-  xy: 745, 113
+  xy: 767, 110
   size: 7, 11
   orig: 16, 16
   offset: 5, 3
   index: -1
 iconReload
   rotate: false
-  xy: 730, 109
+  xy: 752, 110
   size: 13, 13
   orig: 16, 16
   offset: 2, 2
@@ -654,6 +654,13 @@ iconWait
   size: 9, 13
   orig: 16, 16
   offset: 3, 2
+  index: -1
+levels
+  rotate: false
+  xy: 712, 109
+  size: 20, 12
+  orig: 20, 83
+  offset: 0, 71
   index: -1
 radius
   rotate: false

@@ -317,6 +317,7 @@ class Entity {
 		spr.x = (cx+xr)*Const.GRID;
 		spr.y = (cy+yr)*Const.GRID;
 		spr.scaleX = dir;
+		spr.anim.setGlobalSpeed( isAffectBySlowMo ? game.getSlowMoFactor() : 1 );
 
 		if( label!=null ) {
 			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));

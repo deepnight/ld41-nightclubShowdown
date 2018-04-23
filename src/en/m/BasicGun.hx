@@ -7,6 +7,7 @@ class BasicGun extends en.Mob {
 
 		initLife(4);
 
+		spr.anim.registerStateAnim("aRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("aPush",2, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("aStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("aIdle",0);
@@ -14,7 +15,7 @@ class BasicGun extends en.Mob {
 
 
 		var s = createSkill("shoot");
-		s.setTimers(1, 0, 0.5);
+		s.setTimers(1, 0.7, 0.3);
 		s.onStart = function() {
 			lookAt(s.target);
 			spr.anim.playAndLoop("aAim");
@@ -22,6 +23,7 @@ class BasicGun extends en.Mob {
 		s.onProgress = function(t) lookAt(s.target);
 		s.onInterrupt = function() spr.anim.stopWithStateAnims();
 		s.onExecute = function(e) {
+			lookAt(e);
 			dy = -0.1;
 			if( e.hit(1,this) ) {
 				e.dx*=0.3;
@@ -34,7 +36,7 @@ class BasicGun extends en.Mob {
 			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
 		}
 
-		lockControlsS(rnd(0.3,0.6));
+		lockControlsS(rnd(0.3,1.6));
 	}
 
 	override function onDie() {
@@ -70,8 +72,11 @@ class BasicGun extends en.Mob {
 	override public function update() {
 		super.update();
 
-		if( !controlsLocked() && onGround && getSkill("shoot").isReady() && game.hero.isAlive() )
-			getSkill("shoot").prepareOn(game.hero);
+		if( !controlsLocked() && onGround && tx==-1 ) {
+			if( getSkill("shoot").isReady() && game.hero.isAlive() )
+				getSkill("shoot").prepareOn(game.hero);
+
+		}
 	}
 }
 

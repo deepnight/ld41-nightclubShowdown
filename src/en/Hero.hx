@@ -1,5 +1,6 @@
 package en;
 
+import hxd.Key;
 import mt.MLib;
 import mt.deepnight.*;
 import mt.heaps.slib.*;
@@ -11,7 +12,7 @@ enum Action {
 	Move(x:Float, y:Float);
 	TakeCover(e:Cover, side:Int);
 	Wait(sec:Float);
-	Reload(sec:Float);
+	Reload;
 }
 
 class Hero extends Entity {
@@ -31,7 +32,7 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroPush",11, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("heroStun",10, function() return cd.has("reloading"));
 		spr.anim.registerStateAnim("heroCover",5, function() return cover!=null);
-		spr.anim.registerStateAnim("heroRun",1, function() return onGround && MLib.fabs(dx)>=0.1);
+		spr.anim.registerStateAnim("heroRun",1, function() return onGround && moveTarget!=null && !movementLocked() );
 		spr.anim.registerStateAnim("heroIdle",0);
 
 		icon = Assets.gameElements.h_get("iconMove");
@@ -40,8 +41,8 @@ class Hero extends Entity {
 		icon.blendMode = Add;
 
 		isAffectBySlowMo = false;
-		setAmmo(4);
-		initLife(2);
+		setAmmo(6);
+		initLife(3);
 		//initLife(Const.INFINITE);
 
 
@@ -90,7 +91,7 @@ class Hero extends Entity {
 
 			fx.flashBangS(0x477ADA,0.1,0.1);
 
-			if( e.hit(999,this,true) )
+			if( e.hit(5,this,true) )
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.shoot(shootX, shootY, e.headX, e.headY, 0x2780D8);
 			fx.bullet(shootX-dir*5,shootY,dir);
@@ -108,6 +109,7 @@ class Hero extends Entity {
 
 	function useAmmo() {
 		if( ammo<=0 ) {
+			game.announce("Reload!");
 			fx.noAmmo(shootX, shootY, dir);
 			lockControlsS(0.2);
 			return false;
@@ -129,6 +131,7 @@ class Hero extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.DeadBody(this,"hero");
+		game.announce("ESCAPE to restart");
 	}
 
 	override public function dispose() {
@@ -214,7 +217,7 @@ class Hero extends Entity {
 		// Shoot mob
 		var best : en.Mob = null;
 		for(e in en.Mob.ALL) {
-			if( ( e.head.contains(x,y) || e.torso.contains(x,y) || e.legs.contains(x,y) ) && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
+			if( e.canBeShot() && ( e.head.contains(x,y) || e.torso.contains(x,y) || e.legs.contains(x,y) ) && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
 			//if( e.distPxFree(x,y)<=30 && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
 				best = e;
 		}
@@ -226,7 +229,7 @@ class Hero extends Entity {
 
 		// Relaod
 		if( ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
-			a = Reload(0.8);
+			a = Reload;
 
 		return a;
 	}
@@ -241,12 +244,12 @@ class Hero extends Entity {
 				spr.anim.stopWithStateAnims();
 				lockControlsS(t);
 
-			case Reload(t) :
+			case Reload :
 				spr.anim.stopWithStateAnims();
 				spr.anim.play("heroReload");
 				fx.charger(hero.centerX-dir*6, hero.centerY-4, -dir);
-				cd.setS("reloading",t);
-				lockControlsS(t);
+				cd.setS("reloading",0.8);
+				lockControlsS(0.8);
 				setAmmo(maxAmmo);
 
 			case Move(x,y) :
@@ -307,7 +310,7 @@ class Hero extends Entity {
 			case Wait(_) :
 				icon.setPos(centerX, footY);
 				icon.set("iconWait");
-			case Reload(_) :
+			case Reload :
 				icon.setPos(centerX, footY);
 				icon.set("iconReload");
 			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
@@ -324,6 +327,11 @@ class Hero extends Entity {
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 
+
+		if( !controlsLocked() && Main.ME.keyPressed(hxd.Key.R) )
+			executeAction(Reload);
+
+		// Move
 		if( moveTarget!=null && !movementLocked() )
 			if( MLib.fabs(centerX-moveTarget.x)<=5 ) {
 				// Arrived
