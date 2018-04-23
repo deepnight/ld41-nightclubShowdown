@@ -164,7 +164,7 @@ class Game extends mt.Process {
 		var tf = new h2d.Text(Assets.font,root);
 		tf.text = txt;
 		tf.textColor = c;
-		tf.y = Std.int( vp.hei*0.25 - tf.textHeight );
+		tf.y = Std.int( vp.hei*0.33 - tf.textHeight );
 		tw.createMs(tf.x, 500|-tf.textWidth>8, 200).onEnd = function() {
 			if( !permanent )
 				tw.createMs(tf.alpha, 1000|0, 1500).onEnd = tf.remove;
@@ -176,7 +176,7 @@ class Game extends mt.Process {
 		waveId++;
 		level.waveMobCount = 1;
 		if( waveId>5 )
-			announce("Thank you for playing ^_^\nA 18h game by Sebastien Benard (deepnight.net)",true);
+			announce("Thank you for playing ^_^\nA 16h game by Sebastien Benard\ndeepnight.net",true);
 		else {
 			announce("Wave "+(waveId+1), 0xFFD11C);
 			delayer.addS(function() {
