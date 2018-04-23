@@ -48,7 +48,7 @@ class Entity {
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-radius;
 	public var headX(get,never) : Float; function get_headX() return footX;
-	public var headY(get,never) : Float; function get_headY() return footY-17;
+	public var headY(get,never) : Float; function get_headY() return footY-22;
 	public var shootX(get,never) : Float; function get_shootX() return footX+dir*11;
 	public var shootY(get,never) : Float; function get_shootY() return footY-radius*0.8;
 
@@ -107,8 +107,10 @@ class Entity {
 		life-=dmg;
 		onDamage(dmg);
 		blink();
-		if( life<=0 )
+		if( life<=0 ) {
+			interruptSkills(false);
 			onDie();
+		}
 		return true;
 	}
 
@@ -210,6 +212,13 @@ class Entity {
 		cy = y;
 		xr = 0.5;
 		yr = 1;
+	}
+
+	public function setPosPixel(x:Float, y:Float) {
+		cx = Std.int(x/Const.GRID);
+		cy = Std.int(y/Const.GRID);
+		xr = (x-cx*Const.GRID)/Const.GRID;
+		yr = (y-cy*Const.GRID)/Const.GRID;
 	}
 
 	public function setLabel(?str:String, ?c=0xFFFFFF) {

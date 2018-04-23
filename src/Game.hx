@@ -51,14 +51,14 @@ class Game extends mt.Process {
 		root.add(hud, Const.DP_UI);
 		hud.horizontalSpacing = 1;
 
-		hero = new en.Hero(4,0);
-		new en.Cover(8,3);
+		hero = new en.Hero(5,0);
+		new en.Cover(4,3);
 
 		//new en.m.Grenader(10,4);
-		//new en.m.BasicGun(2,4);
+		new en.m.BasicGun(2,4);
 		var m = new en.m.BasicGun(13,4);
-		//var c = new en.Cover(12,4);
-		//m.startCover(c,1);
+		var c = new en.Cover(12,4);
+		m.startCover(c,1);
 
 		vp.repos();
 

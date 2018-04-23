@@ -19,11 +19,6 @@ class Mob extends Entity {
 
 	override public function isBlockingHeroMoves() return true;
 
-	override function onDie() {
-		super.onDie();
-		new en.DeadBody(this);
-	}
-
 	override public function dispose() {
 		super.dispose();
 		ALL.remove(this);

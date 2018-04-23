@@ -41,7 +41,7 @@ class Viewport extends mt.Process {
 		var tx = game.hero.centerX;
 		var ty = game.hero.centerY;
 		var n = 1.0;
-		var w = 0.3;
+		var w = 0.6;
 		for(e in en.Mob.ALL) {
 			if( !e.isAlive() )
 				continue;
@@ -58,7 +58,7 @@ class Viewport extends mt.Process {
 		var a = Math.atan2(ty-y, tx-x);
 		var d = mt.deepnight.Lib.distance(x, y, tx, ty);
 		if( d>=10 ) {
-			var s = 0.8 * MLib.fclamp(d/100,0,1);
+			var s = 0.5 * MLib.fclamp(d/100,0,1);
 			//var s = 0.03 + 0.8 * MLib.fclamp(d/100,0,1);
 			dx+=Math.cos(a)*s;
 			dy+=Math.sin(a)*s;

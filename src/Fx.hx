@@ -192,21 +192,21 @@ class Fx extends mt.Process {
 
 		// Shoot line
 		var n = 40;
-		var d = Lib.distance(fx,fy,tx,ty);
+		var d = Lib.distance(fx,fy,tx,ty)-10;
 		for(i in 0...n) {
 			var d = 0.8 * d*i/(n-1) + rnd(0,6);
 			var p = allocTopAdd(getTile("dot"), fx+Math.cos(a)*d, fy+Math.sin(a)*d);
 			p.setFadeS(rnd(0.4,0.6), 0, rnd(0.1,0.12));
 			p.colorize(c);
 
-			p.scaleX = rnd(2,4);
+			p.scaleX = rnd(3,5);
 			p.moveAng(a, rnd(2,10));
 			p.frict = 0.8;
 			p.gy = rnd(0,0.1);
 			p.scaleXMul = rnd(0.9,0.97);
 
 			p.rotation = a;
-			p.lifeS = 0;
+			p.lifeS = 0.1*i/(n-1);
 		}
 	}
 
@@ -314,20 +314,21 @@ class Fx extends mt.Process {
 		var a = Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
 		a = Lib.angularClampRad(a, dir==1 ? 0 : 3.14, 0.2);
 		for( i in 0...n) {
-			var a = a+rnd(0,0.03,true);
+			var a = a+rnd(0,0.06,true);
 			var d = rnd(0,15);
-			var p = allocTopNormal(getTile("dot"), x+Math.cos(a)*d, y+Math.sin(a)*d+rnd(0,1,true));
-			p.colorize(0xE1C684);
+			var p = allocTopNormal(getTile("bigDirt"), x+Math.cos(a)*d, y+Math.sin(a)*d+rnd(0,1,true));
+			p.colorize(i%3==0 ? 0x950000 : 0xE1C684);
 			p.setFadeS(rnd(0.7,1), 0, rnd(3,7));
 
-			p.scaleX = rnd(1,3);
-			p.scaleY = rnd(1.5,2);
+			p.setScale(rnd(0.4,0.6,true));
+			//p.scaleX = rnd(1,3);
+			//p.scaleY = rnd(1.5,2);
 			p.scaleMul = rnd(0.96,0.99);
 
 			p.rotation = a;
 			p.dr = rnd(0.1,0.4)*dir;
 
-			p.moveAng(a, (i<=10 ? rnd(1,4) : rnd(0.2,1.5) ));
+			p.moveAng(a, (i<=n*0.7 ? rnd(2,7) : rnd(1.5,3) ));
 			p.gy = rnd(0.02,0.05);
 			p.frict = rnd(0.97,0.98);
 
@@ -344,7 +345,8 @@ class Fx extends mt.Process {
 			p.dx*=0.5;
 			p.dy = 0;
 			p.dr = 0;
-			p.rotation *= 0.1;
+			p.frict = 0.8;
+			p.rotation *= 0.03;
 		}
 	}
 
@@ -556,6 +558,36 @@ class Fx extends mt.Process {
 			p.frict = 0.8;
 			p.lifeS = 0.1;
 		}
+	}
+
+	public function spotLight(x:Float, y:Float) {
+		var p = allocBgAdd(getTile("spot"), x,y);
+		p.colorAnimS(0x7B64DB, Color.randomColor(rnd(0,1),1,1), rnd(0.5,1));
+		p.setCenterRatio(0.2,0.5);
+		p.setFadeS(rnd(0.2,0.7), rnd(0,0.1), rnd(0.1,0.3));
+		p.scaleX = rnd(0.75,1);
+		p.scaleY = rnd(0.4,1);
+		p.rotation = 1.57 + rnd(0,0.1);
+		p.dr = rnd(0, 0.01,true);
+		p.lifeS = rnd(0.1,0.3);
+		p.delayS = rnd(0,0.4);
+	}
+
+	public function charger(x:Float, y:Float, dir:Int) {
+		var p = allocTopNormal(getTile("dot"), x,y);
+		p.colorize(0x0);
+		p.scaleX = 4;
+		p.scaleY = 2;
+		p.setFadeS(1, 0, rnd(7,10));
+		p.dr = dir*rnd(0.11,0.13);
+		p.dx = dir*1.1;
+		p.dy = -0.8;
+		p.gy = 0.04;
+		p.frict = 0.99;
+
+		p.onUpdate = _hardPhysics;
+		p.lifeS = rnd(5,10);
+		p.delayS = 0.25;
 	}
 
 	function envDust() {

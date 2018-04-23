@@ -28,10 +28,11 @@ class Hero extends Entity {
 		afterMoveAction = None;
 
 		game.scroller.add(spr, Const.DP_HERO);
-		spr.anim.registerStateAnim("dummyPush",3, function() return !onGround && isStunned());
-		spr.anim.registerStateAnim("dummyStun",2, function() return cd.has("reloading"));
-		spr.anim.registerStateAnim("dummyCover",1, function() return cover!=null);
-		spr.anim.registerStateAnim("dummyIdle",0);
+		spr.anim.registerStateAnim("heroPush",11, function() return !onGround && isStunned());
+		spr.anim.registerStateAnim("heroStun",10, function() return cd.has("reloading"));
+		spr.anim.registerStateAnim("heroCover",5, function() return cover!=null);
+		spr.anim.registerStateAnim("heroRun",1, function() return onGround && MLib.fabs(dx)>=0.1);
+		spr.anim.registerStateAnim("heroIdle",0);
 
 		icon = Assets.gameElements.h_get("iconMove");
 		game.scroller.add(icon, Const.DP_UI);
@@ -39,9 +40,9 @@ class Hero extends Entity {
 		icon.blendMode = Add;
 
 		isAffectBySlowMo = false;
-		setAmmo(5);
+		setAmmo(4);
 		initLife(2);
-		initLife(Const.INFINITE);
+		//initLife(Const.INFINITE);
 
 
 
@@ -50,11 +51,11 @@ class Hero extends Entity {
 		s.setTimers(0.25,0,0.1);
 		s.onStart = function() {
 			lookAt(s.target);
-			spr.anim.playAndLoop("dummyBlind");
+			spr.anim.playAndLoop("heroBlind");
 		}
 		s.onExecute = function(e) {
 			if( !useAmmo() ) {
-				spr.anim.play("dummyBlindShoot").chainFor("dummyBlind",cd.getF("controlLock"));
+				spr.anim.play("heroBlindShoot");
 				return;
 			}
 
@@ -65,10 +66,12 @@ class Hero extends Entity {
 				e.stunS(0.7*r);
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
-			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFFFF00);
+			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0x2780D8);
+			fx.flashBangS(0x477ADA,0.1,0.1);
 
-			dy = -0.1;
-			spr.anim.play("dummyBlindShoot").chainFor("dummyBlind",Const.FPS*0.1);
+			if( cover==null )
+				dx += 0.03*-dir;
+			spr.anim.play("heroBlindShoot");
 		}
 
 		// Head shot
@@ -76,20 +79,23 @@ class Hero extends Entity {
 		s.setTimers(0.8,0,0.1);
 		s.onStart = function() {
 			lookAt(s.target);
-			spr.anim.playAndLoop("dummyAim");
+			spr.anim.playAndLoop("heroAim");
 		}
 		s.onExecute = function(e) {
 			if( !useAmmo() ) {
-				spr.anim.play("dummyAimShoot").chainFor("dummyAim",cd.getF("controlLock"));
+				spr.anim.play("heroAimShoot");
 				return;
 			}
 
+			fx.flashBangS(0x477ADA,0.1,0.1);
+
 			if( e.hit(999,this,true) )
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
-			fx.shoot(shootX, shootY, e.headX, e.headY, 0xFFFF00);
+			fx.shoot(shootX, shootY, e.headX, e.headY, 0x2780D8);
 
-			dy = -0.1;
-			spr.anim.play("dummyAimShoot");
+			if( cover==null )
+				dx += 0.03*-dir;
+			spr.anim.play("heroAimShoot");
 		}
 	}
 
@@ -115,11 +121,12 @@ class Hero extends Entity {
 		super.onDamage(v);
 		game.updateHud();
 		fx.flashBangS(0xFF0000,0.2,0.2);
+		spr.anim.playOverlap("heroHit");
 	}
 
 	override function onDie() {
 		super.onDie();
-		new en.DeadBody(this);
+		new en.DeadBody(this,"hero");
 	}
 
 	override public function dispose() {
@@ -129,8 +136,8 @@ class Hero extends Entity {
 
 	override function get_shootY():Float {
 		return switch( curAnimId ) {
-			case "dummyBlind" : footY - 13;
-			case "dummyAim" : footY - 18;
+			case "heroBlind" : footY - 16;
+			case "heroAim" : footY - 21;
 			default : super.get_shootY();
 		}
 	}
@@ -217,7 +224,7 @@ class Hero extends Entity {
 
 		// Relaod
 		if( ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
-			a = Reload(0.6);
+			a = Reload(0.8);
 
 		return a;
 	}
@@ -234,6 +241,8 @@ class Hero extends Entity {
 
 			case Reload(t) :
 				spr.anim.stopWithStateAnims();
+				spr.anim.play("heroReload");
+				fx.charger(hero.centerX-dir*6, hero.centerY-4, -dir);
 				cd.setS("reloading",t);
 				lockControlsS(t);
 				setAmmo(maxAmmo);

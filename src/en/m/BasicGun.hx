@@ -7,17 +7,17 @@ class BasicGun extends en.Mob {
 
 		initLife(4);
 
-		spr.anim.registerStateAnim("dummyPush",2, function() return !onGround && isStunned());
-		spr.anim.registerStateAnim("dummyStun",1, function() return isStunned());
-		spr.anim.registerStateAnim("dummyIdle",0);
-		spr.colorize(0x911A0D);
+		spr.anim.registerStateAnim("aPush",2, function() return !onGround && isStunned());
+		spr.anim.registerStateAnim("aStun",1, function() return isStunned());
+		spr.anim.registerStateAnim("aIdle",0);
+		//spr.colorize(0x911A0D);
 
 
 		var s = createSkill("shoot");
 		s.setTimers(1, 0, 0.5);
 		s.onStart = function() {
 			lookAt(s.target);
-			spr.anim.playAndLoop("dummyAim");
+			spr.anim.playAndLoop("aAim");
 		}
 		s.onProgress = function(t) lookAt(s.target);
 		s.onInterrupt = function() spr.anim.stopWithStateAnims();
@@ -31,23 +31,28 @@ class BasicGun extends en.Mob {
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFF0000);
-			spr.anim.play("dummyAimShoot").chainFor("dummyBlind",Const.FPS*0.2);
+			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
 		}
 
 		lockControlsS(rnd(0.3,0.6));
 	}
 
+	override function onDie() {
+		super.onDie();
+		new en.DeadBody(this,"a");
+	}
+
 	override function get_shootY():Float {
 		return switch( curAnimId ) {
-			case "dummyBlind" : footY - 13;
-			case "dummyAim" : footY - 18;
+			case "aBlind" : footY - 13;
+			case "aAim" : footY - 18;
 			default : super.get_shootY();
 		}
 	}
 	override function get_headY():Float {
 		if( spr!=null && !spr.destroyed )
 			return super.get_headY() + switch( spr.groupName ) {
-				case "dummyStun" : 5;
+				case "aStun" : 11;
 				default : 0;
 			}
 		return super.get_headY();
@@ -56,7 +61,7 @@ class BasicGun extends en.Mob {
 	override function onDamage(v:Int) {
 		super.onDamage(v);
 
-		spr.anim.playOverlap("dummyHit");
+		spr.anim.playOverlap("aHit");
 
 		if( getDiminishingReturnFactor("hitInterrupt", 3,3)>0 )
 			interruptSkills(true);
