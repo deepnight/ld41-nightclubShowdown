@@ -199,6 +199,127 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">export/aAim0.png</key>
+            <key type="filename">export/aAimShoot0.png</key>
+            <key type="filename">export/aAimShoot1.png</key>
+            <key type="filename">export/aBlind0.png</key>
+            <key type="filename">export/aBlindShoot0.png</key>
+            <key type="filename">export/aBlindShoot1.png</key>
+            <key type="filename">export/aCover0.png</key>
+            <key type="filename">export/aDeathBounce0.png</key>
+            <key type="filename">export/aDeathFly0.png</key>
+            <key type="filename">export/aDeathFly1.png</key>
+            <key type="filename">export/aDeathGround0.png</key>
+            <key type="filename">export/aHit0.png</key>
+            <key type="filename">export/aIdle0.png</key>
+            <key type="filename">export/aPush0.png</key>
+            <key type="filename">export/aRun0.png</key>
+            <key type="filename">export/aRun1.png</key>
+            <key type="filename">export/aRun2.png</key>
+            <key type="filename">export/aRun3.png</key>
+            <key type="filename">export/aRun4.png</key>
+            <key type="filename">export/aRun5.png</key>
+            <key type="filename">export/aStun0.png</key>
+            <key type="filename">export/bAim0.png</key>
+            <key type="filename">export/bAimShoot0.png</key>
+            <key type="filename">export/bAimShoot1.png</key>
+            <key type="filename">export/bBlind0.png</key>
+            <key type="filename">export/bBlindShoot0.png</key>
+            <key type="filename">export/bBlindShoot1.png</key>
+            <key type="filename">export/bCover0.png</key>
+            <key type="filename">export/bDeathBounce0.png</key>
+            <key type="filename">export/bDeathFly0.png</key>
+            <key type="filename">export/bDeathFly1.png</key>
+            <key type="filename">export/bDeathGround0.png</key>
+            <key type="filename">export/bHit0.png</key>
+            <key type="filename">export/bIdle0.png</key>
+            <key type="filename">export/bPush0.png</key>
+            <key type="filename">export/bRun0.png</key>
+            <key type="filename">export/bRun1.png</key>
+            <key type="filename">export/bRun2.png</key>
+            <key type="filename">export/bRun3.png</key>
+            <key type="filename">export/bRun4.png</key>
+            <key type="filename">export/bRun5.png</key>
+            <key type="filename">export/bStun0.png</key>
+            <key type="filename">export/heroAim0.png</key>
+            <key type="filename">export/heroAimShoot0.png</key>
+            <key type="filename">export/heroAimShoot1.png</key>
+            <key type="filename">export/heroBlind0.png</key>
+            <key type="filename">export/heroBlindShoot0.png</key>
+            <key type="filename">export/heroBlindShoot1.png</key>
+            <key type="filename">export/heroCover0.png</key>
+            <key type="filename">export/heroDeathBounce0.png</key>
+            <key type="filename">export/heroDeathFly0.png</key>
+            <key type="filename">export/heroDeathFly1.png</key>
+            <key type="filename">export/heroDeathGround0.png</key>
+            <key type="filename">export/heroHit0.png</key>
+            <key type="filename">export/heroIdle0.png</key>
+            <key type="filename">export/heroPush0.png</key>
+            <key type="filename">export/heroReload0.png</key>
+            <key type="filename">export/heroReload1.png</key>
+            <key type="filename">export/heroReload2.png</key>
+            <key type="filename">export/heroReload3.png</key>
+            <key type="filename">export/heroReload4.png</key>
+            <key type="filename">export/heroReload5.png</key>
+            <key type="filename">export/heroRun0.png</key>
+            <key type="filename">export/heroRun1.png</key>
+            <key type="filename">export/heroRun2.png</key>
+            <key type="filename">export/heroRun3.png</key>
+            <key type="filename">export/heroRun4.png</key>
+            <key type="filename">export/heroRun5.png</key>
+            <key type="filename">export/heroStun0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/bg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>80,28,160,56</rect>
+                <key>scale9Paddings</key>
+                <rect>80,28,160,56</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/bigDirt0.png</key>
+            <key type="filename">export/iconHeart.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/bigDirt1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,3,4</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,3,4</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export/circle.png</key>
             <key type="filename">export/crate0.png</key>
             <key type="filename">export/crateBroken0.png</key>
@@ -221,6 +342,25 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">export/dancingA0.png</key>
+            <key type="filename">export/dancingA1.png</key>
+            <key type="filename">export/dancingB0.png</key>
+            <key type="filename">export/dancingB1.png</key>
+            <key type="filename">export/dancingC0.png</key>
+            <key type="filename">export/dancingC1.png</key>
+            <key type="filename">export/ground0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,8,8,16</rect>
+                <key>scale9Paddings</key>
+                <rect>4,8,8,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export/dot0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -234,28 +374,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">export/dummyAim0.png</key>
-            <key type="filename">export/dummyAimShoot0.png</key>
-            <key type="filename">export/dummyBlind0.png</key>
-            <key type="filename">export/dummyBlindShoot0.png</key>
-            <key type="filename">export/dummyCover0.png</key>
-            <key type="filename">export/dummyDeathBounce0.png</key>
-            <key type="filename">export/dummyDeathFly0.png</key>
-            <key type="filename">export/dummyDeathFly1.png</key>
-            <key type="filename">export/dummyDeathGround0.png</key>
-            <key type="filename">export/dummyHit0.png</key>
-            <key type="filename">export/dummyIdle0.png</key>
-            <key type="filename">export/dummyPush0.png</key>
-            <key type="filename">export/dummyStun0.png</key>
+            <key type="filename">export/grenade0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>8,8,16,16</rect>
+                <rect>1,2,3,3</rect>
                 <key>scale9Paddings</key>
-                <rect>8,8,16,16</rect>
+                <rect>1,2,3,3</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -269,6 +397,71 @@
                 <rect>1,2,1,3</rect>
                 <key>scale9Paddings</key>
                 <rect>1,2,1,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/levels.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,21,10,42</rect>
+                <key>scale9Paddings</key>
+                <rect>5,21,10,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/radius.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,23,45,45</rect>
+                <key>scale9Paddings</key>
+                <rect>23,23,45,45</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/screening.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,22,59,44</rect>
+                <key>scale9Paddings</key>
+                <rect>30,22,59,44</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/smallSmoke0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9Paddings</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export/spot0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,12,52,24</rect>
+                <key>scale9Paddings</key>
+                <rect>26,12,52,24</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
