@@ -1,4 +1,5 @@
 import mt.MLib;
+import mt.deepnight.Color;
 import mt.heaps.slib.*;
 
 class Level extends mt.Process {
@@ -10,6 +11,7 @@ class Level extends mt.Process {
 	var collMap : haxe.ds.Vector<Bool>;
 
 	var crowd : h2d.Sprite;
+	var bg : HSprite;
 	var people : Array<HSprite>;
 	var pixels : Map<UInt, Array<CPoint>>;
 
@@ -23,12 +25,14 @@ class Level extends mt.Process {
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
 
-		//var bg = new h2d.Graphics(root);
-		//bg.beginFill(0x31415B,1);
-		//bg.drawRect(0,0,wid*Const.GRID,hei*Const.GRID);
-		var bg = Assets.gameElements.h_get("bg",root);
-		var bg = Assets.gameElements.h_get("bg",root);
-		bg.x = Const.GRID*20;
+
+		var mask = new h2d.Graphics(root);
+		mask.beginFill(0x0,1);
+		mask.drawRect(0,0,wid*Const.GRID,hei*Const.GRID);
+
+		bg = Assets.gameElements.h_get("bg",root);
+		//var bg = Assets.gameElements.h_get("bg",root);
+		//bg.x = Const.GRID*20;
 
 		debug = new h2d.Graphics(root);
 		debug.beginFill(0xFFFF00,1);
@@ -98,6 +102,20 @@ class Level extends mt.Process {
 		//}
 	}
 
+	var curHue = 0.;
+	public function hue(ang:Float, sec:Float) {
+		tw.createS(curHue, ang, sec).onUpdate = function() {
+			bg.colorMatrix = new h3d.Matrix();
+			bg.colorMatrix.identity();
+			bg.colorMatrix.colorHue(curHue);
+			for(e in people) {
+				e.colorMatrix = new h3d.Matrix();
+				e.colorMatrix.identity();
+				e.colorMatrix.colorHue(curHue);
+			}
+		}
+	}
+
 	public var waveMobCount : Int;
 	public function attacheWaveEntities(waveId:Int) {
 		var bd = hxd.Res.levels.toBitmap();
@@ -110,14 +128,20 @@ class Level extends mt.Process {
 			pixels.get(c).push( new CPoint(cx,cy) );
 		}
 
+		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,waveId*6) );
+		trace(mt.deepnight.Color.intToHex(c));
+		trace(mt.deepnight.Color.intToHsl(c).h);
+		hue(mt.deepnight.Color.intToHsl(c).h*6.28, 2.5);
+
 		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length;
 
 		for(pt in getPixels(0x704621))
 			new en.Cover(pt.cx,0);
 
+
 		for(pt in getPixels(0xff6600)) {
 			delayer.addS(function() {
-				var e = new en.m.BasicGun(pt.cx,pt.cy);
+				var e = new en.m.BasicGun(pt.cx,4);
 				e.enterArena(rnd(0.5,1));
 				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
 					e.dir = -1;
@@ -128,7 +152,7 @@ class Level extends mt.Process {
 
 		for(pt in getPixels(0x20d5fc)) {
 			delayer.addS(function() {
-				var e = new en.m.Grenader(pt.cx,pt.cy);
+				var e = new en.m.Grenader(pt.cx,4);
 				e.enterArena(1.5);
 				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
 					e.dir = -1;

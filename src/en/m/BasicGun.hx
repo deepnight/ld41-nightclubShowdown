@@ -5,14 +5,16 @@ class BasicGun extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(4);
+		initLife(3);
 
 		spr.anim.registerStateAnim("aRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("aPush",2, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("aStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("aIdle",0);
-		//spr.colorize(0x911A0D);
 
+		//spr.colorMatrix = new h3d.Matrix();
+		//spr.colorMatrix.identity();
+		//spr.colorMatrix.colorHue(0.5);
 
 		var s = createSkill("shoot");
 		s.setTimers(1, 0.7, 0.3);
@@ -54,7 +56,7 @@ class BasicGun extends en.Mob {
 	override function get_headY():Float {
 		if( spr!=null && !spr.destroyed )
 			return super.get_headY() + switch( spr.groupName ) {
-				case "aStun" : 11;
+				case "aStun" : 7;
 				default : 0;
 			}
 		return super.get_headY();

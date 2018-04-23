@@ -49,7 +49,7 @@ class Hero extends Entity {
 
 		// Blind shot
 		var s = createSkill("blindShot");
-		s.setTimers(0.25,0,0.1);
+		s.setTimers(0.1,0,0.22);
 		s.onStart = function() {
 			lookAt(s.target);
 			spr.anim.playAndLoop("heroBlind");
@@ -64,7 +64,7 @@ class Hero extends Entity {
 				var r = e.getDiminishingReturnFactor("blindShot",1,3);
 				e.dx*=0.3;
 				e.dx+=dirTo(e)*rnd(0.03,0.05)*r;
-				e.stunS(0.7*r);
+				e.stunS(1.1*r);
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0x2780D8);
@@ -78,7 +78,7 @@ class Hero extends Entity {
 
 		// Head shot
 		var s = createSkill("headShot");
-		s.setTimers(0.8,0,0.1);
+		s.setTimers(0.85,0,0.1);
 		s.onStart = function() {
 			lookAt(s.target);
 			spr.anim.playAndLoop("heroAim");
