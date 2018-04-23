@@ -34,7 +34,6 @@ class Game extends mt.Process {
 			isReplay = false;
 		}
 
-		trace("new game, replay="+isReplay);
 		//Console.ME.runCommand("+ bounds");
 
 		scroller = new h2d.Layers(root);
@@ -54,7 +53,6 @@ class Game extends mt.Process {
 		waveId = -1;
 		level = new Level();
 		hero = new en.Hero(2,4);
-		//nextLevel();
 
 		//new en.Cover(14,4);
 		//new en.m.Grenader(15,4);
@@ -123,7 +121,6 @@ class Game extends mt.Process {
 
 	override public function onDispose() {
 		super.onDispose();
-		trace("game killed");
 		if( ME==this )
 			ME = null;
 		for(e in Entity.ALL)
@@ -158,25 +155,30 @@ class Game extends mt.Process {
 		}
 	}
 
-	public function announce(txt:String, ?c=0xFFFFFF) {
+	public function announce(txt:String, ?c=0xFFFFFF, ?permanent=false) {
 		var tf = new h2d.Text(Assets.font,root);
 		tf.text = txt;
+		tf.textColor = c;
 		tf.y = Std.int( vp.hei*0.25 - tf.textHeight );
-		tw.createMs(tf.x, 500|-150>8, 200).onEnd = function() {
-			tw.createMs(tf.alpha, 1000|0, 1500).onEnd = tf.remove;
+		tw.createMs(tf.x, 500|-tf.textWidth>8, 200).onEnd = function() {
+			if( !permanent )
+				tw.createMs(tf.alpha, 1000|0, 1500).onEnd = tf.remove;
 		}
 
 	}
 
 	public function nextLevel() {
 		waveId++;
-
-		announce("Wave "+(waveId+1));
-
 		level.waveMobCount = 1;
-		delayer.addS(function() {
-			level.attacheWaveEntities(waveId);
-		}, waveId==0 ? 1 : 1);
+		if( waveId>5 )
+			announce("Thank you for playing ^_^\nA 18h game by Sebastien Benard (deepnight.net)",true);
+		else {
+			announce("Wave "+(waveId+1), 0xFFD11C);
+			delayer.addS(function() {
+				level.attacheWaveEntities(waveId);
+			}, waveId==0 ? 1 : 1);
+		}
+
 	}
 
 	public function isSlowMo() {

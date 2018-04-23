@@ -107,7 +107,6 @@ class Main extends mt.Process {
 	}
 
 	public function restartGame(?hist:Array<Game.HistoryEntry>) {
-		trace("restart called");
 		if( Game.ME!=null ) {
 			cd.setS("transition",Const.INFINITE);
 			setBlack(true, function() {

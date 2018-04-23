@@ -118,16 +118,22 @@ class Level extends mt.Process {
 		for(pt in getPixels(0xff6600)) {
 			delayer.addS(function() {
 				var e = new en.m.BasicGun(pt.cx,pt.cy);
-				e.dir = hasPixel(0x363c60,pt.cx-1,pt.cy) ? -1 : 1;
 				e.enterArena(rnd(0.5,1));
+				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					e.dir = -1;
+				else if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					e.dir = 1;
 			}, hasPixel(0x363c60,pt.cx,pt.cy-2) ? 6 : hasPixel(0x363c60,pt.cx,pt.cy-1) ? 3 : 0);
 		}
 
 		for(pt in getPixels(0x20d5fc)) {
 			delayer.addS(function() {
 				var e = new en.m.Grenader(pt.cx,pt.cy);
-				e.dir = hasPixel(0x363c60,pt.cx-1,pt.cy) ? -1 : 1;
 				e.enterArena(1.5);
+				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					e.dir = -1;
+				else if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					e.dir = 1;
 			}, hasPixel(0x363c60,pt.cx,pt.cy-2) ? 6 : hasPixel(0x363c60,pt.cx,pt.cy-1) ? 3 : 0);
 		}
 	}

@@ -53,7 +53,7 @@ class DeadBody extends Entity {
 
 			for(e in en.Mob.ALL)
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) )
-					e.violentBump(dirTo(e)*0.4, -0.2, 0.5);
+					e.violentBump(dirTo(e)*0.4, -0.2, 1.75);
 		}
 
 		if( !cd.has("decay") )
