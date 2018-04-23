@@ -32,7 +32,8 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroPush",11, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("heroStun",10, function() return cd.has("reloading"));
 		spr.anim.registerStateAnim("heroCover",5, function() return cover!=null);
-		spr.anim.registerStateAnim("heroRun",1, function() return onGround && moveTarget!=null && !movementLocked() );
+		spr.anim.registerStateAnim("heroRun",2, function() return onGround && moveTarget!=null && !movementLocked() );
+		spr.anim.registerStateAnim("heroBrake",1, function() return cd.has("braking") );
 		spr.anim.registerStateAnim("heroIdle",0);
 
 		icon = Assets.gameElements.h_get("iconMove");
@@ -131,7 +132,7 @@ class Hero extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.DeadBody(this,"hero");
-		game.announce("ESCAPE to restart");
+		game.announce("ESCAPE to restart",true);
 	}
 
 	override public function dispose() {
@@ -147,9 +148,9 @@ class Hero extends Entity {
 		}
 	}
 
-	override function onTouchWall(wallDir:Int) {
-		dx = -wallDir*MLib.fabs(dx);
-	}
+	//override function onTouchWall(wallDir:Int) {
+		//dx = -wallDir*MLib.fabs(dx);
+	//}
 
 	override public function controlsLocked() {
 		for(s in skills)
@@ -323,7 +324,7 @@ class Hero extends Entity {
 				icon.set("iconShoot");
 				icon.colorize(0xFFA600);
 			case TakeCover(e,side) :
-				icon.setPos(e.footX+side*14, e.footY-2);
+				icon.setPos(e.footX+side*14, e.footY-6);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 
@@ -338,7 +339,8 @@ class Hero extends Entity {
 				executeAction( afterMoveAction );
 				moveTarget = null;
 				afterMoveAction = None;
-				dx*=0.5;
+				dx*=0.3;
+				cd.setS("braking",0.2);
 			}
 			else {
 				var s = 0.015;

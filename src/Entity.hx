@@ -17,6 +17,7 @@ class Entity {
 	public var debug : Null<h2d.Graphics>;
 	public var label : Null<h2d.Text>;
 	var cAdd : h3d.Vector;
+	var lifeBar : h2d.Flow;
 
 	public var uid : Int;
 	public var cx = 0;
@@ -59,6 +60,11 @@ class Entity {
 		uid = Const.UNIQ++;
 		ALL.push(this);
 
+		lifeBar = new h2d.Flow();
+		game.scroller.add(lifeBar, Const.DP_UI);
+		lifeBar.horizontalSpacing = 1;
+		lifeBar.visible = false;
+
 		cd = new mt.Cooldown(Const.FPS);
 		radius = Const.GRID*0.6;
 		setPosCase(x,y);
@@ -85,6 +91,16 @@ class Entity {
 
 	public function initLife(v) {
 		life = maxLife = v;
+		updateLifeBar();
+	}
+
+	function updateLifeBar() {
+		lifeBar.removeChildren();
+		for( i in 0...maxLife ) {
+			var e = Assets.gameElements.h_get("dot",lifeBar);
+			e.scaleY = 2;
+			e.colorize(i+1<=life ? 0xFFFFFF : 0xCC0000);
+		}
 	}
 
 	public function isCoveredFrom(source:Entity) {
@@ -105,6 +121,7 @@ class Entity {
 
 		dmg = MLib.min(life,dmg);
 		life-=dmg;
+		updateLifeBar();
 		onDamage(dmg);
 		blink();
 		if( life<=0 ) {
@@ -300,6 +317,7 @@ class Entity {
 
 	public function dispose() {
 		ALL.remove(this);
+		lifeBar.remove();
 		cd.destroy();
 		spr.remove();
 		skills = null;
@@ -322,6 +340,8 @@ class Entity {
 		if( label!=null ) {
 			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));
 		}
+
+		lifeBar.setPos( Std.int(footX-lifeBar.outerWidth*0.5), Std.int(footY+2));
 
 		if( Console.ME.has("bounds") ) {
 			if( debug==null ) {

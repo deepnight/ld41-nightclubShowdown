@@ -17,6 +17,7 @@ class Mob extends Entity {
 		//g.drawCircle(0,-radius,radius);
 
 		initLife(4);
+		lifeBar.visible = true;
 	}
 
 	public function enterArena(t) {

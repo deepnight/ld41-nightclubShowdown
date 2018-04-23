@@ -12,6 +12,7 @@ class Level extends mt.Process {
 
 	var crowd : h2d.Sprite;
 	var bg : HSprite;
+	var front : HSprite;
 	var people : Array<HSprite>;
 	var pixels : Map<UInt, Array<CPoint>>;
 
@@ -90,16 +91,17 @@ class Level extends mt.Process {
 			e.y = (hei-2)*Const.GRID;
 		}
 
+		front = Assets.gameElements.h_get("bgOver");
+		Game.ME.scroller.add(front, Const.DP_TOP);
+		front.x = -32;
 
-		//for(cx in 0...wid)
-		//for(cy in 0...hei) {
-			//var x = cx*Const.GRID;
-			//var y = cy*Const.GRID;
-			//if( hasColl(cx,cy) ) {
-				////bg.beginFill(0x644F40,1);
-				////bg.drawRect(x,y,Const.GRID,Const.GRID);
-			//}
-		//}
+		hue(0.7*6.28,0);
+
+	}
+
+	override function onDispose() {
+		super.onDispose();
+		front.remove();
 	}
 
 	var curHue = 0.;
@@ -129,8 +131,6 @@ class Level extends mt.Process {
 		}
 
 		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,waveId*6) );
-		trace(mt.deepnight.Color.intToHex(c));
-		trace(mt.deepnight.Color.intToHsl(c).h);
 		hue(mt.deepnight.Color.intToHsl(c).h*6.28, 2.5);
 
 		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length;
@@ -138,28 +138,34 @@ class Level extends mt.Process {
 		for(pt in getPixels(0x704621))
 			new en.Cover(pt.cx,0);
 
-
-		for(pt in getPixels(0xff6600)) {
+		function initMob(cx:Int, cy:Int, cb:Void->en.Mob) {
 			delayer.addS(function() {
-				var e = new en.m.BasicGun(pt.cx,4);
+				var e = cb();
 				e.enterArena(rnd(0.5,1));
-				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+				if( hasPixel(0x363c60,cx-1,cy) )
 					e.dir = -1;
-				else if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+				else if( hasPixel(0x363c60,cx-1,cy) )
 					e.dir = 1;
-			}, hasPixel(0x363c60,pt.cx,pt.cy-2) ? 6 : hasPixel(0x363c60,pt.cx,pt.cy-1) ? 3 : 0);
+			}, hasPixel(0x363c60,cx,cy-2) ? 6 : hasPixel(0x363c60,cx,cy-1) ? 3 : 0);
 		}
 
-		for(pt in getPixels(0x20d5fc)) {
-			delayer.addS(function() {
-				var e = new en.m.Grenader(pt.cx,4);
-				e.enterArena(1.5);
-				if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
-					e.dir = -1;
-				else if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
-					e.dir = 1;
-			}, hasPixel(0x363c60,pt.cx,pt.cy-2) ? 6 : hasPixel(0x363c60,pt.cx,pt.cy-1) ? 3 : 0);
-		}
+		for(pt in getPixels(0xff6600))
+			initMob(pt.cx, pt.cy, function() return new en.m.BasicGun(pt.cx, 4));
+
+		for(pt in getPixels(0x20d5fc))
+			initMob(pt.cx, pt.cy, function() return new en.m.Grenader(pt.cx, 4));
+
+		//// Grenader
+		//for(pt in getPixels(0x20d5fc)) {
+			//delayer.addS(function() {
+				//var e = new en.m.Grenader(pt.cx,4);
+				//e.enterArena(1.5);
+				//if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					//e.dir = -1;
+				//else if( hasPixel(0x363c60,pt.cx-1,pt.cy) )
+					//e.dir = 1;
+			//}, hasPixel(0x363c60,pt.cx,pt.cy-2) ? 6 : hasPixel(0x363c60,pt.cx,pt.cy-1) ? 3 : 0);
+		//}
 	}
 
 	public function iteratePixels(c:UInt, cb:Int->Int->Void) {

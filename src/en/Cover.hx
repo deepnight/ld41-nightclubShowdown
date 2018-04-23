@@ -1,5 +1,6 @@
 package en;
 
+import mt.heaps.slib.*;
 import mt.MLib;
 
 class Cover extends Entity {
@@ -7,6 +8,8 @@ class Cover extends Entity {
 
 	public var left : Area;
 	public var right : Area;
+	var iconLeft : HSprite;
+	var iconRight : HSprite;
 
 	public function new(x,y) {
 		super(x,y);
@@ -20,6 +23,16 @@ class Cover extends Entity {
 		left.color = 0x009500;
 		right = new Area(this, r, function() return centerX+r, function() return centerY);
 		right.color = 0x17FF17;
+
+		game.scroller.add(iconLeft = Assets.gameElements.h_get("iconShield"), Const.DP_UI);
+		iconLeft.setCenterRatio(0.5,1);
+		iconLeft.blendMode = Add;
+		iconLeft.colorize(0x14BBEB);
+
+		game.scroller.add(iconRight = Assets.gameElements.h_get("iconShield"), Const.DP_UI);
+		iconRight.setCenterRatio(0.5,1);
+		iconRight.blendMode = Add;
+		iconRight.colorize(0x14BBEB);
 	}
 
 
@@ -41,9 +54,9 @@ class Cover extends Entity {
 		return true;
 	}
 
-	public function coversAnyone() {
+	public function coversAnyone(?side=0) {
 		for(e in Entity.ALL)
-			if( e.cover==this )
+			if( e.cover==this && ( side==0 || dirTo(e)==side ) )
 				return true;
 		return false;
 	}
@@ -58,12 +71,20 @@ class Cover extends Entity {
 	override public function dispose() {
 		super.dispose();
 		ALL.remove(this);
+		iconLeft.remove();
+		iconRight.remove();
 	}
 
 	override public function postUpdate() {
 		super.postUpdate();
 		if( !isAlive() && cd.has("decay") )
 			spr.scaleY = cd.getRatio("decay");
+
+		iconLeft.setPos(centerX-6, footY);
+		iconLeft.visible = coversAnyone(-1);
+
+		iconRight.setPos(centerX+6, footY);
+		iconRight.visible = coversAnyone(1);
 	}
 
 	override public function update() {
