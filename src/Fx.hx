@@ -564,13 +564,29 @@ class Fx extends mt.Process {
 		var p = allocBgAdd(getTile("spot"), x,y);
 		p.colorAnimS(0x7B64DB, Color.randomColor(rnd(0,1),1,1), rnd(0.5,1));
 		p.setCenterRatio(0.2,0.5);
-		p.setFadeS(rnd(0.2,0.7), rnd(0,0.1), rnd(0.1,0.3));
+		p.setFadeS(rnd(0.1,0.3), rnd(0,0.1), rnd(0.1,0.3));
 		p.scaleX = rnd(0.75,1);
 		p.scaleY = rnd(0.4,1);
 		p.rotation = 1.57 + rnd(0,0.1);
 		p.dr = rnd(0, 0.01,true);
 		p.lifeS = rnd(0.1,0.3);
 		p.delayS = rnd(0,0.4);
+	}
+
+	public function bullet(x:Float, y:Float, dir:Int) {
+		var p = allocTopNormal(getTile("dot"), x,y);
+		p.colorize(0x0);
+		p.scaleX = 2;
+		p.scaleY = 1;
+		p.setFadeS(1, 0, rnd(7,10));
+		p.dr = dir*rnd(0.18,0.20);
+		p.dx = dir*rnd(0.1,0.2);
+		p.dy = rnd(-0.2,0.1);
+		p.gy = 0.04;
+		p.frict = 0.99;
+
+		p.onUpdate = _hardPhysics;
+		p.lifeS = rnd(5,10);
 	}
 
 	public function charger(x:Float, y:Float, dir:Int) {
@@ -595,7 +611,7 @@ class Fx extends mt.Process {
 		for(i in 0...n) {
 			var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(0,game.vp.hei));
 			//var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(-30,0));
-			p.setFadeS(rnd(0.03,0.05), rnd(0.6,1), rnd(2,3));
+			p.setFadeS(rnd(0.07,0.12), rnd(0.6,1), rnd(2,3));
 			p.scaleX = rnd(5,10);
 			p.scaleXMul = rnd(0.97,0.99);
 			p.dx = rnd(0,2);

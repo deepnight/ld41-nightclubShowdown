@@ -15,7 +15,7 @@ class Level extends mt.Process {
 	public function new() {
 		super(Game.ME);
 
-		wid = 30;
+		wid = 20;
 		hei = 7;
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
@@ -37,35 +37,42 @@ class Level extends mt.Process {
 
 		crowd = new h2d.Sprite(root);
 		people = [];
+
+		function getDancer() return switch(Std.random(3)) {
+			case 0 : "dancingA";
+			case 1 : "dancingB";
+			case 2 : "dancingC";
+			default : "dancingA";
+		}
 		var x = 10;
 		while( x<wid*Const.GRID ) {
 			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(Std.random(2)==0?"dancingA":"dancingB");
-			e.setPos(x, hei*Const.GRID-15-rnd(25,30));
+			e.anim.playAndLoop(getDancer()).setSpeed(rnd(0.8,1));
+			e.setPos(x, hei*Const.GRID-17-rnd(25,30));
 			e.setCenterRatio(0.5,1);
 			e.setScale(rnd(0.6,0.7));
-			e.colorize(0x370064);
-			e.alpha = 0.5;
+			e.colorize(0x830E4F);
+			//e.alpha = 0.4;
 			people.push(e);
 			x+=irnd(6,15);
 		}
 		var x = 0;
 		while( x<wid*Const.GRID ) {
 			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(Std.random(2)==0?"dancingA":"dancingB");
+			e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
 			e.setPos(x, hei*Const.GRID-5-rnd(25,30));
 			e.setCenterRatio(0.5,1);
-			e.colorize(0x260046);
+			e.colorize(0x680261);
 			people.push(e);
 			x+=irnd(6,15);
 		}
 		var x = 6;
 		while( x<wid*Const.GRID ) {
 			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(Std.random(2)==0?"dancingA":"dancingB");
+			e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
 			e.setPos(x, hei*Const.GRID-rnd(25,30));
 			e.setCenterRatio(0.5,1);
-			e.colorize(0x0e0019);
+			e.colorize(0x29004A);
 			people.push(e);
 			x+=irnd(6,15);
 		}
@@ -107,7 +114,7 @@ class Level extends mt.Process {
 		speedMod = game.getSlowMoFactor();
 		super.update();
 		for(e in people)
-			e.anim.setSpeed(game.getSlowMoFactor());
+			e.anim.setGlobalSpeed( game.getSlowMoFactor() );
 
 		if( !cd.hasSetS("flash",0.5) )
 			Game.ME.fx.flashBangS(0x7B64DB,0.04,1);

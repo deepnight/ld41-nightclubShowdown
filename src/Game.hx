@@ -54,11 +54,12 @@ class Game extends mt.Process {
 		hero = new en.Hero(5,0);
 		new en.Cover(4,3);
 
-		//new en.m.Grenader(10,4);
-		new en.m.BasicGun(2,4);
-		var m = new en.m.BasicGun(13,4);
-		var c = new en.Cover(12,4);
-		m.startCover(c,1);
+		new en.m.Grenader(10,4);
+		new en.m.Grenader(16,4);
+		//new en.m.BasicGun(2,4);
+		//var m = new en.m.BasicGun(13,4);
+		//var c = new en.Cover(12,4);
+		//m.startCover(c,1);
 
 		vp.repos();
 

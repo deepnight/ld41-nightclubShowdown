@@ -1,7 +1,7 @@
 class Const {
 	public static var FPS = 60;
 	public static var GRID = 16;
-	public static var SCALE = 4;
+	public static var SCALE = 5;
 
 	public static var UNIQ = 0;
 	public static var INFINITE = 999999;

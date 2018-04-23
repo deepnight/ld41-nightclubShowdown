@@ -36,6 +36,7 @@ class Assets {
 
 		gameElements.defineAnim("dancingA","0-1(10)");
 		gameElements.defineAnim("dancingB","0-1(10)");
+		gameElements.defineAnim("dancingC","0-1(10)");
 
 		font = hxd.Res.minecraftiaOutline.toFont();
 		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");

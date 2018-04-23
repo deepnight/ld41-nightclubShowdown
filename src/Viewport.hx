@@ -46,7 +46,7 @@ class Viewport extends mt.Process {
 			if( !e.isAlive() )
 				continue;
 
-			if( e.distCase(game.hero)>=15 )
+			if( e.distCase(game.hero)>=25 )
 				continue;
 
 			tx+=e.centerX*w;

@@ -67,6 +67,7 @@ class Hero extends Entity {
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0x2780D8);
+			fx.bullet(shootX-dir*5,shootY,-dir);
 			fx.flashBangS(0x477ADA,0.1,0.1);
 
 			if( cover==null )
@@ -92,6 +93,7 @@ class Hero extends Entity {
 			if( e.hit(999,this,true) )
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.shoot(shootX, shootY, e.headX, e.headY, 0x2780D8);
+			fx.bullet(shootX-dir*5,shootY,dir);
 
 			if( cover==null )
 				dx += 0.03*-dir;
@@ -198,7 +200,7 @@ class Hero extends Entity {
 
 		// Wait
 		if( ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
-			a = Wait(0.3);
+			a = Wait(0.6);
 
 		// Take cover
 		for(e in en.Cover.ALL) {
