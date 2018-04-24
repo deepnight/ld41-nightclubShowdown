@@ -1,4 +1,5 @@
 import mt.Process;
+import mt.deepnight.Tweenie;
 import mt.MLib;
 import hxd.Key;
 
@@ -51,15 +52,19 @@ class Game extends mt.Process {
 		hud.horizontalSpacing = 1;
 
 		waveId = -1;
+		#if debug
+		waveId = 5;
+		#end
 		level = new Level();
 		hero = new en.Hero(2,4);
 
 		#if !debug
+		logo();
 		if( !Main.ME.cd.hasSetS("intro",Const.INFINITE) ) {
-			cd.setS("lockNext",4);
-			announce("\"Jean Wick\"                 \n",0x809FD0);
+			cd.setS("lockNext",5);
+			//announce("\"Jean Wick\"                 \n",0x809FD0);
 			delayer.addS( function() {
-				announce(" A fast turned-based action game",0x6FE1CA);
+				announce("A fast turned-based action game",0x706ACC);
 			}, 1);
 		}
 		#end
@@ -165,12 +170,24 @@ class Game extends mt.Process {
 		}
 	}
 
+	public function logo() {
+		var e = Assets.gameElements.h_get("logo",root);
+		e.y = 30;
+		e.colorize(0x3D65C2);
+		e.blendMode = Add;
+		tw.createMs(e.x, 500|-e.tile.width>12, 250).onEnd = function() {
+			var d = 5000;
+			tw.createMs(e.alpha, d|0, 1500).onEnd = e.remove;
+		}
+
+	}
+
 	public function announce(txt:String, ?c=0xFFFFFF, ?permanent=false) {
 		var tf = new h2d.Text(Assets.font,root);
 		tf.text = txt;
 		tf.textColor = c;
-		tf.y = Std.int( vp.hei*0.33 - tf.textHeight );
-		tw.createMs(tf.x, 500|-tf.textWidth>8, 200).onEnd = function() {
+		tf.y = Std.int( 58 - tf.textHeight );
+		tw.createMs(tf.x, 500|-tf.textWidth>12, 200).onEnd = function() {
 			if( !permanent ) {
 				var d = 1000+txt.length*75;
 				tw.createMs(tf.alpha, d|0, 1500).onEnd = tf.remove;
@@ -182,12 +199,12 @@ class Game extends mt.Process {
 	public function nextLevel() {
 		waveId++;
 		level.waveMobCount = 1;
-		if( waveId>5 )
+		if( waveId>6 )
 			announce("Thank you for playing ^_^\nA 16h game by Sebastien Benard\ndeepnight.net",true);
 		else {
 			announce("Wave "+(waveId+1)+"...", 0xFFD11C);
 			delayer.addS(function() {
-				announce("          Showdown!", 0xEF4810);
+				announce("          Fight!", 0xEF4810);
 			}, 0.5);
 			delayer.addS(function() {
 				level.attacheWaveEntities(waveId);
@@ -236,7 +253,9 @@ class Game extends mt.Process {
 
 		if( Main.ME.keyPressed(hxd.Key.ESCAPE) )
 			Main.ME.restartGame();
-			//Main.ME.restartGame( hxd.Key.isDown(hxd.Key.CTRL) ? heroHistory : null );
+
+		if( Main.ME.keyPressed(hxd.Key.M) )
+			mt.deepnight.Sfx.toggleMuteGroup(1);
 
 		if( isReplay && heroHistory.length>0 && itime>=heroHistory[0].t )
 			hero.executeAction(heroHistory.shift().a);

@@ -4,4 +4,3 @@
 -lib heaps
 -dce full
 -D standalone
--debug

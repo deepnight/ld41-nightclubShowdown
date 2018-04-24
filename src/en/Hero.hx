@@ -136,7 +136,7 @@ class Hero extends Entity {
 	override function onDie() {
 		super.onDie();
 		new en.DeadBody(this,"hero");
-		game.announce("ESCAPE to restart",true);
+		game.announce("ESCAPE to restart",0xFF0000,true);
 	}
 
 	override public function dispose() {

@@ -147,7 +147,7 @@ class Level extends mt.Process {
 					e.dir = -1;
 				else if( hasPixel(0x363c60,cx-1,cy) )
 					e.dir = 1;
-			}, hasPixel(0x363c60,cx,cy-2) ? 6 : hasPixel(0x363c60,cx,cy-1) ? 3 : 0);
+			}, hasPixel(0x363c60,cx,cy-2) ? 7 : hasPixel(0x363c60,cx,cy-1) ? 3.5 : 0);
 		}
 
 		for(pt in getPixels(0xff6600))

@@ -48,8 +48,8 @@ class DeadBody extends Entity {
 
 		if( !onGround ) {
 			for(e in en.Cover.ALL)
-				if( distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.1) && ( dx>0 && dirTo(e)==1 || dx<0 && dirTo(e)==-1 ) )
-					e.hit(3,this,true);
+				if( distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.3) && ( dx>0 && dirTo(e)==1 || dx<0 && dirTo(e)==-1 ) )
+					e.hit(2,this,true);
 
 			for(e in en.Mob.ALL)
 				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
