@@ -200,7 +200,7 @@ class Game extends mt.Process {
 		waveId++;
 		level.waveMobCount = 1;
 		if( waveId>6 )
-			announce("Thank you for playing ^_^\nA 16h game by Sebastien Benard\ndeepnight.net",true);
+			announce("Thank you for playing ^_^\nA 20h game by Sebastien Benard\ndeepnight.net",true);
 		else {
 			announce("Wave "+(waveId+1)+"...", 0xFFD11C);
 			delayer.addS(function() {
