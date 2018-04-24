@@ -329,6 +329,7 @@ class Entity {
 
 	public function preUpdate() {
 		cd.update(dt);
+
 	}
 
 	public function postUpdate() {

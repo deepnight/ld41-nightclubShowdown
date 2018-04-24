@@ -13,7 +13,12 @@ class Assets {
 		//#if debug
 		//Sfx.toggleMuteGroup(1);
 		//#end
+
+		#if flash
+		music = SBANK.musicMp3();
+		#else
 		music = SBANK.music();
+		#end
 		music.playOnGroup(1,true);
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
