@@ -56,7 +56,7 @@ class Level extends mt.Process {
 		while( x<wid*Const.GRID ) {
 			var e = Assets.gameElements.h_get("dancingA",crowd);
 			e.anim.playAndLoop(getDancer()).setSpeed(rnd(0.8,1));
-			e.setPos(x, hei*Const.GRID-17-rnd(25,30));
+			e.setPos(x, hei*Const.GRID-14-rnd(25,30));
 			e.setCenterRatio(0.5,1);
 			e.setScale(rnd(0.6,0.7));
 			e.colorize(0x830E4F);
@@ -68,7 +68,7 @@ class Level extends mt.Process {
 		while( x<wid*Const.GRID ) {
 			var e = Assets.gameElements.h_get("dancingA",crowd);
 			e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
-			e.setPos(x, hei*Const.GRID-5-rnd(25,30));
+			e.setPos(x, hei*Const.GRID-3-rnd(25,30));
 			e.setCenterRatio(0.5,1);
 			e.colorize(0x680261);
 			people.push(e);
@@ -95,7 +95,7 @@ class Level extends mt.Process {
 		Game.ME.scroller.add(front, Const.DP_TOP);
 		front.x = -32;
 
-		hue(0.7*6.28,0);
+		//hue(0.7*6.28,0);
 
 	}
 
@@ -120,6 +120,7 @@ class Level extends mt.Process {
 
 	public var waveMobCount : Int;
 	public function attacheWaveEntities(waveId:Int) {
+		Game.ME.fx.allSpots(25, wid*Const.GRID);
 		var bd = hxd.Res.levels.toBitmap();
 		pixels = new Map();
 		for(cy in 0...hei)
@@ -219,5 +220,8 @@ class Level extends mt.Process {
 		if( !cd.hasSetS("spot",0.06) )
 			for(i in 0...5)
 				Game.ME.fx.spotLight(wid*Const.GRID*rnd(0,1), rnd(20,30));
+		if( !cd.hasSetS("lazer",0.06) )
+			for(i in 0...5)
+				Game.ME.fx.lazer(wid*Const.GRID*rnd(0,1));
 	}
 }

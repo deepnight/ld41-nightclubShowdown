@@ -44,6 +44,8 @@ class Grenade extends Entity {
 
 		if( !cd.has("timer") ) {
 			fx.grenade(centerX,centerY,range);
+			Assets.SBANK.explode3(1);
+
 			if( distPx(game.hero)<=range ) {
 				game.hero.violentBump(dirTo(game.hero)*0.28, -0.2, 0.5);
 				game.hero.hit(2, this, true);

@@ -2,17 +2,19 @@ import mt.heaps.slib.*;
 import mt.deepnight.Sfx;
 
 class Assets {
-	//public static var SBANK = Sfx.importDirectory("sfx");
+	public static var SBANK = Sfx.importDirectory("sfx");
 	public static var gameElements : SpriteLib;
 	public static var font : h2d.Font;
 	public static var music : Sfx;
 
 	public static function init() {
 		Sfx.setGroupVolume(0, 1);
-		Sfx.setGroupVolume(1, 0.25);
-		#if debug
-		Sfx.toggleMuteGroup(1);
-		#end
+		Sfx.setGroupVolume(1, 0.7);
+		//#if debug
+		//Sfx.toggleMuteGroup(1);
+		//#end
+		music = SBANK.music();
+		music.playOnGroup(1,true);
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");

@@ -36,7 +36,14 @@ class Cover extends Entity {
 	}
 
 
+	override function onDamage(v) {
+		super.onDamage(v);
+		Assets.SBANK.cover0(1);
+	}
+
+
 	override function onDie() {
+		Assets.SBANK.explode2(1);
 		spr.set("crateBroken");
 		cd.setS("decay", 15);
 		fx.woodCover(centerX,centerY,lastHitDir);
@@ -66,6 +73,8 @@ class Cover extends Entity {
 		for(e in ALL)
 			if( e!=this && distCase(e)<=2 )
 				e.hit(999,this,true);
+
+		Assets.SBANK.land0(0.5);
 	}
 
 	override public function dispose() {

@@ -69,6 +69,8 @@ class Hero extends Entity {
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0x2780D8);
+			Assets.SBANK.pew2(0.5);
+			Assets.SBANK.gun1(1);
 			fx.bullet(shootX-dir*5,shootY,-dir);
 			fx.flashBangS(0x477ADA,0.1,0.1);
 
@@ -96,6 +98,8 @@ class Hero extends Entity {
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.shoot(shootX, shootY, e.headX, e.headY, 0x2780D8);
 			fx.bullet(shootX-dir*5,shootY,dir);
+			Assets.SBANK.gun0(1);
+			Assets.SBANK.pew0(0.5);
 
 			if( cover==null )
 				dx += 0.03*-dir;
@@ -248,6 +252,9 @@ class Hero extends Entity {
 			case Reload :
 				spr.anim.stopWithStateAnims();
 				spr.anim.play("heroReload");
+				Assets.SBANK.reload0(1);
+				game.delayer.addS( Assets.SBANK.reload1.bind(1), 0.25 );
+				game.delayer.addS( Assets.SBANK.reload1.bind(1), 0.7 );
 				fx.charger(hero.centerX-dir*6, hero.centerY-4, -dir);
 				cd.setS("reloading",0.8);
 				lockControlsS(0.8);

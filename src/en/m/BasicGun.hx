@@ -34,6 +34,7 @@ class BasicGun extends en.Mob {
 				e.lockControlsS(0.3);
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
+			Assets.SBANK.pew2(1);
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFF0000);
 			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
 		}
@@ -43,6 +44,7 @@ class BasicGun extends en.Mob {
 
 	override function onDie() {
 		super.onDie();
+		//Assets.SBANK.death0(1);
 		new en.DeadBody(this,"a");
 	}
 
@@ -66,6 +68,7 @@ class BasicGun extends en.Mob {
 		super.onDamage(v);
 
 		spr.anim.playOverlap("aHit");
+		playHitSound();
 
 		if( getDiminishingReturnFactor("hitInterrupt", 3,3)>0 )
 			interruptSkills(true);

@@ -54,6 +54,7 @@ class Game extends mt.Process {
 		level = new Level();
 		hero = new en.Hero(2,4);
 
+		#if !debug
 		if( !Main.ME.cd.hasSetS("intro",Const.INFINITE) ) {
 			cd.setS("lockNext",4);
 			announce("\"Jean Wick\"                 \n",0x809FD0);
@@ -61,6 +62,7 @@ class Game extends mt.Process {
 				announce(" A fast turned-based action game",0x6FE1CA);
 			}, 1);
 		}
+		#end
 
 		//new en.Cover(14,4);
 		//new en.m.Grenader(15,4);

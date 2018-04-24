@@ -560,15 +560,43 @@ class Fx extends mt.Process {
 		}
 	}
 
+	public function allSpots(y:Float, wid:Float) {
+		var n = 50;
+		for(i in 0...n) {
+			var p = allocBgAdd(getTile("spot"), i/(n-1)*wid + rnd(0,3,true), y);
+			p.colorize(0xFBC404);
+			p.setCenterRatio(0.2,0.5);
+			p.setFadeS(rnd(0.4,0.5), 0, rnd(0.3,0.8));
+			p.scaleX = rnd(0.75,1);
+			p.scaleY = rnd(0.4,1);
+			p.rotation = 1.57 + 0.5 - 1*i/(n-1);
+			p.dr = 0.015-0.030*i/(n-1);
+			p.lifeS = rnd(0.4,0.6);
+		}
+	}
+
 	public function spotLight(x:Float, y:Float) {
 		var p = allocBgAdd(getTile("spot"), x,y);
-		p.colorAnimS(0x7B64DB, Color.randomColor(rnd(0,1),1,1), rnd(0.5,1));
+		p.colorize( Color.randomColor(rnd(0,1),1,1) );
+		//p.colorAnimS(0x7B64DB, Color.randomColor(rnd(0,1),1,1), rnd(0.5,1));
 		p.setCenterRatio(0.2,0.5);
-		p.setFadeS(rnd(0.1,0.3), rnd(0,0.1), rnd(0.1,0.3));
+		p.setFadeS(rnd(0.1,0.15), rnd(0,0.1), rnd(0.1,0.3));
 		p.scaleX = rnd(0.75,1);
 		p.scaleY = rnd(0.4,1);
 		p.rotation = 1.57 + rnd(0,0.1);
 		p.dr = rnd(0, 0.01,true);
+		p.lifeS = rnd(0.1,0.3);
+		p.delayS = rnd(0,0.4);
+	}
+
+	public function lazer(x:Float) {
+		var p = allocBgAdd(getTile("dot"), x, rnd(20,30));
+		p.colorize(0x0080FF);
+		p.setCenterRatio(0,0.5);
+		p.setFadeS(rnd(0.02,0.05), rnd(0,0.1), rnd(0.1,0.3));
+		p.scaleX = rnd(50,70);
+		p.rotation = rnd(0,3.14);
+		p.dr = rnd(0, 0.001,true);
 		p.lifeS = rnd(0.1,0.3);
 		p.delayS = rnd(0,0.4);
 	}
