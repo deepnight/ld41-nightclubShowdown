@@ -71,7 +71,7 @@ class Cover extends Entity {
 	override function onLand() {
 		super.onLand();
 		for(e in ALL)
-			if( e!=this && distCase(e)<=2 )
+			if( e!=this && distCase(e)<=2 && e.isAlive() )
 				e.hit(999,this,true);
 
 		Assets.SBANK.land0(0.5);

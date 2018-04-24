@@ -338,7 +338,7 @@ class Entity {
 		spr.anim.setGlobalSpeed( isAffectBySlowMo ? game.getSlowMoFactor() : 1 );
 
 		if( label!=null ) {
-			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(footY+2));
+			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(headY-label.textHeight-3));
 		}
 
 		lifeBar.setPos( Std.int(footX-lifeBar.outerWidth*0.5), Std.int(footY+2));

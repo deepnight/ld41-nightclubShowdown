@@ -49,10 +49,9 @@ class Boot extends hxd.App {
 		}
 		#end
 
-		if( speed>0 ) {
-			mt.heaps.slib.SpriteLib.DT = dt*speed;
+		mt.heaps.slib.SpriteLib.DT = dt*speed;
+		if( speed>0 )
 			mt.Process.updateAll(dt*speed);
-		}
 
 		//mt.heaps.slib.SpriteLib.DT = dt;
 		//accu+=speed;

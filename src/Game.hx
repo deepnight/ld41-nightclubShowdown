@@ -52,9 +52,9 @@ class Game extends mt.Process {
 		hud.horizontalSpacing = 1;
 
 		waveId = -1;
-		#if debug
-		waveId = 5;
-		#end
+		//#if debug
+		//waveId = 5;
+		//#end
 		level = new Level();
 		hero = new en.Hero(2,4);
 

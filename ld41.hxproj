@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\client.hl" />
+    <movie path="nope" />
     <movie fps="30" />
     <movie width="960" />
     <movie height="720" />

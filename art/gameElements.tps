@@ -252,6 +252,7 @@
             <key type="filename">export/heroBlind0.png</key>
             <key type="filename">export/heroBlindShoot0.png</key>
             <key type="filename">export/heroBlindShoot1.png</key>
+            <key type="filename">export/heroBrake0.png</key>
             <key type="filename">export/heroCover0.png</key>
             <key type="filename">export/heroDeathBounce0.png</key>
             <key type="filename">export/heroDeathFly0.png</key>
@@ -279,10 +280,12 @@
             <key type="filename">export/iconHeart.png</key>
             <key type="filename">export/iconMove.png</key>
             <key type="filename">export/iconReload.png</key>
+            <key type="filename">export/iconShield.png</key>
             <key type="filename">export/iconShoot.png</key>
             <key type="filename">export/iconShootCover.png</key>
             <key type="filename">export/iconWait.png</key>
             <key type="filename">export/levels.png</key>
+            <key type="filename">export/logo.png</key>
             <key type="filename">export/radius.png</key>
             <key type="filename">export/screening.png</key>
             <key type="filename">export/smallSmoke0.png</key>

@@ -336,7 +336,7 @@ class Hero extends Entity {
 		}
 
 
-		if( !controlsLocked() && Main.ME.keyPressed(hxd.Key.R) )
+		if( !controlsLocked() && Main.ME.keyPressed(hxd.Key.R) && ammo<maxAmmo )
 			executeAction(Reload);
 
 		// Move
@@ -350,14 +350,14 @@ class Hero extends Entity {
 				cd.setS("braking",0.2);
 			}
 			else {
-				var s = 0.015;
+				var s = 0.02;
 				if( moveTarget.x>centerX ) {
 					dir = 1;
-					dx+=s;
+					dx+=s*dt;
 				}
 				if( moveTarget.x<centerX ) {
 					dir = -1;
-					dx-=s;
+					dx-=s*dt;
 				}
 			}
 	}

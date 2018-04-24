@@ -19,12 +19,12 @@ class Main extends mt.Process {
 
 		cached = new h2d.CachedBitmap(root, 1,1);
 
-		#if( debug && hl )
-		hxd.Res.initLocal();
-		hxd.res.Resource.LIVE_UPDATE = true;
-		#else
+		//#if( debug && hl )
+		//hxd.Res.initLocal();
+		//hxd.res.Resource.LIVE_UPDATE = true;
+		//#else
 		hxd.Res.initEmbed();
-		#end
+		//#end
 
 		Assets.init();
 		hxd.Timer.wantedFPS = Const.FPS;
@@ -37,11 +37,7 @@ class Main extends mt.Process {
 		black = new h2d.Bitmap(h2d.Tile.fromColor(BG,1,1), root);
 		black.visible = false;
 
-		//#if debug
 		restartGame();
-		//#else
-		//new ui.Title();
-		//#end
 
 		onResize();
 	}
