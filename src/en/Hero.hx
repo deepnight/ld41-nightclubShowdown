@@ -207,7 +207,7 @@ class Hero extends Entity {
 		}
 
 		// Wait
-		if( ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		if( game.isSlowMo() && ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Wait(0.6);
 
 		// Take cover

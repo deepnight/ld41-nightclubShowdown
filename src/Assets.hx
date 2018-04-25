@@ -19,7 +19,6 @@ class Assets {
 		#else
 		music = SBANK.music();
 		#end
-		music.playOnGroup(1,true);
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");

@@ -69,12 +69,12 @@ class Game extends mt.Process {
 		}
 		#end
 
-		//new en.Cover(14,4);
-		//new en.m.Grenader(15,4);
-
+		//new en.Cover(10,4);
+		//new en.m.Grenader(12,4);
 		//new en.m.Grenader(10,4);
 		//new en.m.Grenader(16,4);
 		//new en.m.BasicGun(2,4);
+		//level.waveMobCount = en.Mob.ALL.length;
 
 		vp.repos();
 
@@ -193,6 +193,26 @@ class Game extends mt.Process {
 				tw.createMs(tf.alpha, d|0, 1500).onEnd = tf.remove;
 			}
 		}
+	}
+
+	var lastNotif : Null<h2d.Text>;
+	public function notify(txt:String, ?c=0xFFFFFF) {
+		if( lastNotif!=null )
+			lastNotif.remove();
+
+		var tf = new h2d.Text(Assets.font,root);
+		lastNotif = tf;
+		tf.text = txt;
+		tf.textColor = c;
+		tf.y = Std.int( 100 - tf.textHeight );
+		tw.createMs(tf.x, -tf.textWidth>12, 200).onEnd = function() {
+			var d = 650+txt.length*75;
+			tw.createMs(tf.alpha, d|0, 1500).onEnd = function() {
+				tf.remove();
+				if( lastNotif==tf )
+					lastNotif = null;
+			}
+		}
 
 	}
 
@@ -254,8 +274,22 @@ class Game extends mt.Process {
 		if( Main.ME.keyPressed(hxd.Key.ESCAPE) )
 			Main.ME.restartGame();
 
-		if( Main.ME.keyPressed(hxd.Key.M) )
+		if( Main.ME.keyPressed(Key.X) && Key.isDown(Key.CTRL) ) {
+			Main.ME.cd.unset("intro");
+			Assets.music.stop();
+			Main.ME.restartGame();
+		}
+
+		if( Main.ME.keyPressed(hxd.Key.S) ) {
+			notify("Sounds: "+(mt.deepnight.Sfx.isMuted(0) ? "ON" : "off"));
+			mt.deepnight.Sfx.toggleMuteGroup(0);
+			Assets.SBANK.grunt0().playOnGroup(0);
+		}
+
+		if( Main.ME.keyPressed(hxd.Key.M) ) {
+			notify("Music: "+(mt.deepnight.Sfx.isMuted(1) ? "ON" : "off"));
 			mt.deepnight.Sfx.toggleMuteGroup(1);
+		}
 
 		if( isReplay && heroHistory.length>0 && itime>=heroHistory[0].t )
 			hero.executeAction(heroHistory.shift().a);

@@ -107,6 +107,9 @@ class Main extends mt.Process {
 			cd.setS("transition",Const.INFINITE);
 			setBlack(true, function() {
 				Game.ME.destroy();
+				if( !Assets.music.isPlaying() )
+					Assets.music.playOnGroup(1,true);
+
 				delayer.addS(function() {
 					cd.unset("transition");
 					new Game( new h2d.Sprite(cached), hist );
@@ -121,6 +124,8 @@ class Main extends mt.Process {
 			tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 			setBlack(false);
 			cached.addChild(screening);
+			if( !Assets.music.isPlaying() )
+				Assets.music.playOnGroup(1,true);
 		}
 
 	}
@@ -138,8 +143,5 @@ class Main extends mt.Process {
 
 	override function update() {
 		super.update();
-
-		if( keyPressed(hxd.Key.M) )
-			mt.deepnight.Sfx.toggleMuteGroup(1);
 	}
 }
