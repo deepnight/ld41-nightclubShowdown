@@ -70,17 +70,17 @@ class Game extends mt.Process {
 		#end
 
 		// Testing
+		#if debug
 		{
-			cd.setS("lockNext",Const.INFINITE);
-			new en.Cover(5,4);
-			new en.Cover(10,4);
-			//new en.m.Grenader(12,4);
-			//new en.m.Grenader(10,4);
-			//new en.m.Grenader(16,4);
-			new en.m.BasicGun(12,4);
-			new en.m.BasicGun(2,4);
-			level.waveMobCount = en.Mob.ALL.length;
+			//cd.setS("lockNext",Const.INFINITE);
+			//new en.Cover(5,4);
+			//new en.Cover(10,4);
+			////new en.m.Grenader(16,4);
+			//new en.m.BasicGun(12,4);
+			//new en.m.BasicGun(2,4);
+			//level.waveMobCount = en.Mob.ALL.length;
 		}
+		#end
 
 		vp.repos();
 

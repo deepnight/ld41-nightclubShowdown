@@ -13,6 +13,8 @@ class Level extends mt.Process {
 	var crowd : h2d.Sprite;
 	var bg : HSprite;
 	var front : HSprite;
+	var bottomLight : HSprite;
+	var circle : HSprite;
 	var people : Array<HSprite>;
 	var pixels : Map<UInt, Array<CPoint>>;
 
@@ -94,6 +96,20 @@ class Level extends mt.Process {
 		front = Assets.gameElements.h_get("bgOver");
 		Game.ME.scroller.add(front, Const.DP_TOP);
 		front.x = -32;
+
+		bottomLight = Assets.gameElements.h_get("bottomLight",0, 0,1);
+		Game.ME.scroller.add(bottomLight, Const.DP_BG);
+		bottomLight.y = 5*Const.GRID;
+		bottomLight.blendMode = Add;
+		bottomLight.colorize(0xAF40BF);
+		bottomLight.alpha = 0.6;
+		bottomLight.scaleY = 0.5;
+
+		circle = Assets.gameElements.h_get("redCircle",0, 0.5,0.5);
+		Game.ME.scroller.add(circle, Const.DP_BG);
+		circle.x = wid*0.5*Const.GRID-5;
+		circle.y = 2*Const.GRID;
+		circle.blendMode = Add;
 
 		//hue(0.7*6.28,0);
 
