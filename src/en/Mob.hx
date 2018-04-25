@@ -50,6 +50,11 @@ class Mob extends Entity {
 		level.waveMobCount--;
 	}
 
+	override public function stunS(t:Float) {
+		super.stunS(t);
+		tx = -1;
+	}
+
 	public function canBeShot() return !cd.has("entering");
 
 	override public function isBlockingHeroMoves() return true;

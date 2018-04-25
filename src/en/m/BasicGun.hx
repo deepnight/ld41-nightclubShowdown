@@ -77,9 +77,10 @@ class BasicGun extends en.Mob {
 	override public function update() {
 		super.update();
 
-		if( !game.cd.hasSetS("say",Const.INFINITE) ) {
+		#if release
+		if( !game.cd.hasSetS("say",Const.INFINITE) )
 			setLabel("Wick is here!\nKill him!");
-		}
+		#end
 
 		if( !controlsLocked() && onGround && tx==-1 ) {
 			if( getSkill("shoot").isReady() && game.hero.isAlive() )
