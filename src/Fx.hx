@@ -634,7 +634,7 @@ class Fx extends mt.Process {
 		p.delayS = 0.25;
 	}
 
-	function envDust() {
+	public function envDust() {
 		var n = 6;
 		for(i in 0...n) {
 			var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(0,game.vp.hei));
@@ -652,17 +652,48 @@ class Fx extends mt.Process {
 		}
 	}
 
+	public function envRain() {
+		var n = 6;
+		for(i in 0...n) {
+			var xr = rnd(0,1);
+			var p = allocTopAdd(getTile("dot"), xr*game.vp.wid, rnd(0,game.vp.hei));
+			//var p = allocTopAdd(getTile("dot"), rnd(0,game.vp.wid), rnd(-30,0));
+			p.setFadeS(rnd(0.07,0.12), rnd(0.6,1), rnd(2,3));
+			p.scaleX = rnd(9,16);
+			p.scaleXMul = rnd(0.97,0.99);
+			p.dx = rnd(0,2);
+			p.dy = rnd(-1,2);
+			p.frict = rnd(0.94,0.97);
+			p.gx = rnd(0.01,0.03);
+			p.gy = rnd(0.04,0.08);
+			p.lifeS = rnd(2,3);
+			p.onUpdate = _dust;
+		}
+	}
+
+	public function envSmoke() {
+		var n = 6;
+		for(i in 0...n) {
+			var xr = rnd(0,1);
+			var p = allocTopAdd(getTile("largeSmoke"), xr*game.vp.wid, game.level.hei*Const.GRID*rnd(0.6, 1));
+			p.colorize(Color.interpolateInt(0x236CC7,0xBC2E38,xr) );
+			p.setFadeS(rnd(0.05,0.08), rnd(0.6,1), rnd(2,3));
+			p.setScale(rnd(0.9,1.7));
+			p.rotation = rnd(0,6.28);
+			p.scaleMul = rnd(0.995,0.998);
+			p.dy = rnd(-1,2);
+			p.frict = rnd(0.94,0.97);
+			p.dr = rnd(0,0.003,true);
+			p.gx = rnd(0.01,0.02);
+			p.gy = rnd(0.003,0.004);
+			p.lifeS = rnd(2,3);
+		}
+	}
+
 	override function update() {
 		speedMod = game.getSlowMoFactor();
 
 		super.update();
-
-		if( !cd.hasSetS("envInit",Const.INFINITE) )
-			for(i in 0...30 )
-				envDust();
-
-		if( !cd.hasSetS("env",0.06) )
-			envDust();
 
 		pool.update( game.getSlowMoDt() );
 	}

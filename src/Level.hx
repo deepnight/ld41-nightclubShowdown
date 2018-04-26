@@ -3,6 +3,8 @@ import mt.deepnight.Color;
 import mt.heaps.slib.*;
 
 class Level extends mt.Process {
+	var curWaveId : Int;
+
 	public var wid : Int;
 	public var hei : Int;
 
@@ -13,7 +15,6 @@ class Level extends mt.Process {
 	var crowd : h2d.Sprite;
 	var bg : HSprite;
 	var front : HSprite;
-	var bottomLight : HSprite;
 	var circle : HSprite;
 	var people : Array<HSprite>;
 	var pixels : Map<UInt, Array<CPoint>>;
@@ -28,91 +29,122 @@ class Level extends mt.Process {
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
 
-
 		var mask = new h2d.Graphics(root);
 		mask.beginFill(0x0,1);
 		mask.drawRect(0,0,wid*Const.GRID,hei*Const.GRID);
 
-		bg = Assets.gameElements.h_get("bg",root);
-		//var bg = Assets.gameElements.h_get("bg",root);
-		//bg.x = Const.GRID*20;
+	}
+
+	public function render(waveId:Int) {
+		curWaveId = waveId;
+		if( bg!=null ) {
+			bg.remove();
+			debug.remove();
+			front.remove();
+			circle.remove();
+			for(e in people)
+				e.remove();
+			root.removeChildren();
+		}
+		people = [];
+		collMap = new haxe.ds.Vector(wid*hei);
+		var game = Game.ME;
+
+		switch( waveId ) {
+			case 0 :
+				bg = Assets.gameElements.h_get("bgOut",root);
+
+				front = Assets.gameElements.h_get("bgOver");
+				Game.ME.scroller.add(front, Const.DP_TOP);
+				front.x = -32;
+
+				circle = Assets.gameElements.h_get("redCircle",0, 0.5,0.5);
+				Game.ME.scroller.add(circle, Const.DP_BG);
+				circle.x = wid-36;
+				circle.y = 34;
+				circle.blendMode = Add;
+
+
+			default :
+				for(x in 0...wid)
+				for(y in hei-2...hei)
+					setColl(x,y,true);
+
+				bg = Assets.gameElements.h_get("bg",root);
+
+				collMap = new haxe.ds.Vector(wid*hei);
+				for(x in 0...wid)
+				for(y in hei-2...hei)
+					setColl(x,y,true);
+
+				crowd = new h2d.Sprite(root);
+				people = [];
+
+				function getDancer() return switch(Std.random(3)) {
+					case 0 : "dancingA";
+					case 1 : "dancingB";
+					case 2 : "dancingC";
+					default : "dancingA";
+				}
+				var x = 10;
+				while( x<wid*Const.GRID ) {
+					var e = Assets.gameElements.h_get("dancingA",crowd);
+					e.anim.playAndLoop(getDancer()).setSpeed(rnd(0.8,1));
+					e.setPos(x, hei*Const.GRID-14-rnd(25,30));
+					e.setCenterRatio(0.5,1);
+					e.setScale(rnd(0.6,0.7));
+					e.colorize(0x830E4F);
+					//e.alpha = 0.4;
+					people.push(e);
+					x+=irnd(6,15);
+				}
+				var x = 0;
+				while( x<wid*Const.GRID ) {
+					var e = Assets.gameElements.h_get("dancingA",crowd);
+					e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
+					e.setPos(x, hei*Const.GRID-3-rnd(25,30));
+					e.setCenterRatio(0.5,1);
+					e.colorize(0x680261);
+					people.push(e);
+					x+=irnd(6,15);
+				}
+				var x = 6;
+				while( x<wid*Const.GRID ) {
+					var e = Assets.gameElements.h_get("dancingA",crowd);
+					e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
+					e.setPos(x, hei*Const.GRID-rnd(25,30));
+					e.setCenterRatio(0.5,1);
+					e.colorize(0x29004A);
+					people.push(e);
+					x+=irnd(6,15);
+				}
+
+				for(cx in 0...wid) {
+					var e = Assets.gameElements.h_getRandom("ground",root);
+					e.x = cx*Const.GRID;
+					e.y = (hei-2)*Const.GRID;
+				}
+
+				front = Assets.gameElements.h_get("bgOver");
+				Game.ME.scroller.add(front, Const.DP_TOP);
+				front.x = -32;
+
+				var bottomLight = Assets.gameElements.h_get("bottomLight",0, 0,1);
+				Game.ME.scroller.add(bottomLight, Const.DP_BG);
+				bottomLight.y = 5*Const.GRID;
+				bottomLight.blendMode = Add;
+				bottomLight.colorize(0xAF40BF);
+				bottomLight.alpha = 0.6;
+				bottomLight.scaleY = 0.5;
+
+				circle = Assets.gameElements.h_get("redCircle",0, 0.5,0.5);
+				Game.ME.scroller.add(circle, Const.DP_BG);
+				circle.x = wid*0.5*Const.GRID-5;
+				circle.y = 2*Const.GRID;
+				circle.blendMode = Add;
+		}
 
 		debug = new h2d.Graphics(root);
-		debug.beginFill(0xFFFF00,1);
-
-		collMap = new haxe.ds.Vector(wid*hei);
-		for(x in 0...wid)
-		for(y in hei-2...hei)
-			setColl(x,y,true);
-
-		crowd = new h2d.Sprite(root);
-		people = [];
-
-		function getDancer() return switch(Std.random(3)) {
-			case 0 : "dancingA";
-			case 1 : "dancingB";
-			case 2 : "dancingC";
-			default : "dancingA";
-		}
-		var x = 10;
-		while( x<wid*Const.GRID ) {
-			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(getDancer()).setSpeed(rnd(0.8,1));
-			e.setPos(x, hei*Const.GRID-14-rnd(25,30));
-			e.setCenterRatio(0.5,1);
-			e.setScale(rnd(0.6,0.7));
-			e.colorize(0x830E4F);
-			//e.alpha = 0.4;
-			people.push(e);
-			x+=irnd(6,15);
-		}
-		var x = 0;
-		while( x<wid*Const.GRID ) {
-			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
-			e.setPos(x, hei*Const.GRID-3-rnd(25,30));
-			e.setCenterRatio(0.5,1);
-			e.colorize(0x680261);
-			people.push(e);
-			x+=irnd(6,15);
-		}
-		var x = 6;
-		while( x<wid*Const.GRID ) {
-			var e = Assets.gameElements.h_get("dancingA",crowd);
-			e.anim.playAndLoop(getDancer()).setSpeed( rnd(0.85,1.1) );
-			e.setPos(x, hei*Const.GRID-rnd(25,30));
-			e.setCenterRatio(0.5,1);
-			e.colorize(0x29004A);
-			people.push(e);
-			x+=irnd(6,15);
-		}
-
-		for(cx in 0...wid) {
-			var e = Assets.gameElements.h_getRandom("ground",root);
-			e.x = cx*Const.GRID;
-			e.y = (hei-2)*Const.GRID;
-		}
-
-		front = Assets.gameElements.h_get("bgOver");
-		Game.ME.scroller.add(front, Const.DP_TOP);
-		front.x = -32;
-
-		bottomLight = Assets.gameElements.h_get("bottomLight",0, 0,1);
-		Game.ME.scroller.add(bottomLight, Const.DP_BG);
-		bottomLight.y = 5*Const.GRID;
-		bottomLight.blendMode = Add;
-		bottomLight.colorize(0xAF40BF);
-		bottomLight.alpha = 0.6;
-		bottomLight.scaleY = 0.5;
-
-		circle = Assets.gameElements.h_get("redCircle",0, 0.5,0.5);
-		Game.ME.scroller.add(circle, Const.DP_BG);
-		circle.x = wid*0.5*Const.GRID-5;
-		circle.y = 2*Const.GRID;
-		circle.blendMode = Add;
-
-		//hue(0.7*6.28,0);
-
 	}
 
 	override function onDispose() {
@@ -230,14 +262,38 @@ class Level extends mt.Process {
 		for(e in people)
 			e.anim.setGlobalSpeed( game.getSlowMoFactor() );
 
-		if( !cd.hasSetS("flash",0.5) )
-			Game.ME.fx.flashBangS(0x7B64DB,0.04,1);
 
-		if( !cd.hasSetS("spot",0.06) )
-			for(i in 0...5)
-				Game.ME.fx.spotLight(wid*Const.GRID*rnd(0,1), rnd(20,30));
-		if( !cd.hasSetS("lazer",0.06) )
-			for(i in 0...5)
-				Game.ME.fx.lazer(wid*Const.GRID*rnd(0,1));
+		switch( curWaveId ) {
+			case 0 :
+				if( !cd.hasSetS("smoke",0.06) )
+					game.fx.envSmoke();
+
+				if( !cd.hasSetS("envInit",Const.INFINITE) )
+					for(i in 0...30 )
+						game.fx.envRain();
+
+				if( !cd.hasSetS("env",0.06) )
+					game.fx.envRain();
+
+
+			default :
+				if( !cd.hasSetS("envInit",Const.INFINITE) )
+					for(i in 0...30 )
+						game.fx.envDust();
+
+				if( !cd.hasSetS("env",0.06) )
+					game.fx.envDust();
+
+				if( !cd.hasSetS("flash",0.5) )
+					Game.ME.fx.flashBangS(0x7B64DB,0.04,1);
+
+				if( !cd.hasSetS("spot",0.06) )
+					for(i in 0...5)
+						Game.ME.fx.spotLight(wid*Const.GRID*rnd(0,1), rnd(20,30));
+
+				if( !cd.hasSetS("lazer",0.06) )
+					for(i in 0...5)
+						Game.ME.fx.lazer(wid*Const.GRID*rnd(0,1));
+		}
 	}
 }

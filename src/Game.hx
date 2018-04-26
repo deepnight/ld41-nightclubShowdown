@@ -20,6 +20,8 @@ class Game extends mt.Process {
 
 	public var hud : h2d.Flow;
 
+	public var cm : mt.deepnight.Cinematic;
+
 	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
 
@@ -35,6 +37,7 @@ class Game extends mt.Process {
 			isReplay = false;
 		}
 
+		cm = new mt.deepnight.Cinematic(Const.FPS);
 		//Console.ME.runCommand("+ bounds");
 
 		scroller = new h2d.Layers(root);
@@ -56,18 +59,19 @@ class Game extends mt.Process {
 		//waveId = 5;
 		//#end
 		level = new Level();
+		level.render(0);
 		hero = new en.Hero(2,4);
 
-		#if !debug
+		//#if !debug
 		logo();
 		if( !Main.ME.cd.hasSetS("intro",Const.INFINITE) ) {
 			cd.setS("lockNext",5);
-			//announce("\"Jean Wick\"                 \n",0x809FD0);
+			//cd.setS("lockNext",99999);
 			delayer.addS( function() {
 				announce("A fast turned-based action game",0x706ACC);
 			}, 1);
 		}
-		#end
+		//#end
 
 		// Testing
 		#if debug
@@ -137,16 +141,20 @@ class Game extends mt.Process {
 		clickTrap.width = w();
 		clickTrap.height = h();
 		hud.x = Std.int( w()*0.5/Const.SCALE - hud.outerWidth*0.5 );
-		hud.y = Std.int( level.hei*Const.GRID );
+		hud.y = Std.int( level.hei*Const.GRID + 4 );
 	}
 
 	override public function onDispose() {
 		super.onDispose();
-		if( ME==this )
-			ME = null;
+
+		cm.destroy();
+
 		for(e in Entity.ALL)
 			e.destroy();
 		gc();
+
+		if( ME==this )
+			ME = null;
 	}
 
 	function gc() {
@@ -219,11 +227,11 @@ class Game extends mt.Process {
 					lastNotif = null;
 			}
 		}
-
 	}
 
 	public function nextLevel() {
 		waveId++;
+		level.render(waveId);
 		level.waveMobCount = 1;
 		if( waveId>6 )
 			announce("Thank you for playing ^_^\nA 20h game by Sebastien Benard\ndeepnight.net",true);
@@ -263,6 +271,8 @@ class Game extends mt.Process {
 	}
 
 	override public function update() {
+		cm.update(dt);
+
 		super.update();
 
 		// Updates

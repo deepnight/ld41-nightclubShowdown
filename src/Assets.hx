@@ -10,9 +10,9 @@ class Assets {
 	public static function init() {
 		Sfx.setGroupVolume(0, 1);
 		Sfx.setGroupVolume(1, 0.7);
-		//#if debug
-		//Sfx.toggleMuteGroup(1);
-		//#end
+		#if debug
+		Sfx.toggleMuteGroup(1);
+		#end
 
 		#if flash
 		music = SBANK.musicMp3();
