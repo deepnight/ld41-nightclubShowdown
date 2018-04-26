@@ -52,6 +52,9 @@ class Fx extends mt.Process {
 		topNormalSb.remove();
 	}
 
+	public function clear() {
+		pool.killAll();
+	}
 
 	public inline function allocTopAdd(t:h2d.Tile, x:Float, y:Float) : HParticle {
 		return pool.alloc(topAddSb, t, x, y);
@@ -142,14 +145,23 @@ class Fx extends mt.Process {
 			!level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y-2)/Const.GRID) ) &&
 			level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y+1)/Const.GRID) );
 	}
+
+	function coll(p:HParticle) {
+		return level.hasColl( Std.int(p.x/Const.GRID), Std.int((p.y+1)/Const.GRID) );
+	}
 	function _bloodPhysics(p:HParticle) {
 		if( collGround(p) && Math.isNaN(p.data0) ) {
 			p.data0 = 1;
-			p.gy = 0;
+			//p.gy = 0;
 			p.dx*=0.5;
 			p.dy = 0;
 			p.dr = 0;
 			p.rotation = 0;
+		}
+		if( coll(p) ) {
+			p.dx = 0;
+			p.dy = 0;
+			p.gy*=Math.pow(0.8,game.getSlowMoDt());
 		}
 	}
 

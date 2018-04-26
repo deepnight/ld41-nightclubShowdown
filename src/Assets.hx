@@ -5,20 +5,18 @@ class Assets {
 	public static var SBANK = Sfx.importDirectory("sfx");
 	public static var gameElements : SpriteLib;
 	public static var font : h2d.Font;
-	public static var music : Sfx;
+	public static var musicIn : Sfx;
+	public static var musicOut : Sfx;
 
 	public static function init() {
 		Sfx.setGroupVolume(0, 1);
 		Sfx.setGroupVolume(1, 0.7);
-		#if debug
-		Sfx.toggleMuteGroup(1);
-		#end
+		//#if debug
+		//Sfx.toggleMuteGroup(1);
+		//#end
 
-		#if flash
-		music = SBANK.musicMp3();
-		#else
-		music = SBANK.music();
-		#end
+		musicIn = new mt.deepnight.Sfx( hxd.Res.music.musicIn );
+		musicOut = new mt.deepnight.Sfx( hxd.Res.music.musicOut );
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");
@@ -46,5 +44,14 @@ class Assets {
 
 		font = hxd.Res.minecraftiaOutline.toFont();
 		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");
+	}
+
+	public static function playMusic(isIn:Bool) {
+		musicIn.stop();
+		musicOut.stop();
+		if( isIn )
+			musicIn.playOnGroup(1,true);
+		else
+			musicOut.playOnGroup(1,true);
 	}
 }

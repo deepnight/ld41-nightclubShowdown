@@ -22,10 +22,9 @@ class Level extends mt.Process {
 	public function new() {
 		super(Game.ME);
 
-
 		wid = 20;
 		hei = 7;
-
+		collMap = new haxe.ds.Vector(wid*hei);
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
 
@@ -35,8 +34,12 @@ class Level extends mt.Process {
 
 	}
 
-	public function render(waveId:Int) {
+	public function startWave(waveId:Int) {
 		curWaveId = waveId;
+		render();
+	}
+
+	function render() {
 		if( bg!=null ) {
 			bg.remove();
 			debug.remove();
@@ -50,8 +53,12 @@ class Level extends mt.Process {
 		collMap = new haxe.ds.Vector(wid*hei);
 		var game = Game.ME;
 
-		switch( waveId ) {
-			case 0 :
+		if( curWaveId==2 )
+			Assets.playMusic(true);
+
+		switch( curWaveId ) {
+
+			case 0,1 :
 				bg = Assets.gameElements.h_get("bgOut",root);
 
 				front = Assets.gameElements.h_get("bgOver");
@@ -129,8 +136,8 @@ class Level extends mt.Process {
 				Game.ME.scroller.add(front, Const.DP_TOP);
 				front.x = -32;
 
-				var bottomLight = Assets.gameElements.h_get("bottomLight",0, 0,1);
-				Game.ME.scroller.add(bottomLight, Const.DP_BG);
+				var bottomLight = Assets.gameElements.h_get("bottomLight",0, 0,1, root);
+				//Game.ME.scroller.add(bottomLight, Const.DP_BG);
 				bottomLight.y = 5*Const.GRID;
 				bottomLight.blendMode = Add;
 				bottomLight.colorize(0xAF40BF);
@@ -167,19 +174,21 @@ class Level extends mt.Process {
 	}
 
 	public var waveMobCount : Int;
-	public function attacheWaveEntities(waveId:Int) {
-		Game.ME.fx.allSpots(25, wid*Const.GRID);
+	public function attacheWaveEntities() {
+		if( curWaveId>=2 )
+			Game.ME.fx.allSpots(25, wid*Const.GRID);
+
 		var bd = hxd.Res.levels.toBitmap();
 		pixels = new Map();
 		for(cy in 0...hei)
 		for(cx in 0...wid) {
-			var c = mt.deepnight.Color.removeAlpha( bd.getPixel(cx,cy+waveId*6) );
+			var c = mt.deepnight.Color.removeAlpha( bd.getPixel(cx,cy+curWaveId*6) );
 			if( !pixels.exists(c) )
 				pixels.set(c, []);
 			pixels.get(c).push( new CPoint(cx,cy) );
 		}
 
-		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,waveId*6) );
+		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,curWaveId*6) );
 		hue(mt.deepnight.Color.intToHsl(c).h*6.28, 2.5);
 
 		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length;
@@ -264,7 +273,7 @@ class Level extends mt.Process {
 
 
 		switch( curWaveId ) {
-			case 0 :
+			case 0,1 :
 				if( !cd.hasSetS("smoke",0.06) )
 					game.fx.envSmoke();
 
@@ -285,7 +294,7 @@ class Level extends mt.Process {
 					game.fx.envDust();
 
 				if( !cd.hasSetS("flash",0.5) )
-					Game.ME.fx.flashBangS(0x7B64DB,0.04,1);
+					Game.ME.fx.flashBangS(0x7B64DB,0.07,0.5);
 
 				if( !cd.hasSetS("spot",0.06) )
 					for(i in 0...5)

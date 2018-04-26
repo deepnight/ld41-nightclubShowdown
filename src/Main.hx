@@ -107,8 +107,7 @@ class Main extends mt.Process {
 			cd.setS("transition",Const.INFINITE);
 			setBlack(true, function() {
 				Game.ME.destroy();
-				if( !Assets.music.isPlaying() )
-					Assets.music.playOnGroup(1,true);
+				Assets.playMusic(false);
 
 				delayer.addS(function() {
 					cd.unset("transition");
@@ -124,8 +123,7 @@ class Main extends mt.Process {
 			tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 			setBlack(false);
 			cached.addChild(screening);
-			if( !Assets.music.isPlaying() )
-				Assets.music.playOnGroup(1,true);
+			Assets.playMusic(false);
 		}
 
 	}

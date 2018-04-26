@@ -202,8 +202,13 @@ class Hero extends Entity {
 					ok = false;
 					break;
 				}
-			if( ok )
+
+			if( ok ) {
+				x = MLib.fclamp(x, 5, level.wid*Const.GRID-5);
+				if( game.waveId<=1 && level.waveMobCount>0 && x>=(level.wid-3)*Const.GRID )
+					x = (game.level.wid-3)*Const.GRID;
 				a = Move(x,footY);
+			}
 		}
 
 		// Wait
@@ -347,7 +352,8 @@ class Hero extends Entity {
 				moveTarget = null;
 				afterMoveAction = None;
 				dx*=0.3;
-				cd.setS("braking",0.2);
+				if( MLib.fabs(dx)>=0.04 )
+					cd.setS("braking",0.2);
 			}
 			else {
 				var s = 0.02;

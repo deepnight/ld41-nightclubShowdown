@@ -13,14 +13,16 @@ class Game extends mt.Process {
 	public var level : Level;
 	public var hero : en.Hero;
 	var clickTrap : h2d.Interactive;
-	public var waveId : Int;
+	var mask : h2d.Graphics;
 
+	public var waveId : Int;
 	public var isReplay : Bool;
 	public var heroHistory : Array<HistoryEntry>;
 
 	public var hud : h2d.Flow;
 
 	public var cm : mt.deepnight.Cinematic;
+
 
 	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
@@ -49,34 +51,35 @@ class Game extends mt.Process {
 		clickTrap.onPush = onMouseDown;
 		//clickTrap.enableRightButton = true;
 
+		mask = new h2d.Graphics(Main.ME.root);
+		mask.visible = false;
 
 		hud = new h2d.Flow();
 		root.add(hud, Const.DP_UI);
 		hud.horizontalSpacing = 1;
 
-		waveId = -1;
-		//#if debug
-		//waveId = 5;
-		//#end
 		level = new Level();
-		level.render(0);
-		hero = new en.Hero(2,4);
+		hero = new en.Hero(2,6);
 
 		//#if !debug
 		logo();
 		if( !Main.ME.cd.hasSetS("intro",Const.INFINITE) ) {
-			cd.setS("lockNext",5);
-			//cd.setS("lockNext",99999);
+			startWave(0);
 			delayer.addS( function() {
 				announce("A fast turned-based action game",0x706ACC);
 			}, 1);
+			delayer.addS(function() {
+				if( waveId==0 )
+					startWave(1);
+			}, 5);
 		}
+		else
+			startWave(1);
 		//#end
 
 		// Testing
 		#if debug
 		{
-			//cd.setS("lockNext",Const.INFINITE);
 			//new en.Cover(5,4);
 			//new en.Cover(10,4);
 			////new en.m.Grenader(16,4);
@@ -140,13 +143,20 @@ class Game extends mt.Process {
 		super.onResize();
 		clickTrap.width = w();
 		clickTrap.height = h();
+
 		hud.x = Std.int( w()*0.5/Const.SCALE - hud.outerWidth*0.5 );
 		hud.y = Std.int( level.hei*Const.GRID + 4 );
+
+		mask.clear();
+		mask.beginFill(0x0,1);
+		mask.drawRect(0,0, w(), h());
 	}
 
 	override public function onDispose() {
 		super.onDispose();
 
+		mask.remove();
+		clickTrap.remove();
 		cm.destroy();
 
 		for(e in Entity.ALL)
@@ -229,22 +239,59 @@ class Game extends mt.Process {
 		}
 	}
 
-	public function nextLevel() {
-		waveId++;
-		level.render(waveId);
+	public function hasCinematic() {
+		return !cm.isEmpty();
+	}
+
+	public function startWave(id:Int) {
+		waveId = id;
+
+		for(e in en.Mob.ALL)
+			e.destroy();
+
+		if( waveId==2 ) {
+			fx.clear();
+			for(e in en.DeadBody.ALL)
+				e.destroy();
+
+			for(e in en.Cover.ALL)
+				e.destroy();
+		}
+
+		level.startWave(waveId);
+
 		level.waveMobCount = 1;
-		if( waveId>6 )
+		if( waveId>7 )
 			announce("Thank you for playing ^_^\nA 20h game by Sebastien Benard\ndeepnight.net",true);
-		else {
-			announce("Wave "+(waveId+1)+"...", 0xFFD11C);
+		else if( waveId>0 ) {
+			announce("Wave "+waveId+"...", 0xFFD11C);
 			delayer.addS(function() {
 				announce("          Fight!", 0xEF4810);
 			}, 0.5);
 			delayer.addS(function() {
-				level.attacheWaveEntities(waveId);
+				level.attacheWaveEntities();
+				cd.unset("lockNext");
 			}, waveId==0 ? 1 : 1);
 		}
+	}
 
+	function exitLevel() {
+		cd.setS("lockNext",Const.INFINITE);
+		switch( waveId ) {
+			case 1 :
+				cm.create( {
+					mask.visible = true;
+					tw.createS(mask.alpha, 0>1, 0.6);
+					600;
+					hero.setPosCase(0, level.hei-3);
+					startWave(waveId+1);
+					tw.createS(mask.alpha, 0, 0.3);
+					mask.visible = false;
+				});
+
+			default :
+				startWave(waveId+1);
+		}
 	}
 
 	public function isSlowMo() {
@@ -270,6 +317,21 @@ class Game extends mt.Process {
 		return isSlowMo() ? Const.PAUSE_SLOWMO : 1;
 	}
 
+	function canStartNextWave() {
+		if( level.waveMobCount>0 )
+			return false;
+
+		if( cd.has("lockNext") )
+			return false;
+
+		return switch( waveId ) {
+			case 0 : false;
+			case 1 : hero.cx>=level.wid-2;
+
+			default : level.waveMobCount<=0;
+		}
+	}
+
 	override public function update() {
 		cm.update(dt);
 
@@ -284,17 +346,28 @@ class Game extends mt.Process {
 		}
 		gc();
 
-		if( !cd.has("lockNext") && level.waveMobCount<=0 )
-			nextLevel();
+		if( canStartNextWave() )
+			exitLevel();
 
-		if( Main.ME.keyPressed(hxd.Key.ESCAPE) )
-			Main.ME.restartGame();
-
-		if( Main.ME.keyPressed(Key.X) && Key.isDown(Key.CTRL) ) {
-			Main.ME.cd.unset("intro");
-			Assets.music.stop();
-			Main.ME.restartGame();
+		if( Main.ME.keyPressed(hxd.Key.ESCAPE) ) {
+			if( Key.isDown(Key.SHIFT) ) {
+				Main.ME.cd.unset("intro");
+				Assets.musicIn.stop();
+				Assets.musicOut.stop();
+				Main.ME.restartGame();
+			}
+			else
+				Main.ME.restartGame();
 		}
+
+		#if debug
+		if( Main.ME.keyPressed(Key.N) )
+			startWave(waveId+1);
+		if( Main.ME.keyPressed(Key.K) )
+			for(e in en.Mob.ALL)
+				if( e.isAlive() )
+					e.hit(99, hero, true);
+		#end
 
 		if( Main.ME.keyPressed(hxd.Key.S) ) {
 			notify("Sounds: "+(mt.deepnight.Sfx.isMuted(0) ? "ON" : "off"));

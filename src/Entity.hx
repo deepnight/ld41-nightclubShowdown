@@ -186,7 +186,7 @@ class Entity {
 	}
 
 	public function controlsLocked() {
-		return cd.has("ctrlLock") || isStunned();
+		return cd.has("ctrlLock") || isStunned() || game.hasCinematic();
 	}
 	public function lockControlsS(t:Float) {
 		if( isAlive() )

@@ -3,8 +3,10 @@ package en;
 import mt.MLib;
 
 class DeadBody extends Entity {
+	public static var ALL : Array<DeadBody> = [];
 	public function new(e:Entity,sid:String) {
 		super(e.cx,e.cy);
+		ALL.push(this);
 		xr = e.xr;
 		yr = e.yr;
 
@@ -23,6 +25,7 @@ class DeadBody extends Entity {
 
 	override public function dispose() {
 		super.dispose();
+		ALL.remove(this);
 	}
 
 	override function onLand() {
