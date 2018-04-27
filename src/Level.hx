@@ -191,7 +191,7 @@ class Level extends mt.Process {
 		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,curWaveId*6) );
 		hue(mt.deepnight.Color.intToHsl(c).h*6.28, 2.5);
 
-		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length;
+		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length + getPixels(0x00ff00).length;
 
 		for(pt in getPixels(0x704621))
 			new en.Cover(pt.cx,0);
@@ -207,11 +207,14 @@ class Level extends mt.Process {
 			}, hasPixel(0x363c60,cx,cy-2) ? 7 : hasPixel(0x363c60,cx,cy-1) ? 3.5 : 0);
 		}
 
+		for(pt in getPixels(0x00ff00))
+			initMob(pt.cx, pt.cy, function() return new en.m.MachineGun(pt.cx, curWaveId<=1?6:4));
+
 		for(pt in getPixels(0xff6600))
-			initMob(pt.cx, pt.cy, function() return new en.m.BasicGun(pt.cx, 4));
+			initMob(pt.cx, pt.cy, function() return new en.m.BasicGun(pt.cx, curWaveId<=1?6:4));
 
 		for(pt in getPixels(0x20d5fc))
-			initMob(pt.cx, pt.cy, function() return new en.m.Grenader(pt.cx, 4));
+			initMob(pt.cx, pt.cy, function() return new en.m.Grenader(pt.cx, curWaveId<=1?6:4));
 
 		//// Grenader
 		//for(pt in getPixels(0x20d5fc)) {

@@ -241,6 +241,27 @@
             <key type="filename">export/bRun4.png</key>
             <key type="filename">export/bRun5.png</key>
             <key type="filename">export/bStun0.png</key>
+            <key type="filename">export/cAim0.png</key>
+            <key type="filename">export/cAimShoot0.png</key>
+            <key type="filename">export/cAimShoot1.png</key>
+            <key type="filename">export/cBlind0.png</key>
+            <key type="filename">export/cBlindShoot0.png</key>
+            <key type="filename">export/cBlindShoot1.png</key>
+            <key type="filename">export/cCover0.png</key>
+            <key type="filename">export/cDeathBounce0.png</key>
+            <key type="filename">export/cDeathFly0.png</key>
+            <key type="filename">export/cDeathFly1.png</key>
+            <key type="filename">export/cDeathGround0.png</key>
+            <key type="filename">export/cHit0.png</key>
+            <key type="filename">export/cIdle0.png</key>
+            <key type="filename">export/cPush0.png</key>
+            <key type="filename">export/cRun0.png</key>
+            <key type="filename">export/cRun1.png</key>
+            <key type="filename">export/cRun2.png</key>
+            <key type="filename">export/cRun3.png</key>
+            <key type="filename">export/cRun4.png</key>
+            <key type="filename">export/cRun5.png</key>
+            <key type="filename">export/cStun0.png</key>
             <key type="filename">export/heroAim0.png</key>
             <key type="filename">export/heroAimShoot0.png</key>
             <key type="filename">export/heroAimShoot1.png</key>
@@ -262,6 +283,7 @@
             <key type="filename">export/heroReload3.png</key>
             <key type="filename">export/heroReload4.png</key>
             <key type="filename">export/heroReload5.png</key>
+            <key type="filename">export/heroRoll0.png</key>
             <key type="filename">export/heroRun0.png</key>
             <key type="filename">export/heroRun1.png</key>
             <key type="filename">export/heroRun2.png</key>
@@ -454,19 +476,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">export/levels.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,21,10,42</rect>
-                <key>scale9Paddings</key>
-                <rect>5,21,10,42</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">export/logo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -503,19 +512,6 @@
                 <rect>13,13,26,26</rect>
                 <key>scale9Paddings</key>
                 <rect>13,13,26,26</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">export/screening.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,22,59,44</rect>
-                <key>scale9Paddings</key>
-                <rect>30,22,59,44</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

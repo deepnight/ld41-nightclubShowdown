@@ -32,6 +32,8 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroPush",11, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("heroStun",10, function() return cd.has("reloading"));
 		spr.anim.registerStateAnim("heroCover",5, function() return cover!=null);
+		spr.anim.registerStateAnim("heroRoll",4, function() return onGround && moveTarget!=null && !movementLocked() && cd.has("rolling") );
+		spr.anim.registerStateAnim("heroBrake",3, function() return onGround && moveTarget!=null && !movementLocked() && cd.has("rollBraking") );
 		spr.anim.registerStateAnim("heroRun",2, function() return onGround && moveTarget!=null && !movementLocked() );
 		spr.anim.registerStateAnim("heroBrake",1, function() return cd.has("braking") );
 		spr.anim.registerStateAnim("heroIdle",0);
@@ -268,6 +270,8 @@ class Hero extends Entity {
 			case Move(x,y) :
 				spr.anim.stopWithStateAnims();
 				moveTarget = new FPoint(x,y);
+				cd.setS("rolling",0.5);
+				cd.setS("rollBraking",cd.getS("rolling")+0.1);
 				afterMoveAction = None;
 				leaveCover();
 
@@ -301,6 +305,15 @@ class Hero extends Entity {
 
 	override public function postUpdate() {
 		super.postUpdate();
+		if( spr.groupName=="heroRoll" ) {
+			spr.setCenterRatio(0.5,0.5);
+			spr.rotation+=0.6*dt*dir;
+			spr.y -= 7;
+		}
+		else {
+			spr.rotation = 0;
+			spr.setCenterRatio(0.5,1);
+		}
 		//ammoBar.x = headX-2;
 		//ammoBar.y = headY-4;
 	}
@@ -348,6 +361,7 @@ class Hero extends Entity {
 		if( moveTarget!=null && !movementLocked() )
 			if( MLib.fabs(centerX-moveTarget.x)<=5 ) {
 				// Arrived
+				game.cm.signal("move");
 				executeAction( afterMoveAction );
 				moveTarget = null;
 				afterMoveAction = None;

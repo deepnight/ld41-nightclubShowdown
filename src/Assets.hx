@@ -38,6 +38,12 @@ class Assets {
 		gameElements.defineAnim("bDeathFly","0(30), 1(9999)");
 		gameElements.defineAnim("bRun","0(6),1(4), 2(4), 3(6), 4(4), 5(4)");
 
+		gameElements.defineAnim("cAimShoot","0(10), 1(10)");
+		gameElements.defineAnim("cBlindShoot","0(4), 1(10)");
+		gameElements.defineAnim("cHit","0(8)");
+		gameElements.defineAnim("cDeathFly","0(30), 1(9999)");
+		gameElements.defineAnim("cRun","0(6),1(4), 2(4), 3(6), 4(4), 5(4)");
+
 		gameElements.defineAnim("dancingA","0-1(10)");
 		gameElements.defineAnim("dancingB","0-1(10)");
 		gameElements.defineAnim("dancingC","0-1(10)");

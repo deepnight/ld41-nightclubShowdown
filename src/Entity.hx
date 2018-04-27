@@ -238,6 +238,19 @@ class Entity {
 		yr = (y-cy*Const.GRID)/Const.GRID;
 	}
 
+	public function say(str:String, ?c=0xFFFFFF) {
+		var i = 0;
+		var t = game.tw.createS(i, str.length, str.length*0.03);
+		t.onUpdate = function() {
+			setLabel(str.substr(0,i), c);
+		}
+		t.onEnd = function() {
+			var tf = label;
+			game.cm.signal("say");
+			game.tw.createS(tf.alpha, 0.5|0, 1).end( function() setLabel() );
+		}
+	}
+
 	public function setLabel(?str:String, ?c=0xFFFFFF) {
 		if( str==null && label!=null ) {
 			label.remove();

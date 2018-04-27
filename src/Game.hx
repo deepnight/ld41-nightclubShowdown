@@ -61,21 +61,34 @@ class Game extends mt.Process {
 		level = new Level();
 		hero = new en.Hero(2,6);
 
-		//#if !debug
+		#if debug
+		hero.setPosCase(8,6);
+		startWave(0);
+		#else
 		logo();
 		if( !Main.ME.cd.hasSetS("intro",Const.INFINITE) ) {
 			startWave(0);
 			delayer.addS( function() {
 				announce("A fast turned-based action game",0x706ACC);
 			}, 1);
-			delayer.addS(function() {
-				if( waveId==0 )
-					startWave(1);
-			}, 5);
+			cm.create( {
+				hud.visible = false;
+				hero.moveTarget = new FPoint(8*Const.GRID, hero.footY);
+				end("move");
+				500;
+				hero.executeAction(Reload);
+				1500;
+				hero.say("Let's finish this.",0xFBAD9F);
+				end;
+				hud.visible = true;
+				1000;
+			});
 		}
-		else
-			startWave(1);
-		//#end
+		else {
+			hero.setPosCase(8,6);
+			startWave(0);
+		}
+		#end
 
 		// Testing
 		#if debug
@@ -249,8 +262,12 @@ class Game extends mt.Process {
 		for(e in en.Mob.ALL)
 			e.destroy();
 
+		level.startWave(waveId);
+
 		if( waveId==2 ) {
 			fx.clear();
+			fx.allSpots(25, level.wid*Const.GRID);
+			fx.flashBangS(0xFFCC00,0.5,0.5);
 			for(e in en.DeadBody.ALL)
 				e.destroy();
 
@@ -258,20 +275,22 @@ class Game extends mt.Process {
 				e.destroy();
 		}
 
-		level.startWave(waveId);
-
 		level.waveMobCount = 1;
 		if( waveId>7 )
 			announce("Thank you for playing ^_^\nA 20h game by Sebastien Benard\ndeepnight.net",true);
-		else if( waveId>0 ) {
-			announce("Wave "+waveId+"...", 0xFFD11C);
-			delayer.addS(function() {
-				announce("          Fight!", 0xEF4810);
-			}, 0.5);
-			delayer.addS(function() {
+		else {
+			if( waveId<=0 )
 				level.attacheWaveEntities();
-				cd.unset("lockNext");
-			}, waveId==0 ? 1 : 1);
+			else {
+				announce("Wave "+waveId+"...", 0xFFD11C);
+				delayer.addS(function() {
+					announce("          Fight!", 0xEF4810);
+				}, 0.5);
+				delayer.addS(function() {
+					level.attacheWaveEntities();
+					cd.unset("lockNext");
+				}, waveId==0 ? 1 : 1);
+			}
 		}
 	}
 
@@ -287,6 +306,8 @@ class Game extends mt.Process {
 					startWave(waveId+1);
 					tw.createS(mask.alpha, 0, 0.3);
 					mask.visible = false;
+					hero.moveTarget = new FPoint(hero.centerX+30, hero.footY);
+					end("move");
 				});
 
 			default :
@@ -321,11 +342,11 @@ class Game extends mt.Process {
 		if( level.waveMobCount>0 )
 			return false;
 
-		if( cd.has("lockNext") )
+		if( cd.has("lockNext") || hasCinematic() )
 			return false;
 
 		return switch( waveId ) {
-			case 0 : false;
+			case 0 : level.waveMobCount<=0;
 			case 1 : hero.cx>=level.wid-2;
 
 			default : level.waveMobCount<=0;

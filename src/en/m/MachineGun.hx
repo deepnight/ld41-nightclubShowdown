@@ -1,26 +1,22 @@
 package en.m;
 
-class BasicGun extends en.Mob {
+class MachineGun extends en.Mob {
 
 	public function new(x,y) {
 		super(x,y);
 
 		initLife(3);
 
-		spr.anim.registerStateAnim("aRun",3, function() return cd.has("entering"));
-		spr.anim.registerStateAnim("aPush",2, function() return !onGround && isStunned());
-		spr.anim.registerStateAnim("aStun",1, function() return isStunned());
-		spr.anim.registerStateAnim("aIdle",0);
-
-		//spr.colorMatrix = new h3d.Matrix();
-		//spr.colorMatrix.identity();
-		//spr.colorMatrix.colorHue(0.5);
+		spr.anim.registerStateAnim("cRun",3, function() return cd.has("entering"));
+		spr.anim.registerStateAnim("cPush",2, function() return !onGround && isStunned());
+		spr.anim.registerStateAnim("cStun",1, function() return isStunned());
+		spr.anim.registerStateAnim("cIdle",0);
 
 		var s = createSkill("shoot");
 		s.setTimers(1, 0.7, 0.3);
 		s.onStart = function() {
 			lookAt(s.target);
-			spr.anim.playAndLoop("aAim");
+			spr.anim.playAndLoop("cAim");
 		}
 		s.onProgress = function(t) lookAt(s.target);
 		s.onInterrupt = function() spr.anim.stopWithStateAnims();
@@ -36,7 +32,7 @@ class BasicGun extends en.Mob {
 			}
 			Assets.SBANK.pew2(1);
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFF0000);
-			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
+			spr.anim.play("cAimShoot").chainFor("cBlind",Const.FPS*0.2);
 		}
 
 		lockControlsS(rnd(0.3,1.6));
@@ -44,21 +40,20 @@ class BasicGun extends en.Mob {
 
 	override function onDie() {
 		super.onDie();
-		//Assets.SBANK.death0(1);
-		new en.DeadBody(this,"a");
+		new en.DeadBody(this,"c");
 	}
 
 	override function get_shootY():Float {
 		return switch( curAnimId ) {
-			case "aBlind" : footY - 13;
-			case "aAim" : footY - 18;
+			case "cBlind" : footY - 13;
+			case "cAim" : footY - 18;
 			default : super.get_shootY();
 		}
 	}
 	override function get_headY():Float {
 		if( spr!=null && !spr.destroyed )
 			return super.get_headY() + switch( spr.groupName ) {
-				case "aStun" : 7;
+				case "cStun" : 7;
 				default : 0;
 			}
 		return super.get_headY();
@@ -67,7 +62,7 @@ class BasicGun extends en.Mob {
 	override function onDamage(v:Int) {
 		super.onDamage(v);
 
-		spr.anim.playOverlap("aHit");
+		spr.anim.playOverlap("cHit");
 		playHitSound();
 
 		if( getDiminishingReturnFactor("hitInterrupt", 3,3)>0 )
@@ -77,15 +72,9 @@ class BasicGun extends en.Mob {
 	override public function update() {
 		super.update();
 
-		#if release
-		if( !game.cd.hasSetS("say",Const.INFINITE) )
-			say("Wick is here!\nKill him!");
-		#end
-
 		if( !controlsLocked() && onGround && tx==-1 ) {
 			if( getSkill("shoot").isReady() && game.hero.isAlive() )
 				getSkill("shoot").prepareOn(game.hero);
-
 		}
 	}
 }
