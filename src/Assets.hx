@@ -15,8 +15,13 @@ class Assets {
 		Sfx.toggleMuteGroup(1);
 		#end
 
+		#if hl
 		musicIn = new mt.deepnight.Sfx( hxd.Res.music.musicIn );
 		musicOut = new mt.deepnight.Sfx( hxd.Res.music.musicOut );
+		#else
+		musicIn = new mt.deepnight.Sfx( hxd.Res.music.f_musicIn );
+		musicOut = new mt.deepnight.Sfx( hxd.Res.music.f_musicOut );
+		#end
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");
