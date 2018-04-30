@@ -1,11 +1,11 @@
 package en.m;
 
-class MachineGun extends en.Mob {
+class Heavy extends en.Mob {
 
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(4);
+		initLife(10);
 
 		spr.anim.registerStateAnim("cRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("cPush",2, function() return !onGround && isStunned());
@@ -36,6 +36,10 @@ class MachineGun extends en.Mob {
 		}
 
 		lockControlsS(rnd(0.3,1.6));
+	}
+
+	override public function canBeGrabbed() {
+		return false;
 	}
 
 	override function onDie() {

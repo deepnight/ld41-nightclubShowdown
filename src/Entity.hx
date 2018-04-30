@@ -108,6 +108,10 @@ class Entity {
 		return source==null ? false : cover!=null && cover.isAlive() && dirTo(source)==dirTo(cover);
 	}
 
+	public function hitCover(dmg:Int, source:Entity) {
+		cover.hit(dmg,source);
+	}
+
 	public function hit(dmg:Int, source:Entity, ?ignoreCover=false) : Bool {
 		if( source!=null )
 			lastHitDir = source.dirTo(this);
@@ -116,7 +120,7 @@ class Entity {
 			return false;
 
 		if( !ignoreCover && isCoveredFrom(source) ) {
-			cover.hit(dmg, source);
+			hitCover(dmg, source);
 			return false;
 		}
 

@@ -45,6 +45,10 @@ class Mob extends Entity {
 		lockControlsS(t+cd.getS("entering"));
 	}
 
+	public function canBeGrabbed() {
+		return true;
+	}
+
 	override function onDie() {
 		super.onDie();
 		level.waveMobCount--;
@@ -59,7 +63,7 @@ class Mob extends Entity {
 
 	public function canBeShot() return !cd.has("entering");
 
-	override public function isBlockingHeroMoves() return true;
+	override public function isBlockingHeroMoves() return !isGrabbed();
 
 	override public function dispose() {
 		super.dispose();

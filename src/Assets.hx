@@ -11,17 +11,19 @@ class Assets {
 	public static function init() {
 		Sfx.setGroupVolume(0, 1);
 		Sfx.setGroupVolume(1, 0.7);
-		//#if debug
-		//Sfx.toggleMuteGroup(1);
-		//#end
+		#if debug
+		Sfx.toggleMuteGroup(1);
+		#end
 
 		musicIn = new mt.deepnight.Sfx( hxd.Res.music.musicIn );
 		musicOut = new mt.deepnight.Sfx( hxd.Res.music.musicOut );
 
 		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");
+		gameElements.defineAnim("heroGrabBlindShoot","0(4), 1(10)");
 		gameElements.defineAnim("heroBlindShoot","0(4), 1(10)");
 		gameElements.defineAnim("heroHit","0(8)");
+		gameElements.defineAnim("heroKick","0(20), 1(5)");
 		gameElements.defineAnim("heroDeathFly","0(30), 1(9999)");
 		gameElements.defineAnim("heroRun","0(6),1(4), 2(4), 3(6), 4(4), 5(4)");
 		gameElements.defineAnim("heroReload","0(15),1(15), 2(8), 3(6), 4(4), 5(6)");

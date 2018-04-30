@@ -208,7 +208,7 @@ class Level extends mt.Process {
 		}
 
 		for(pt in getPixels(0x00ff00))
-			initMob(pt.cx, pt.cy, function() return new en.m.MachineGun(pt.cx, curWaveId<=1?6:4));
+			initMob(pt.cx, pt.cy, function() return new en.m.Heavy(pt.cx, curWaveId<=1?6:4));
 
 		for(pt in getPixels(0xff6600))
 			initMob(pt.cx, pt.cy, function() return new en.m.BasicGun(pt.cx, curWaveId<=1?6:4));

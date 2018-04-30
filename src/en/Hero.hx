@@ -10,9 +10,11 @@ enum Action {
 	BlindShot(e:Entity);
 	HeadShot(e:Entity);
 	Move(x:Float, y:Float);
+	TurnBack;
 	TakeCover(e:Cover, side:Int);
 	Wait(sec:Float);
-	Grab(e:en.Mob);
+	GrabMob(e:en.Mob, side:Int);
+	KickGrab;
 	Reload;
 }
 
@@ -58,11 +60,17 @@ class Hero extends Entity {
 		s.setTimers(0.1,0,0.22);
 		s.onStart = function() {
 			lookAt(s.target);
-			spr.anim.playAndLoop("heroBlind");
+			if( grabbedMob==null )
+				spr.anim.playAndLoop("heroBlind");
+			else
+				spr.anim.playAndLoop("heroGrabBlind");
 		}
 		s.onExecute = function(e) {
 			if( !useAmmo() ) {
-				spr.anim.play("heroBlindShoot");
+				if( grabbedMob==null )
+					spr.anim.play("heroBlindShoot");
+				else
+					spr.anim.play("heroGrabBlindShoot");
 				return;
 			}
 
@@ -81,7 +89,10 @@ class Hero extends Entity {
 
 			if( cover==null )
 				dx += 0.03*-dir;
-			spr.anim.play("heroBlindShoot");
+			if( grabbedMob==null )
+				spr.anim.play("heroBlindShoot");
+			else
+				spr.anim.play("heroGrabBlindShoot");
 		}
 
 		// Head shot
@@ -114,6 +125,13 @@ class Hero extends Entity {
 
 	override public function isCoveredFrom(source:Entity) {
 		return super.isCoveredFrom(source) || grabbedMob!=null && dirTo(grabbedMob)==dirTo(source);
+	}
+
+	override public function hitCover(dmg:Int, source:Entity) {
+		if( grabbedMob!=null )
+			grabbedMob.hit(dmg, source);
+		else
+			super.hitCover(dmg, source);
 	}
 
 	public function setAmmo(v) {
@@ -155,6 +173,7 @@ class Hero extends Entity {
 
 	override function get_shootY():Float {
 		return switch( curAnimId ) {
+			case "heroGrabBlind" : footY - 16;
 			case "heroBlind" : footY - 16;
 			case "heroAim" : footY - 21;
 			default : super.get_shootY();
@@ -220,8 +239,16 @@ class Hero extends Entity {
 			}
 		}
 
+		// Throw grabbed mob
+		if( grabbedMob!=null && MLib.fabs(centerX-dir*10-x)<=9 && MLib.fabs(centerY-y)<=20 )
+			a = KickGrab;
+
+		// Turn back
+		if( a==null && grabbedMob!=null && MLib.fabs(x-centerX)>=Const.GRID && ( x>centerX && dir==-1 || x<centerX && dir==1 ) )
+			a = TurnBack;
+
 		// Wait
-		if( game.isSlowMo() && ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		if( grabbedMob==null && game.isSlowMo() && ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Wait(0.6);
 
 		// Take cover
@@ -234,22 +261,31 @@ class Hero extends Entity {
 					a = TakeCover(e, 1);
 			}
 
-		// Shoot mob
+		// Grab mob
 		var best : en.Mob = null;
-		for(e in en.Mob.ALL) {
-			if( e.canBeShot() && ( e.head.contains(x,y) || e.torso.contains(x,y) || e.legs.contains(x,y) ) && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
+		for(e in en.Mob.ALL)
+			if( grabbedMob!=e && MLib.fabs(x-e.centerX)<=Const.GRID && MLib.fabs(y-e.centerY)<=Const.GRID && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
 				best = e;
-		}
-		if( best!=null ) {
-			a = Grab(best);
-			//if( best.head.contains(x,y) )
-				//a = HeadShot(best);
-			//else
-				//a = BlindShot(best);
+		if( best!=null )
+			a = GrabMob(best, x<best.centerX ? -1 : 1);
+
+		// Shoot mob
+		if( a!=KickGrab ) {
+			var best : en.Mob = null;
+			for(e in en.Mob.ALL) {
+				if( e.canBeShot() && ( e.head.contains(x,y) || e.torso.contains(x,y) || e.legs.contains(x,y) ) && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
+					best = e;
+			}
+			if( best!=null ) {
+				if( best.head.contains(x,y) )
+					a = HeadShot(best);
+				else
+					a = BlindShot(best);
+			}
 		}
 
 		// Relaod
-		if( ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		if( grabbedMob==null && ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Reload;
 
 		return a;
@@ -260,6 +296,17 @@ class Hero extends Entity {
 			game.heroHistory.push( { t:game.itime, a:a } );
 		switch( a ) {
 			case None :
+
+			case KickGrab :
+				if( grabbedMob!=null ) {
+					grabbedMob.xr+=0.5*dirTo(grabbedMob);
+					grabbedMob.violentBump(dir*0.5, -0.1, 1);
+					stopGrab();
+					spr.anim.play("heroKick");
+				}
+
+			case TurnBack :
+				dir*=-1;
 
 			case Wait(t) :
 				spr.anim.stopWithStateAnims();
@@ -284,13 +331,19 @@ class Hero extends Entity {
 				afterMoveAction = None;
 				leaveCover();
 
-			case Grab(e) :
-				if( distCase(e)>1 ) {
-					moveTarget = new FPoint(e.footX,e.footY);
-					afterMoveAction = Grab(e);
+			case GrabMob(e,side) :
+				if( distPxFree(e.footX+side*10, e.footY) >=20 ) {
+					stopGrab();
+					moveTarget = new FPoint(e.footX+side*10,e.footY);
+					fx.markerFree(moveTarget.x, moveTarget.y);
+					afterMoveAction = GrabMob(e,side);
 				}
-				else
+				else {
+					dir = -side;
+					cx = e.cx;
+					xr = e.xr+side*0.9;
 					startGrab(e);
+				}
 
 			case TakeCover(c,side) :
 				spr.anim.stopWithStateAnims();
@@ -336,6 +389,8 @@ class Hero extends Entity {
 	}
 
 	public function startGrab(e:en.Mob) {
+		if( !e.isAlive() )
+			return;
 		grabbedMob = e;
 		grabbedMob.hasGravity = false;
 		grabbedMob.interruptSkills(false);
@@ -346,7 +401,8 @@ class Hero extends Entity {
 		if( grabbedMob==null )
 			return;
 		grabbedMob.hasGravity = true;
-		game.scroller.add(grabbedMob.spr, Const.DP_MOBS);
+		if( grabbedMob.isAlive() )
+			game.scroller.add(grabbedMob.spr, Const.DP_MOBS);
 		grabbedMob = null;
 	}
 
@@ -365,27 +421,37 @@ class Hero extends Entity {
 		switch( a ) {
 			case None : icon.visible = false;
 			case Move(_) : icon.visible = false;
+			case TurnBack : icon.visible = false;
+
 			case Wait(_) :
 				icon.setPos(centerX, footY);
 				icon.set("iconWait");
+
+			case KickGrab :
+				icon.setPos(centerX-dir*8, centerY);
+				icon.set("iconKickGrab");
+
 			case Reload :
 				icon.setPos(centerX, footY);
 				icon.set("iconReload");
-			//case Move(x,y) : icon.setPos(x,y); icon.set("iconMove"); icon.alpha = 0.3;
+
 			case BlindShot(e) :
 				icon.setPos(e.torso.centerX, e.torso.centerY+3);
 				icon.set(e.isCoveredFrom(this) ? "iconShootCover" : "iconShoot");
 				icon.colorize(e.isCoveredFrom(this) ? 0xFF0000 : 0xFFFFFF);
+
 			case HeadShot(e) :
 				icon.setPos(e.head.centerX, e.head.centerY);
 				icon.set("iconShoot");
 				icon.colorize(0xFFA600);
+
 			case TakeCover(e,side) :
 				icon.setPos(e.footX+side*14, e.footY-6);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
-			case Grab(e) :
-				icon.setPos(e.footX+dirTo(e)*14, e.footY-6);
-				icon.set("iconCover"+(dirTo(e)==-1?"Left":"Right"));
+
+			case GrabMob(e,side) :
+				icon.setPos(e.footX+side*14, e.footY-6);
+				icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 
 
@@ -405,7 +471,7 @@ class Hero extends Entity {
 					cd.setS("braking",0.2);
 			}
 			else {
-				var s = 0.02;
+				var s = 0.009;
 				if( moveTarget.x>centerX ) {
 					dir = 1;
 					dx+=s*dt;
@@ -422,7 +488,7 @@ class Hero extends Entity {
 				stopGrab();
 			}
 			else {
-				grabbedMob.setPosPixel(footX+dir*5,footY-1);
+				grabbedMob.setPosPixel(footX+dir*6,footY-1);
 				grabbedMob.dir = dir;
 			}
 		}
