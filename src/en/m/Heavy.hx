@@ -6,6 +6,7 @@ class Heavy extends en.Mob {
 		super(x,y);
 
 		initLife(6);
+		sprScaleX = sprScaleY = 1.25;
 
 		spr.anim.registerStateAnim("cRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("cPush",2, function() return !onGround && isStunned());
@@ -38,12 +39,11 @@ class Heavy extends en.Mob {
 		lockControlsS(rnd(0.3,1.6));
 	}
 
-	override public function stunS(t:Float) {
-	}
+	override public function stunS(t:Float) {}
 
-	override public function canBeGrabbed() {
-		return false;
-	}
+	override public function canBeGrabbed() return false;
+	override public function canBePushed() return false;
+
 
 	override function onDie() {
 		super.onDie();
@@ -59,7 +59,7 @@ class Heavy extends en.Mob {
 	}
 	override function get_headY():Float {
 		if( spr!=null && !spr.destroyed )
-			return super.get_headY() + switch( spr.groupName ) {
+			return super.get_headY() - 5 + switch( spr.groupName ) {
 				case "cStun" : 7;
 				default : 0;
 			}

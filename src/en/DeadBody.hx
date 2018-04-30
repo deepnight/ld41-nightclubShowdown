@@ -10,6 +10,8 @@ class DeadBody extends Entity {
 		xr = e.xr;
 		yr = e.yr;
 
+		sprScaleX = e.sprScaleX;
+		sprScaleY = e.sprScaleY;
 		dx = e.lastHitDir * 0.18;
 		dir = -e.lastHitDir;
 		gravity*=0.25;
@@ -50,12 +52,14 @@ class DeadBody extends Entity {
 			fx.woundBleed(centerX-dir*8,centerY);
 
 		if( !onGround ) {
+			// Dmg covers
 			for(e in en.Cover.ALL)
 				if( distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.3) && ( dx>0 && dirTo(e)==1 || dx<0 && dirTo(e)==-1 ) )
 					e.hit(2,this,true);
 
+			// Push mobs
 			for(e in en.Mob.ALL)
-				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) ) {
+				if( e.isAlive() && distPx(e)<=radius+e.radius && !e.cd.hasSetS("bodyHit",0.4) && e.canBePushed() ) {
 					if( !e.cd.hasSetS("bodyDmg",1) )
 						e.hit(1,this,true);
 					e.violentBump(dirTo(e)*0.4, -0.2, 1.75);

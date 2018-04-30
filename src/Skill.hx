@@ -37,21 +37,21 @@ class Skill {
 	public function isUnderCd() return curCdS>0;
 
 
-	public function prepare() {
+	public function prepare(?cdMul=1.0) {
 		if( !isReady() )
 			return false;
 
-		curChargeS = 0;
+		curChargeS = (1-cdMul)*chargeS;
 		onStart();
 		return true;
 	}
 
-	public function prepareOn(e:Entity) {
+	public function prepareOn(e:Entity, ?cdMul=1.0) {
 		if( !isReady() )
 			return false;
 
 		target = e;
-		return prepare();
+		return prepare(cdMul);
 	}
 
 	public function setTimers(charge:Float, cd:Float, lock:Float) {

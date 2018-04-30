@@ -95,9 +95,8 @@ class Game extends mt.Process {
 		{
 			//new en.Cover(5,4);
 			//new en.Cover(10,4);
-			////new en.m.Grenader(16,4);
-			//new en.m.BasicGun(12,4);
-			//new en.m.BasicGun(2,4);
+			//new en.m.Grenader(16,4);
+			//new en.m.Heavy(12,4);
 			//level.waveMobCount = en.Mob.ALL.length;
 		}
 		#end
@@ -158,7 +157,7 @@ class Game extends mt.Process {
 		clickTrap.height = h();
 
 		hud.x = Std.int( w()*0.5/Const.SCALE - hud.outerWidth*0.5 );
-		hud.y = Std.int( level.hei*Const.GRID + 4 );
+		hud.y = Std.int( level.hei*Const.GRID + 6 );
 
 		mask.clear();
 		mask.beginFill(0x0,1);

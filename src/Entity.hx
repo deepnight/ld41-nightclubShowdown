@@ -35,6 +35,8 @@ class Entity {
 	public var hasColl = true;
 	public var isAffectBySlowMo = true;
 	public var lastHitDir = 0;
+	public var sprScaleX = 1.0;
+	public var sprScaleY = 1.0;
 
 	public var life : Int;
 	public var maxLife : Int;
@@ -199,7 +201,7 @@ class Entity {
 	}
 
 	public function stunS(t:Float) {
-		if( isAlive() )
+		if( isAlive() && t>0 )
 			cd.setS("stun",t,false);
 	}
 	public function isStunned() {
@@ -353,7 +355,8 @@ class Entity {
 	public function postUpdate() {
 		spr.x = (cx+xr)*Const.GRID;
 		spr.y = (cy+yr)*Const.GRID;
-		spr.scaleX = dir;
+		spr.scaleX = dir*sprScaleX;
+		spr.scaleY = sprScaleY;
 		spr.anim.setGlobalSpeed( isAffectBySlowMo ? game.getSlowMoFactor() : 1 );
 
 		if( label!=null ) {

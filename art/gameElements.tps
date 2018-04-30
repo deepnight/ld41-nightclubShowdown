@@ -210,6 +210,8 @@
             <key type="filename">export/aDeathFly0.png</key>
             <key type="filename">export/aDeathFly1.png</key>
             <key type="filename">export/aDeathGround0.png</key>
+            <key type="filename">export/aGrab0.png</key>
+            <key type="filename">export/aGrab1.png</key>
             <key type="filename">export/aHit0.png</key>
             <key type="filename">export/aIdle0.png</key>
             <key type="filename">export/aPush0.png</key>
@@ -231,6 +233,8 @@
             <key type="filename">export/bDeathFly0.png</key>
             <key type="filename">export/bDeathFly1.png</key>
             <key type="filename">export/bDeathGround0.png</key>
+            <key type="filename">export/bGrab0.png</key>
+            <key type="filename">export/bGrab1.png</key>
             <key type="filename">export/bHit0.png</key>
             <key type="filename">export/bIdle0.png</key>
             <key type="filename">export/bPush0.png</key>
@@ -274,8 +278,14 @@
             <key type="filename">export/heroDeathFly0.png</key>
             <key type="filename">export/heroDeathFly1.png</key>
             <key type="filename">export/heroDeathGround0.png</key>
+            <key type="filename">export/heroGrabBlind0.png</key>
+            <key type="filename">export/heroGrabBlindShoot0.png</key>
+            <key type="filename">export/heroGrabBlindShoot1.png</key>
             <key type="filename">export/heroHit0.png</key>
             <key type="filename">export/heroIdle0.png</key>
+            <key type="filename">export/heroIdleGrab0.png</key>
+            <key type="filename">export/heroKick0.png</key>
+            <key type="filename">export/heroKick1.png</key>
             <key type="filename">export/heroPush0.png</key>
             <key type="filename">export/heroReload0.png</key>
             <key type="filename">export/heroReload1.png</key>
@@ -375,6 +385,7 @@
             <key type="filename">export/crateBroken0.png</key>
             <key type="filename">export/iconCoverLeft.png</key>
             <key type="filename">export/iconCoverRight.png</key>
+            <key type="filename">export/iconKickGrab.png</key>
             <key type="filename">export/iconMove.png</key>
             <key type="filename">export/iconReload.png</key>
             <key type="filename">export/iconShoot.png</key>

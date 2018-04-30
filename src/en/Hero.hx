@@ -7,8 +7,8 @@ import mt.heaps.slib.*;
 
 enum Action {
 	None;
-	BlindShot(e:Entity);
-	HeadShot(e:Entity);
+	BlindShot(e:en.Mob);
+	HeadShot(e:en.Mob);
 	Move(x:Float, y:Float);
 	TurnBack;
 	TakeCover(e:Cover, side:Int);
@@ -67,6 +67,7 @@ class Hero extends Entity {
 		}
 		s.onExecute = function(e) {
 			if( !useAmmo() ) {
+				Assets.SBANK.empty(1);
 				if( grabbedMob==null )
 					spr.anim.play("heroBlindShoot");
 				else
@@ -75,7 +76,7 @@ class Hero extends Entity {
 			}
 
 			if( e.hit(1,this) ) {
-				var r = e.getDiminishingReturnFactor("blindShot",1,3);
+				var r = e.getDiminishingReturnFactor("blindShot",1,1);
 				e.dx*=0.3;
 				e.dx+=dirTo(e)*rnd(0.03,0.05)*r;
 				e.stunS(1.1*r);
@@ -87,8 +88,9 @@ class Hero extends Entity {
 			fx.bullet(shootX-dir*5,shootY,-dir);
 			fx.flashBangS(0x477ADA,0.1,0.1);
 
-			if( cover==null )
+			if( cover==null && grabbedMob==null )
 				dx += 0.03*-dir;
+
 			if( grabbedMob==null )
 				spr.anim.play("heroBlindShoot");
 			else
@@ -104,6 +106,7 @@ class Hero extends Entity {
 		}
 		s.onExecute = function(e) {
 			if( !useAmmo() ) {
+				Assets.SBANK.empty(1);
 				spr.anim.play("heroAimShoot");
 				return;
 			}
@@ -118,7 +121,10 @@ class Hero extends Entity {
 			Assets.SBANK.pew0(0.5);
 
 			if( cover==null )
-				dx += 0.03*-dir;
+				if( grabbedMob==null )
+					dx += 0.03*-dir;
+				else
+					dx += 0.01*-dir;
 			spr.anim.play("heroAimShoot");
 		}
 	}
@@ -141,7 +147,7 @@ class Hero extends Entity {
 
 	function useAmmo() {
 		if( ammo<=0 ) {
-			game.announce("Reload!");
+			say("I need to reload!", 0xFF0000);
 			fx.noAmmo(shootX, shootY, dir);
 			lockControlsS(0.2);
 			return false;
@@ -253,22 +259,23 @@ class Hero extends Entity {
 			a = Wait(0.6);
 
 		// Take cover
-		if( grabbedMob==null )
-			for(e in en.Cover.ALL) {
-				if( e.left.contains(x,y) && e.canHostSomeone(-1) )
-					a = TakeCover(e, -1);
+		for(e in en.Cover.ALL) {
+			if( e.left.contains(x,y) && e.canHostSomeone(-1) )
+				a = TakeCover(e, -1);
 
-				if( e.right.contains(x,y) && e.canHostSomeone(1) )
-					a = TakeCover(e, 1);
-			}
+			if( e.right.contains(x,y) && e.canHostSomeone(1) )
+				a = TakeCover(e, 1);
+		}
 
 		// Grab mob
-		var best : en.Mob = null;
-		for(e in en.Mob.ALL)
-			if( grabbedMob!=e && MLib.fabs(x-e.centerX)<=Const.GRID && MLib.fabs(y-e.centerY)<=Const.GRID && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
-				best = e;
-		if( best!=null )
-			a = GrabMob(best, x<best.centerX ? -1 : 1);
+		if( grabbedMob==null ) {
+			var best : en.Mob = null;
+			for(e in en.Mob.ALL)
+				if( e.canBeShot() && e.canBeGrabbed() && grabbedMob!=e && MLib.fabs(x-e.centerX)<=Const.GRID && MLib.fabs(y-e.centerY)<=Const.GRID && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
+					best = e;
+			if( best!=null )
+				a = GrabMob(best, x<best.centerX ? -1 : 1);
+		}
 
 		// Shoot mob
 		if( a!=KickGrab ) {
@@ -300,8 +307,10 @@ class Hero extends Entity {
 
 			case KickGrab :
 				if( grabbedMob!=null ) {
+					Assets.SBANK.hit1(1);
+					grabbedMob.hit(1, this, true);
 					grabbedMob.xr+=0.5*dirTo(grabbedMob);
-					grabbedMob.violentBump(dir*0.5, -0.1, 1);
+					grabbedMob.violentBump(dir*0.5, -0.1, 1.5);
 					stopGrab();
 					spr.anim.play("heroKick");
 				}
@@ -331,15 +340,17 @@ class Hero extends Entity {
 				cd.setS("rollBraking",cd.getS("rolling")+0.1);
 				afterMoveAction = None;
 				leaveCover();
+				stopGrab();
 
 			case GrabMob(e,side) :
 				if( distPxFree(e.footX+side*10, e.footY) >=20 ) {
 					stopGrab();
+					leaveCover();
 					moveTarget = new FPoint(e.footX+side*10,e.footY);
-					fx.markerFree(moveTarget.x, moveTarget.y);
 					afterMoveAction = GrabMob(e,side);
 				}
 				else {
+					Assets.SBANK.hit0(1);
 					dir = -side;
 					cx = e.cx;
 					xr = e.xr+side*0.9;
@@ -348,7 +359,8 @@ class Hero extends Entity {
 
 			case TakeCover(c,side) :
 				spr.anim.stopWithStateAnims();
-				if( c.canHostSomeone(side) )
+				if( c.canHostSomeone(side) ) {
+					stopGrab();
 					if( distPxFree(c.centerX+side*10,c.centerY)>=20 ) {
 						moveTarget = new FPoint(c.centerX+side*10, footY);
 						afterMoveAction = a;
@@ -357,20 +369,13 @@ class Hero extends Entity {
 					else {
 						startCover(c,side);
 					}
+				}
 
 			case BlindShot(e) :
-				//if( cover!=null && dirTo(cover)!=dirTo(e) ) {
-					//leaveCover();
-					//dx = -0.05;
-				//}
-				getSkill("blindShot").prepareOn(e);
+				getSkill("blindShot").prepareOn(e, e.isGrabbed()?0.5:1);
 
 			case HeadShot(e) :
-				//if( cover!=null && dirTo(cover)!=dirTo(e) ) {
-					//leaveCover();
-					//dx = -0.05;
-				//}
-				getSkill("headShot").prepareOn(e);
+				getSkill("headShot").prepareOn(e, e.isGrabbed()?0.5:1);
 		}
 	}
 
@@ -430,6 +435,7 @@ class Hero extends Entity {
 
 			case KickGrab :
 				icon.setPos(centerX-dir*8, centerY);
+				icon.colorize(0xFF9300);
 				icon.set("iconKickGrab");
 
 			case Reload :
@@ -439,19 +445,21 @@ class Hero extends Entity {
 			case BlindShot(e) :
 				icon.setPos(e.torso.centerX, e.torso.centerY+3);
 				icon.set(e.isCoveredFrom(this) ? "iconShootCover" : "iconShoot");
-				icon.colorize(e.isCoveredFrom(this) ? 0xFF0000 : 0xFFFFFF);
+				icon.colorize(e.isCoveredFrom(this) ? 0xFF0000 : 0xFFFF00);
 
 			case HeadShot(e) :
 				icon.setPos(e.head.centerX, e.head.centerY);
 				icon.set("iconShoot");
-				icon.colorize(0xFFA600);
+				icon.colorize(0xFF9300);
 
 			case TakeCover(e,side) :
 				icon.setPos(e.footX+side*14, e.footY-6);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
+				icon.colorize(0xA6EE11);
 
 			case GrabMob(e,side) :
 				icon.setPos(e.footX+side*14, e.footY-6);
+				icon.colorize(0xA6EE11);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
 		}
 

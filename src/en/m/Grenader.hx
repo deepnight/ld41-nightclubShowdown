@@ -7,6 +7,7 @@ class Grenader extends en.Mob {
 
 		initLife(3);
 
+		spr.anim.registerStateAnim("bGrab",4, function() return isGrabbed() );
 		spr.anim.registerStateAnim("bPush",2, function() return !onGround && cd.has("bodyHit"));
 		spr.anim.registerStateAnim("bStun",1, function() return isStunned());
 		spr.anim.registerStateAnim("bIdle",0);

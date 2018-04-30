@@ -194,7 +194,7 @@ class Level extends mt.Process {
 		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length + getPixels(0x00ff00).length;
 
 		for(pt in getPixels(0x704621))
-			new en.Cover(pt.cx,0);
+			new en.Cover(pt.cx,3);
 
 		function initMob(cx:Int, cy:Int, cb:Void->en.Mob) {
 			delayer.addS(function() {

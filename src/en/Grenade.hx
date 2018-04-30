@@ -55,6 +55,10 @@ class Grenade extends Entity {
 				if( distPx(e)<=range )
 					e.hit(999, this, true);
 
+			for(e in en.Mob.ALL)
+				if( distPx(e)<=range )
+					e.hit(3, this, true);
+
 			destroy();
 		}
 	}

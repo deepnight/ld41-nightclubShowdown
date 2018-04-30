@@ -35,6 +35,16 @@ class Mob extends Entity {
 		hitSounds.insert(hitSounds.length-irnd(0,2), s);
 	}
 
+	override public function violentBump(bdx:Float, bdy:Float, sec:Float) {
+		super.violentBump(bdx, bdy, sec);
+		leaveCover();
+	}
+
+	override function onDamage(v:Int) {
+		super.onDamage(v);
+		leaveCover();
+	}
+
 	public function enterArena(t) {
 		dir = cx<level.wid*0.5 ? 1 : -1;
 		spr.alpha = 0;
@@ -44,6 +54,8 @@ class Mob extends Entity {
 		});
 		lockControlsS(t+cd.getS("entering"));
 	}
+
+	public function canBePushed() return true;
 
 	public function canBeGrabbed() {
 		return true;
@@ -56,7 +68,8 @@ class Mob extends Entity {
 
 	override public function stunS(t:Float) {
 		super.stunS(t);
-		tx = -1;
+		if( t>0 )
+			tx = -1;
 	}
 
 	public function isGrabbed() return hero.isAlive() && hero.grabbedMob==this;
