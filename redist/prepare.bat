@@ -19,3 +19,4 @@ echo Copying...
 copy bin\client.hl redist\NightclubShowdown\hlboot.dat
 copy bin\client.swf redist
 copy bin\client.js redist
+pause
