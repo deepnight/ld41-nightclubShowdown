@@ -5,7 +5,7 @@ class Heavy extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(10);
+		initLife(6);
 
 		spr.anim.registerStateAnim("cRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("cPush",2, function() return !onGround && isStunned());
@@ -36,6 +36,9 @@ class Heavy extends en.Mob {
 		}
 
 		lockControlsS(rnd(0.3,1.6));
+	}
+
+	override public function stunS(t:Float) {
 	}
 
 	override public function canBeGrabbed() {

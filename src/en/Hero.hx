@@ -162,6 +162,7 @@ class Hero extends Entity {
 
 	override function onDie() {
 		super.onDie();
+		stopGrab();
 		new en.DeadBody(this,"hero");
 		game.announce("ESCAPE to restart",0xFF0000,true);
 	}
@@ -471,7 +472,7 @@ class Hero extends Entity {
 					cd.setS("braking",0.2);
 			}
 			else {
-				var s = 0.009;
+				var s = 0.011;
 				if( moveTarget.x>centerX ) {
 					dir = 1;
 					dx+=s*dt;
