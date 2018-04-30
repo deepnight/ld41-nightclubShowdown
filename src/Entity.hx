@@ -28,6 +28,7 @@ class Entity {
 	public var dy = 0.;
 	public var frict = 0.9;
 	public var gravity = 0.02;
+	public var hasGravity = true;
 	public var weight = 1.;
 	public var radius : Float;
 	public var dir(default,set) = 1;
@@ -514,7 +515,7 @@ class Entity {
 		dx*=Math.pow(frict,dt);
 
 		// Gravity
-		if( !onGround )
+		if( !onGround && hasGravity )
 			dy += gravity*dt;
 
 		// Y

@@ -1,26 +1,26 @@
 
 gameElements.png
-size: 826,256
+size: 856,250
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 aAim0
   rotate: false
-  xy: 782, 94
+  xy: 627, 183
   size: 18, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 aAimShoot0
   rotate: false
-  xy: 696, 116
+  xy: 730, 183
   size: 18, 25
   orig: 32, 32
   offset: 7, 0
   index: -1
 aAimShoot1
   rotate: false
-  xy: 638, 152
+  xy: 835, 84
   size: 19, 25
   orig: 32, 32
   offset: 9, 0
@@ -34,7 +34,7 @@ aBlind0
   index: -1
 aBlindShoot0
   rotate: false
-  xy: 802, 2
+  xy: 671, 116
   size: 22, 26
   orig: 32, 32
   offset: 3, 0
@@ -48,21 +48,21 @@ aBlindShoot1
   index: -1
 aCover0
   rotate: false
-  xy: 472, 207
+  xy: 268, 230
   size: 14, 18
   orig: 32, 32
   offset: 9, 0
   index: -1
 aDeathBounce0
   rotate: false
-  xy: 439, 207
+  xy: 802, 84
   size: 31, 8
   orig: 32, 32
   offset: 1, 0
   index: -1
 aDeathFly0
   rotate: false
-  xy: 245, 230
+  xy: 782, 94
   size: 20, 24
   orig: 32, 32
   offset: 4, 0
@@ -76,140 +76,154 @@ aDeathFly1
   index: -1
 aDeathGround0
   rotate: false
-  xy: 488, 226
+  xy: 711, 143
   size: 31, 6
   orig: 32, 32
   offset: 1, 0
   index: -1
+aGrab0
+  rotate: false
+  xy: 815, 146
+  size: 13, 25
+  orig: 32, 32
+  offset: 8, 0
+  index: -1
+aGrab1
+  rotate: false
+  xy: 761, 142
+  size: 14, 25
+  orig: 32, 32
+  offset: 8, 1
+  index: -1
 aHit0
   rotate: false
-  xy: 679, 207
+  xy: 660, 210
   size: 17, 24
   orig: 32, 32
   offset: 7, 0
   index: -1
 aIdle0
   rotate: false
-  xy: 607, 208
+  xy: 823, 173
   size: 15, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 aPush0
   rotate: false
-  xy: 267, 230
+  xy: 804, 94
   size: 20, 24
   orig: 32, 32
   offset: 8, 0
   index: -1
 aRun0
   rotate: false
-  xy: 355, 227
+  xy: 560, 152
   size: 21, 27
   orig: 32, 32
   offset: 7, 0
   index: -1
 aRun1
   rotate: false
-  xy: 588, 180
+  xy: 583, 181
   size: 20, 26
   orig: 32, 32
   offset: 9, 0
   index: -1
 aRun2
   rotate: false
-  xy: 610, 180
+  xy: 541, 207
   size: 17, 25
   orig: 32, 32
   offset: 12, 0
   index: -1
 aRun3
   rotate: false
-  xy: 802, 30
+  xy: 827, 56
   size: 22, 26
   orig: 32, 32
   offset: 7, 1
   index: -1
 aRun4
   rotate: false
-  xy: 716, 115
+  xy: 605, 181
   size: 20, 26
   orig: 32, 32
   offset: 10, 0
   index: -1
 aRun5
   rotate: false
-  xy: 668, 179
+  xy: 805, 173
   size: 16, 25
   orig: 32, 32
   offset: 12, 0
   index: -1
 aStun0
   rotate: false
-  xy: 591, 235
+  xy: 444, 233
   size: 16, 15
   orig: 32, 32
   offset: 5, 0
   index: -1
 bAim0
   rotate: false
-  xy: 782, 121
+  xy: 560, 209
   size: 18, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 bAimShoot0
   rotate: false
-  xy: 521, 206
+  xy: 580, 209
   size: 18, 25
   orig: 32, 32
   offset: 7, 0
   index: -1
 bAimShoot1
   rotate: false
-  xy: 659, 152
+  xy: 709, 151
   size: 19, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 bBlind0
   rotate: false
-  xy: 541, 152
+  xy: 802, 56
   size: 23, 26
   orig: 32, 32
   offset: 6, 0
   index: -1
 bBlindShoot0
   rotate: false
-  xy: 802, 58
+  xy: 349, 199
   size: 22, 26
   orig: 32, 32
   offset: 3, 0
   index: -1
 bBlindShoot1
   rotate: false
-  xy: 541, 152
+  xy: 802, 56
   size: 23, 26
   orig: 32, 32
   offset: 5, 0
   index: -1
 bCover0
   rotate: false
-  xy: 502, 234
+  xy: 284, 230
   size: 14, 18
   orig: 32, 32
   offset: 9, 0
   index: -1
 bDeathBounce0
   rotate: false
-  xy: 439, 217
+  xy: 665, 200
   size: 31, 8
   orig: 32, 32
   offset: 1, 0
   index: -1
 bDeathFly0
   rotate: false
-  xy: 289, 230
+  xy: 777, 120
   size: 20, 24
   orig: 32, 32
   offset: 4, 0
@@ -223,7 +237,7 @@ bDeathFly1
   index: -1
 bDeathGround0
   rotate: false
-  xy: 558, 235
+  xy: 558, 236
   size: 31, 6
   orig: 32, 32
   offset: 1, 0
@@ -251,28 +265,28 @@ bgOver
   index: -1
 bHit0
   rotate: false
-  xy: 698, 207
+  xy: 679, 210
   size: 17, 24
   orig: 32, 32
   offset: 7, 0
   index: -1
 bIdle0
   rotate: false
-  xy: 624, 207
+  xy: 735, 210
   size: 15, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 bigDirt0
   rotate: false
-  xy: 416, 199
+  xy: 826, 107
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 bigDirt1
   rotate: false
-  xy: 627, 234
+  xy: 788, 241
   size: 6, 7
   orig: 6, 7
   offset: 0, 0
@@ -286,357 +300,357 @@ bottomLight
   index: -1
 bPush0
   rotate: false
-  xy: 311, 230
+  xy: 799, 120
   size: 20, 24
   orig: 32, 32
   offset: 8, 0
   index: -1
 bRun0
   rotate: false
-  xy: 378, 227
+  xy: 583, 152
   size: 21, 27
   orig: 32, 32
   offset: 7, 0
   index: -1
 bRun1
   rotate: false
-  xy: 738, 115
+  xy: 665, 144
   size: 20, 26
   orig: 32, 32
   offset: 9, 0
   index: -1
 bRun2
   rotate: false
-  xy: 649, 179
+  xy: 777, 146
   size: 17, 25
   orig: 32, 32
   offset: 12, 0
   index: -1
 bRun3
   rotate: false
-  xy: 802, 86
+  xy: 512, 152
   size: 22, 26
   orig: 32, 32
   offset: 7, 1
   index: -1
 bRun4
   rotate: false
-  xy: 760, 115
+  xy: 665, 172
   size: 20, 26
   orig: 32, 32
   offset: 10, 0
   index: -1
 bRun5
   rotate: false
-  xy: 736, 197
+  xy: 752, 201
   size: 16, 25
   orig: 32, 32
   offset: 12, 0
   index: -1
 bStun0
   rotate: false
-  xy: 609, 235
+  xy: 462, 233
   size: 16, 15
   orig: 32, 32
   offset: 5, 0
   index: -1
 cAim0
   rotate: false
-  xy: 802, 151
+  xy: 620, 210
   size: 18, 24
   orig: 32, 32
   offset: 9, 0
   index: -1
 cAimShoot0
   rotate: false
-  xy: 717, 171
+  xy: 640, 210
   size: 18, 24
   orig: 32, 32
   offset: 7, 0
   index: -1
 cAimShoot1
   rotate: false
-  xy: 781, 148
+  xy: 709, 178
   size: 19, 24
   orig: 32, 32
   offset: 9, 0
   index: -1
 cBlind0
   rotate: false
-  xy: 671, 116
+  xy: 487, 180
   size: 23, 25
   orig: 32, 32
   offset: 6, 0
   index: -1
 cBlindShoot0
   rotate: false
-  xy: 614, 152
+  xy: 512, 180
   size: 22, 25
   orig: 32, 32
   offset: 3, 0
   index: -1
 cBlindShoot1
   rotate: false
-  xy: 671, 116
+  xy: 487, 180
   size: 23, 25
   orig: 32, 32
   offset: 5, 0
   index: -1
 cCover0
   rotate: false
-  xy: 695, 233
+  xy: 300, 230
   size: 14, 18
   orig: 32, 32
   offset: 9, 0
   index: -1
 cDeathBounce0
   rotate: false
-  xy: 488, 206
+  xy: 421, 207
   size: 31, 8
   orig: 32, 32
   offset: 1, 0
   index: -1
 cDeathFly0
   rotate: false
-  xy: 333, 230
+  xy: 454, 207
   size: 20, 24
   orig: 32, 32
   offset: 4, 0
   index: -1
 cDeathFly1
   rotate: false
-  xy: 416, 207
+  xy: 245, 230
   size: 21, 18
   orig: 32, 32
   offset: 5, 3
   index: -1
 cDeathGround0
   rotate: false
-  xy: 558, 243
+  xy: 591, 236
   size: 31, 6
   orig: 32, 32
   offset: 1, 0
   index: -1
 cHit0
   rotate: false
-  xy: 773, 174
+  xy: 716, 210
   size: 17, 23
   orig: 32, 32
   offset: 7, 0
   index: -1
 cIdle0
   rotate: false
-  xy: 756, 170
+  xy: 825, 200
   size: 15, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 circle
   rotate: false
-  xy: 809, 225
+  xy: 698, 233
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 cPush0
   rotate: false
-  xy: 802, 126
+  xy: 498, 207
   size: 20, 23
   orig: 32, 32
   offset: 8, 0
   index: -1
 crate0
   rotate: false
-  xy: 791, 203
+  xy: 498, 232
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 crateBroken0
   rotate: false
-  xy: 791, 221
+  xy: 679, 236
   size: 16, 10
   orig: 16, 16
   offset: 0, 0
   index: -1
 cRun0
   rotate: false
-  xy: 565, 180
+  xy: 560, 181
   size: 21, 26
   orig: 32, 32
   offset: 7, 0
   index: -1
 cRun1
   rotate: false
-  xy: 541, 207
+  xy: 755, 115
   size: 20, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 cRun2
   rotate: false
-  xy: 737, 171
+  xy: 821, 120
   size: 17, 24
   orig: 32, 32
   offset: 12, 0
   index: -1
 cRun3
   rotate: false
-  xy: 541, 180
+  xy: 536, 180
   size: 22, 25
   orig: 32, 32
   offset: 7, 1
   index: -1
 cRun4
   rotate: false
-  xy: 563, 208
+  xy: 687, 146
   size: 20, 25
   orig: 32, 32
   offset: 10, 0
   index: -1
 cRun5
   rotate: false
-  xy: 792, 177
+  xy: 807, 200
   size: 16, 24
   orig: 32, 32
   offset: 12, 0
   index: -1
 cStun0
   rotate: false
-  xy: 717, 224
+  xy: 516, 234
   size: 16, 14
   orig: 32, 32
   offset: 5, 0
   index: -1
 dancingA0
   rotate: false
-  xy: 324, 199
+  xy: 629, 152
   size: 16, 29
   orig: 16, 31
   offset: 0, 0
   index: -1
 dancingA1
   rotate: false
-  xy: 686, 177
+  xy: 695, 116
   size: 14, 28
   orig: 16, 31
   offset: 2, 0
   index: -1
 dancingB0
   rotate: false
-  xy: 702, 175
+  xy: 730, 151
   size: 13, 30
   orig: 16, 31
   offset: 2, 0
   index: -1
 dancingB1
   rotate: false
-  xy: 698, 143
+  xy: 647, 178
   size: 16, 30
   orig: 16, 31
   offset: 0, 0
   index: -1
 dancingC0
   rotate: false
-  xy: 424, 227
+  xy: 698, 204
   size: 16, 27
   orig: 16, 31
   offset: 0, 0
   index: -1
 dancingC1
   rotate: false
-  xy: 754, 197
+  xy: 770, 200
   size: 16, 25
   orig: 16, 31
   offset: 0, 0
   index: -1
 dot0
   rotate: false
-  xy: 342, 227
+  xy: 324, 227
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 grenade0
   rotate: false
-  xy: 481, 227
+  xy: 421, 199
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
   index: -1
 ground0
   rotate: false
-  xy: 680, 143
+  xy: 647, 144
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 heroAim0
   rotate: false
-  xy: 629, 179
+  xy: 600, 209
   size: 18, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroAimShoot0
   rotate: false
-  xy: 641, 206
+  xy: 796, 146
   size: 17, 25
   orig: 32, 32
   offset: 7, 0
   index: -1
 heroAimShoot1
   rotate: false
-  xy: 738, 143
+  xy: 520, 207
   size: 19, 25
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroBlind0
   rotate: false
-  xy: 342, 199
+  xy: 324, 199
   size: 23, 26
   orig: 32, 32
   offset: 6, 0
   index: -1
 heroBlindShoot0
   rotate: false
-  xy: 392, 199
+  xy: 373, 199
   size: 22, 26
   orig: 32, 32
   offset: 3, 0
   index: -1
 heroBlindShoot1
   rotate: false
-  xy: 367, 199
+  xy: 487, 152
   size: 23, 26
   orig: 32, 32
   offset: 5, 0
   index: -1
 heroBrake0
   rotate: false
-  xy: 566, 152
+  xy: 536, 152
   size: 22, 26
   orig: 32, 32
   offset: 5, 0
   index: -1
 heroCover0
   rotate: false
-  xy: 789, 233
+  xy: 316, 230
   size: 14, 18
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroDeathBounce0
   rotate: false
-  xy: 488, 216
+  xy: 421, 217
   size: 31, 8
   orig: 32, 32
   offset: 1, 0
   index: -1
 heroDeathFly0
   rotate: false
-  xy: 585, 208
+  xy: 687, 173
   size: 20, 25
   orig: 32, 32
   offset: 4, 0
@@ -650,196 +664,203 @@ heroDeathFly1
   index: -1
 heroDeathGround0
   rotate: false
-  xy: 646, 144
+  xy: 624, 236
   size: 31, 6
   orig: 32, 32
   offset: 1, 0
   index: -1
 heroHit0
   rotate: false
-  xy: 772, 199
+  xy: 788, 200
   size: 17, 24
   orig: 32, 32
   offset: 7, 0
   index: -1
 heroIdle0
   rotate: false
-  xy: 464, 227
+  xy: 750, 173
   size: 15, 26
   orig: 32, 32
   offset: 9, 0
   index: -1
+heroIdleGrab0
+  rotate: false
+  xy: 745, 143
+  size: 14, 28
+  orig: 32, 32
+  offset: 10, 0
+  index: -1
 heroPush0
   rotate: false
-  xy: 759, 143
+  xy: 476, 207
   size: 20, 24
   orig: 32, 32
   offset: 8, 0
   index: -1
 heroReload0
   rotate: false
-  xy: 660, 233
+  xy: 370, 227
   size: 16, 21
   orig: 32, 32
   offset: 7, 0
   index: -1
 heroReload1
   rotate: false
-  xy: 521, 233
+  xy: 332, 227
   size: 17, 21
   orig: 32, 32
   offset: 6, 0
   index: -1
 heroReload2
   rotate: false
-  xy: 641, 233
+  xy: 351, 227
   size: 17, 21
   orig: 32, 32
   offset: 6, 0
   index: -1
 heroReload3
   rotate: false
-  xy: 678, 233
+  xy: 388, 227
   size: 15, 21
   orig: 32, 32
   offset: 8, 0
   index: -1
 heroReload4
   rotate: false
-  xy: 810, 177
+  xy: 840, 111
   size: 14, 22
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroReload5
   rotate: false
-  xy: 810, 201
+  xy: 840, 135
   size: 14, 22
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroRoll0
   rotate: false
-  xy: 540, 235
+  xy: 405, 227
   size: 16, 19
   orig: 32, 32
   offset: 8, 6
   index: -1
 heroRun0
   rotate: false
-  xy: 401, 227
+  xy: 606, 152
   size: 21, 27
   orig: 32, 32
   offset: 7, 0
   index: -1
 heroRun1
   rotate: false
-  xy: 442, 227
+  xy: 711, 115
   size: 20, 26
   orig: 32, 32
   offset: 9, 0
   index: -1
 heroRun2
   rotate: false
-  xy: 660, 206
+  xy: 767, 173
   size: 17, 25
   orig: 32, 32
   offset: 12, 0
   index: -1
 heroRun3
   rotate: false
-  xy: 590, 152
+  xy: 397, 199
   size: 22, 26
   orig: 32, 32
   offset: 7, 1
   index: -1
 heroRun4
   rotate: false
-  xy: 716, 143
+  xy: 733, 115
   size: 20, 26
   orig: 32, 32
   offset: 10, 0
   index: -1
 heroRun5
   rotate: false
-  xy: 717, 197
+  xy: 786, 173
   size: 17, 25
   orig: 32, 32
   offset: 11, 0
   index: -1
 heroStun0
   rotate: false
-  xy: 735, 224
+  xy: 480, 233
   size: 16, 15
   orig: 32, 32
   offset: 5, 0
   index: -1
 iconBullet
   rotate: false
-  xy: 805, 233
+  xy: 745, 173
   size: 2, 6
   orig: 2, 6
   offset: 0, 0
   index: -1
 iconCoverLeft
   rotate: false
-  xy: 737, 241
+  xy: 657, 236
   size: 9, 12
   orig: 16, 16
   offset: 4, 2
   index: -1
 iconCoverRight
   rotate: false
-  xy: 748, 242
+  xy: 668, 236
   size: 9, 12
   orig: 16, 16
   offset: 3, 2
   index: -1
 iconHeart
   rotate: false
-  xy: 627, 243
+  xy: 830, 146
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 iconMove
   rotate: false
-  xy: 759, 242
+  xy: 826, 94
   size: 7, 11
   orig: 16, 16
   offset: 5, 3
   index: -1
 iconReload
   rotate: false
-  xy: 711, 241
+  xy: 715, 235
   size: 13, 13
   orig: 16, 16
   offset: 2, 2
   index: -1
 iconShield
   rotate: false
-  xy: 518, 234
+  xy: 851, 56
   size: 1, 16
   orig: 1, 16
   offset: 0, 0
   index: -1
 iconShoot
   rotate: false
-  xy: 753, 224
+  xy: 752, 228
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconShootCover
   rotate: false
-  xy: 771, 225
+  xy: 770, 227
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 iconWait
   rotate: false
-  xy: 726, 241
+  xy: 788, 226
   size: 9, 13
   orig: 16, 16
   offset: 3, 2
@@ -867,14 +888,14 @@ radius
   index: -1
 redCircle
   rotate: false
-  xy: 487, 152
+  xy: 802, 2
   size: 52, 52
   orig: 52, 52
   offset: 0, 0
   index: -1
 smallSmoke0
   rotate: false
-  xy: 481, 235
+  xy: 423, 227
   size: 19, 19
   orig: 19, 19
   offset: 0, 0
@@ -888,7 +909,7 @@ spot0
   index: -1
 wind
   rotate: false
-  xy: 802, 114
+  xy: 534, 234
   size: 22, 10
   orig: 22, 11
   offset: 0, 0

@@ -5,7 +5,7 @@ class Grenader extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(6);
+		initLife(3);
 
 		spr.anim.registerStateAnim("bPush",2, function() return !onGround && cd.has("bodyHit"));
 		spr.anim.registerStateAnim("bStun",1, function() return isStunned());

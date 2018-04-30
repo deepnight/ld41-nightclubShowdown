@@ -55,6 +55,8 @@ class Mob extends Entity {
 		tx = -1;
 	}
 
+	public function isGrabbed() return hero.isAlive() && hero.grabbedMob==this;
+
 	public function canBeShot() return !cd.has("entering");
 
 	override public function isBlockingHeroMoves() return true;
@@ -73,6 +75,13 @@ class Mob extends Entity {
 	function goto(x:Int, ?onDone:Void->Void) {
 		tx = x;
 		onArrive = onDone;
+	}
+
+	override public function movementLocked() {
+		return super.movementLocked() || isGrabbed();
+	}
+	override public function controlsLocked() {
+		return super.controlsLocked() || isGrabbed();
 	}
 
 	override public function update() {

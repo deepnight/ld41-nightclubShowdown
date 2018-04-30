@@ -5,8 +5,9 @@ class BasicGun extends en.Mob {
 	public function new(x,y) {
 		super(x,y);
 
-		initLife(3);
+		initLife(2);
 
+		spr.anim.registerStateAnim("aGrab",4, function() return isGrabbed() );
 		spr.anim.registerStateAnim("aRun",3, function() return cd.has("entering"));
 		spr.anim.registerStateAnim("aPush",2, function() return !onGround && isStunned());
 		spr.anim.registerStateAnim("aStun",1, function() return isStunned());
