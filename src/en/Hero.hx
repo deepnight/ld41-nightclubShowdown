@@ -84,7 +84,8 @@ class Hero extends Entity {
 			}
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0x2780D8);
 			Assets.SBANK.pew2(0.5);
-			Assets.SBANK.gun1(1);
+			//Assets.SBANK.gun1(1);
+			Assets.SBANK.blaster1(1);
 			fx.bullet(shootX-dir*5,shootY,-dir);
 			fx.flashBangS(0x477ADA,0.1,0.1);
 
@@ -117,7 +118,8 @@ class Hero extends Entity {
 				fx.headShot(shootX, shootY, e.headX, e.headY, dirTo(e));
 			fx.shoot(shootX, shootY, e.headX, e.headY, 0x2780D8);
 			fx.bullet(shootX-dir*5,shootY,dir);
-			Assets.SBANK.gun0(1);
+			//Assets.SBANK.gun0(1);
+			Assets.SBANK.heavy(1);
 			Assets.SBANK.pew0(0.5);
 
 			if( cover==null )

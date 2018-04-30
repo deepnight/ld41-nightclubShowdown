@@ -35,7 +35,7 @@ class BasicGun extends en.Mob {
 				e.lockControlsS(0.3);
 				fx.bloodHit(shootX, shootY, e.centerX, e.centerY);
 			}
-			Assets.SBANK.pew2(1);
+			Assets.SBANK.blaster0(1);
 			fx.shoot(shootX, shootY, e.centerX, e.centerY, 0xFF0000);
 			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
 		}
