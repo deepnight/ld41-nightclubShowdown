@@ -45,14 +45,14 @@ class Mob extends Entity {
 		leaveCover();
 	}
 
-	public function enterArena(t) {
+	public function enterArena() {
 		dir = cx<level.wid*0.5 ? 1 : -1;
 		spr.alpha = 0;
 		cd.setS("entering",0.5);
 		cd.onComplete("entering", function() {
 			lookAt(hero);
 		});
-		lockControlsS(t+cd.getS("entering"));
+		lockControlsS(rnd(0.2,0.8) + cd.getS("entering"));
 	}
 
 	public function canBePushed() return true;
@@ -92,6 +92,14 @@ class Mob extends Entity {
 	function goto(x:Int, ?onDone:Void->Void) {
 		tx = x;
 		onArrive = onDone;
+	}
+
+	public function countMobs(c:Class<Mob>,includeSelf:Bool) {
+		var n = 0;
+		for(e in ALL)
+			if( e.is(c) && ( includeSelf || e!=this ) )
+				n++;
+		return n;
 	}
 
 	override public function movementLocked() {

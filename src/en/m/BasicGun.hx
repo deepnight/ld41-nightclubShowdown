@@ -40,7 +40,7 @@ class BasicGun extends en.Mob {
 			spr.anim.play("aAimShoot").chainFor("aBlind",Const.FPS*0.2);
 		}
 
-		lockControlsS(rnd(0.3,1.6));
+		lockControlsS(cd.getS("ctrlLock") + 0.1 + countMobs(BasicGun,false)*0.6);
 	}
 
 	override function onDie() {

@@ -199,7 +199,7 @@ class Level extends mt.Process {
 		function initMob(cx:Int, cy:Int, cb:Void->en.Mob) {
 			delayer.addS(function() {
 				var e = cb();
-				e.enterArena(rnd(0.5,1));
+				e.enterArena();
 				if( hasPixel(0x363c60,cx-1,cy) )
 					e.dir = -1;
 				else if( hasPixel(0x363c60,cx-1,cy) )
