@@ -90,16 +90,6 @@ class Game extends mt.Process {
 		}
 		#end
 
-		// Testing
-		#if debug
-		{
-			//new en.Cover(5,4);
-			//new en.Cover(10,4);
-			//new en.m.Grenader(16,4);
-			//new en.m.Heavy(12,4);
-			//level.waveMobCount = en.Mob.ALL.length;
-		}
-		#end
 
 		vp.repos();
 
@@ -388,6 +378,9 @@ class Game extends mt.Process {
 				if( e.isAlive() )
 					e.hit(99, hero, true);
 		#end
+
+		if( Key.isDown(Key.ALT) && Main.ME.keyPressed(Key.ENTER) )
+			Main.ME.toggleFullscreen();
 
 		if( Main.ME.keyPressed(hxd.Key.S) ) {
 			notify("Sounds: "+(mt.deepnight.Sfx.isMuted(0) ? "ON" : "off"));

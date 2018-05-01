@@ -18,10 +18,7 @@ class Boot extends hxd.App {
 		engine.backgroundColor = 0xff<<24|Main.BG;
 		onResize();
 		#if hl
-			@:privateAccess hxd.Stage.getInstance().window.vsync = true;
-			#if !debug
-			@:privateAccess hxd.Stage.getInstance().window.displayMode = Borderless;
-			#end
+		@:privateAccess hxd.Stage.getInstance().window.vsync = true;
 		#end
 		new Main();
 	}

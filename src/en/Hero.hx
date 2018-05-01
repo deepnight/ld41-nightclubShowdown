@@ -26,6 +26,7 @@ class Hero extends Entity {
 	public var ammo : Int;
 	public var maxAmmo : Int;
 	public var grabbedMob : Null<en.Mob>;
+	public var help : Null<h2d.Text>;
 
 	public function new(x,y) {
 		super(x,y);
@@ -230,6 +231,8 @@ class Hero extends Entity {
 
 	function getActionAt(x:Float, y:Float) : Action {
 		var a = None;
+		if( game.hasCinematic() )
+			return a;
 
 		// Movement
 		if( MLib.fabs(y-footY)<=1.5*Const.GRID && grabbedMob==null ) {
@@ -241,9 +244,10 @@ class Hero extends Entity {
 				}
 
 			if( ok ) {
-				x = MLib.fclamp(x, 5, level.wid*Const.GRID-5);
-				if( game.waveId<=1 && level.waveMobCount>0 && x>=(level.wid-3)*Const.GRID )
-					x = (game.level.wid-3)*Const.GRID;
+				var tx = x;
+				tx = MLib.fclamp(tx, 5, level.wid*Const.GRID-5);
+				if( game.waveId<=1 && level.waveMobCount>0 && tx>=(level.wid-3)*Const.GRID )
+					tx = (game.level.wid-3)*Const.GRID;
 				a = Move(x,footY);
 			}
 		}
@@ -414,6 +418,25 @@ class Hero extends Entity {
 		grabbedMob = null;
 	}
 
+	function setHelp(?e:Entity, ?str:String, ?c=0xADAED6) {
+		if( str==null && help!=null ) {
+			help.remove();
+			help = null;
+		}
+		if( str!=null ) {
+			if( e==null )
+				e = this;
+			if( help==null ) {
+				help = new h2d.Text(Assets.font);
+				game.scroller.add(help, Const.DP_UI);
+			}
+			help.text = str;
+			help.textColor = c;
+			help.x = Std.int(e.footX-help.textWidth*0.5);
+			help.y = Std.int(e.headY-help.textHeight-12);
+		}
+	}
+
 	override public function update() {
 		super.update();
 
@@ -426,6 +449,7 @@ class Hero extends Entity {
 		icon.alpha = 0.7;
 		icon.visible = true;
 		icon.colorize(0xffffff);
+		setHelp();
 		switch( a ) {
 			case None : icon.visible = false;
 			case Move(_) : icon.visible = false;
@@ -434,35 +458,45 @@ class Hero extends Entity {
 			case Wait(_) :
 				icon.setPos(centerX, footY);
 				icon.set("iconWait");
+				setHelp("Wait");
 
 			case KickGrab :
 				icon.setPos(centerX-dir*8, centerY);
 				icon.colorize(0xFF9300);
 				icon.set("iconKickGrab");
+				setHelp("Kick your cover");
 
 			case Reload :
 				icon.setPos(centerX, footY);
 				icon.set("iconReload");
+				setHelp("Reload");
 
 			case BlindShot(e) :
 				icon.setPos(e.torso.centerX, e.torso.centerY+3);
 				icon.set(e.isCoveredFrom(this) ? "iconShootCover" : "iconShoot");
 				icon.colorize(e.isCoveredFrom(this) ? 0xFF0000 : 0xFFFF00);
+				if( e.isCoveredFrom(this) )
+					setHelp(e,"Quick shoot (cover)",0xFF0000);
+				else
+					setHelp(e,"Quick shoot",0xFFFF00);
 
 			case HeadShot(e) :
 				icon.setPos(e.head.centerX, e.head.centerY);
 				icon.set("iconShoot");
 				icon.colorize(0xFF9300);
+				setHelp(e,"Head shot",0xFF9300);
 
 			case TakeCover(e,side) :
 				icon.setPos(e.footX+side*14, e.footY-6);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
 				icon.colorize(0xA6EE11);
+				setHelp(e,"Cover",0xA6EE11);
 
 			case GrabMob(e,side) :
 				icon.setPos(e.footX+side*14, e.footY-6);
 				icon.colorize(0xA6EE11);
 				icon.set("iconCover"+(side==-1?"Left":"Right"));
+				setHelp(e,"Grab enemy",0xA6EE11);
 		}
 
 

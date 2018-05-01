@@ -24,7 +24,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="" />
     <option enabledebug="True" />
-    <option additional="flash.hxml" />
+    <option additional="hl.hxml" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

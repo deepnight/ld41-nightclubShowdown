@@ -28,6 +28,10 @@ class Main extends mt.Process {
 		Assets.init();
 		hxd.Timer.wantedFPS = Const.FPS;
 		console = new Console();
+		#if !debug
+		toggleFullscreen();
+		#end
+
 
 		black = new h2d.Bitmap(h2d.Tile.fromColor(BG,1,1), root);
 		black.visible = false;
@@ -69,6 +73,15 @@ class Main extends mt.Process {
 					cb();
 			}
 		}
+	}
+
+	var full = false;
+	public function toggleFullscreen() {
+		#if hl
+		var s = hxd.Stage.getInstance();
+		full = !full;
+		s.setFullScreen(full);
+		#end
 	}
 
 	override public function onResize() {
