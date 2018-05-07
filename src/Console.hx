@@ -10,7 +10,9 @@ class Console extends h2d.Console {
 		h2d.Console.HIDE_LOG_TIMEOUT = 30;
 		ME = this;
 		Main.ME.root.add(this, Const.DP_UI);
+		#if !flash
 		mt.deepnight.Lib.redirectTracesToH2dConsole(this);
+		#end
 
 		flags = new Map();
 
