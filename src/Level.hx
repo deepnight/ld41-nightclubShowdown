@@ -22,6 +22,7 @@ class Level extends mt.Process {
 
 		wid = 20;
 		hei = 7;
+		waveMobCount = 0;
 
 
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
