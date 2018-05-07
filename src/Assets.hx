@@ -14,10 +14,10 @@ class Assets {
 		//Sfx.toggleMuteGroup(1);
 		//#end
 
-		#if flash
-		music = SBANK.musicMp3();
-		#else
+		#if hl
 		music = SBANK.music();
+		#else
+		music = SBANK.musicMp3();
 		#end
 		music.playOnGroup(1,true);
 
