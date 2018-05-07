@@ -102,6 +102,15 @@ class Main extends mt.Process {
 			ME = null;
 	}
 
+	var full = false;
+	public function toggleFullscreen() {
+		#if hl
+		var s = hxd.Stage.getInstance();
+		full = !full;
+		s.setFullScreen(full);
+		#end
+	}
+
 	public function restartGame(?hist:Array<Game.HistoryEntry>) {
 		if( Game.ME!=null ) {
 			cd.setS("transition",Const.INFINITE);

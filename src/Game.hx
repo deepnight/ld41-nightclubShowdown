@@ -251,8 +251,8 @@ class Game extends mt.Process {
 		if( !cd.has("lockNext") && level.waveMobCount<=0 )
 			nextLevel();
 
-		if( Main.ME.keyPressed(hxd.Key.ENTER) && Key.isDown(Key.ALT) )
-			Main.ME.restartGame();
+		if( Main.ME.keyPressed(hxd.Key.ENTER) && Key.isDown(Key.ALT) || Main.ME.keyPressed(Key.F) )
+			Main.ME.toggleFullscreen();
 
 		if( Main.ME.keyPressed(hxd.Key.ESCAPE) )
 			Main.ME.restartGame();
