@@ -8,8 +8,6 @@ class Main extends mt.Process {
 	public var cached : h2d.CachedBitmap;
 	var black : h2d.Bitmap;
 
-	var screening : mt.heaps.slib.HSpriteBatch;
-
 	public function new() {
 		super();
 
@@ -29,10 +27,6 @@ class Main extends mt.Process {
 		Assets.init();
 		hxd.Timer.wantedFPS = Const.FPS;
 		console = new Console();
-
-		screening = new mt.heaps.slib.HSpriteBatch(Assets.gameElements.tile, cached);
-		screening.alpha = 0.04;
-		screening.visible = false;
 
 		black = new h2d.Bitmap(h2d.Tile.fromColor(BG,1,1), root);
 		black.visible = false;
@@ -85,15 +79,6 @@ class Main extends mt.Process {
 		cached.height = MLib.ceil(Boot.ME.s2d.height/cached.scaleY);
 		black.scaleX = Boot.ME.s2d.width;
 		black.scaleY = Boot.ME.s2d.height;
-
-		screening.clear();
-		var t = Assets.gameElements.getTile("screening");
-		for(y in 0...mt.MLib.ceil(cached.height/t.height))
-		for(x in 0...mt.MLib.ceil(cached.width/t.width)) {
-			var be = Assets.gameElements.hbe_get(screening, "screening");
-			be.x = x*t.width;
-			be.y = y*t.height;
-		}
 	}
 
 	override public function onDispose() {
@@ -121,7 +106,6 @@ class Main extends mt.Process {
 					new Game( new h2d.Sprite(cached), hist );
 					tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 					setBlack(false);
-					cached.addChild(screening);
 				},0.5);
 			});
 		}
@@ -129,7 +113,6 @@ class Main extends mt.Process {
 			var g = new Game( new h2d.Sprite(cached), hist );
 			tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 			setBlack(false);
-			cached.addChild(screening);
 		}
 
 	}
