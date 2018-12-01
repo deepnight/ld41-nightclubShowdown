@@ -360,17 +360,17 @@ class Entity {
 		spr.anim.setGlobalSpeed( isAffectBySlowMo ? game.getSlowMoFactor() : 1 );
 
 		if( label!=null ) {
-			label.setPos( Std.int(footX-label.textWidth*0.5), Std.int(headY-label.textHeight-3));
+			label.setPosition( Std.int(footX-label.textWidth*0.5), Std.int(headY-label.textHeight-3));
 		}
 
-		lifeBar.setPos( Std.int(footX-lifeBar.outerWidth*0.5), Std.int(footY+2));
+		lifeBar.setPosition( Std.int(footX-lifeBar.outerWidth*0.5), Std.int(footY+2));
 
 		if( Console.ME.has("bounds") ) {
 			if( debug==null ) {
 				debug = new h2d.Graphics();
 				game.scroller.add(debug, Const.DP_UI);
 			}
-			debug.setPos(footX, footY);
+			debug.setPosition(footX, footY);
 			debug.clear();
 			debug.beginFill(0xFFFFFF,0.9);
 			debug.drawRect(shootX-footX, shootY-footY, 2,2);

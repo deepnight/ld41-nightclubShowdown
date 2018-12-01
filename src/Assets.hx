@@ -9,6 +9,8 @@ class Assets {
 	public static var musicOut : Sfx;
 
 	public static function init() {
+		font = hxd.Res.minecraftiaOutline.toFont();
+
 		Sfx.setGroupVolume(0, 1);
 		Sfx.setGroupVolume(1, 0.7);
 		#if debug
@@ -58,7 +60,6 @@ class Assets {
 		gameElements.defineAnim("dancingB","0-1(10)");
 		gameElements.defineAnim("dancingC","0-1(10)");
 
-		font = hxd.Res.minecraftiaOutline.toFont();
 		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");
 	}
 

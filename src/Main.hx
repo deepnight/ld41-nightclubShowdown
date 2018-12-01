@@ -5,7 +5,7 @@ class Main extends mt.Process {
 	public static var BG = 0x0;
 	public static var ME : Main;
 	public var console : Console;
-	public var cached : h2d.CachedBitmap;
+	public var cached : h2d.Object;
 	var black : h2d.Bitmap;
 
 
@@ -16,7 +16,7 @@ class Main extends mt.Process {
 
 		createRoot(Boot.ME.s2d);
 
-		cached = new h2d.CachedBitmap(root, 1,1);
+		cached = new h2d.Sprite(root);
 
 		//#if( debug && hl )
 		//hxd.Res.initLocal();
@@ -78,7 +78,7 @@ class Main extends mt.Process {
 	var full = false;
 	public function toggleFullscreen() {
 		#if hl
-		var s = hxd.Stage.getInstance();
+		var s = hxd.Window.getInstance();
 		full = !full;
 		s.setFullScreen(full);
 		#end
@@ -89,8 +89,8 @@ class Main extends mt.Process {
 		Const.SCALE = MLib.floor( w() / (20*Const.GRID) );
 		cached.scaleX = cached.scaleY = Const.SCALE;
 
-		cached.width = MLib.ceil(Boot.ME.s2d.width/cached.scaleX);
-		cached.height = MLib.ceil(Boot.ME.s2d.height/cached.scaleY);
+		//cached.width = MLib.ceil(Boot.ME.s2d.width/cached.scaleX);
+		//cached.height = MLib.ceil(Boot.ME.s2d.height/cached.scaleY);
 		black.scaleX = Boot.ME.s2d.width;
 		black.scaleY = Boot.ME.s2d.height;
 	}
