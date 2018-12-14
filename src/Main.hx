@@ -16,7 +16,7 @@ class Main extends mt.Process {
 
 		createRoot(Boot.ME.s2d);
 
-		cached = new h2d.Sprite(root);
+		cached = new h2d.Object(root);
 
 		//#if( debug && hl )
 		//hxd.Res.initLocal();
@@ -110,14 +110,14 @@ class Main extends mt.Process {
 
 				delayer.addS(function() {
 					cd.unset("transition");
-					new Game( new h2d.Sprite(cached), hist );
+					new Game( new h2d.Object(cached), hist );
 					tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 					setBlack(false);
 				},0.5);
 			});
 		}
 		else {
-			var g = new Game( new h2d.Sprite(cached), hist );
+			var g = new Game( new h2d.Object(cached), hist );
 			tw.createS(Game.ME.root.alpha, 0>1, 0.4);
 			setBlack(false);
 			Assets.playMusic(false);

@@ -24,7 +24,7 @@ class Game extends mt.Process {
 	public var cm : mt.deepnight.Cinematic;
 
 
-	public function new(ctx:h2d.Sprite, replayHistory:Array<HistoryEntry>) {
+	public function new(ctx:h2d.Object, replayHistory:Array<HistoryEntry>) {
 		super(Main.ME);
 
 		ME = this;

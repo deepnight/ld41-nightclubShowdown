@@ -12,7 +12,7 @@ class Level extends mt.Process {
 
 	var collMap : haxe.ds.Vector<Bool>;
 
-	var crowd : h2d.Sprite;
+	var crowd : h2d.Object;
 	var bg : HSprite;
 	var front : HSprite;
 	var circle : HSprite;
@@ -84,7 +84,7 @@ class Level extends mt.Process {
 				for(y in hei-2...hei)
 					setColl(x,y,true);
 
-				crowd = new h2d.Sprite(root);
+				crowd = new h2d.Object(root);
 				people = [];
 
 				function getDancer() return switch(Std.random(3)) {
