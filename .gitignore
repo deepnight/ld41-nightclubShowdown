@@ -1,6 +1,3 @@
 /res/.tmp
 /bin/client.js.map
-/redist/NightclubShowdown.zip
-/redist/NightclubShowdown/hlboot.dat
-/redist/client.js
-/redist/client.swf
+/redist/
