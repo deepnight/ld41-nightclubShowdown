@@ -3,5 +3,3 @@
 -lib castle
 -lib heaps
 -dce full
--D standalone
--D heaps_sprite
