@@ -349,7 +349,7 @@ class Game extends mt.Process {
 
 		// Updates
 		for(e in Entity.ALL) {
-			e.setDt(dt);
+			e.setTmod(tmod);
 			if( !e.destroyed ) e.preUpdate();
 			if( !e.destroyed ) e.update();
 			if( !e.destroyed ) e.postUpdate();

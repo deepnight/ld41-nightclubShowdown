@@ -11,7 +11,7 @@ class Entity {
 	public var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
 	public var destroyed(default,null) = false;
 	public var cd : mt.Cooldown;
-	public var dt : Float;
+	public var tmod : Float;
 
 	public var spr : HSprite;
 	public var debug : Null<h2d.Graphics>;
@@ -348,7 +348,7 @@ class Entity {
 	}
 
 	public function preUpdate() {
-		cd.update(dt);
+		cd.update(tmod);
 
 	}
 
@@ -399,9 +399,9 @@ class Entity {
 			debug = null;
 		}
 
-		cAdd.r*=Math.pow(0.93,dt);
-		cAdd.g*=Math.pow(0.8,dt);
-		cAdd.b*=Math.pow(0.8,dt);
+		cAdd.r*=Math.pow(0.93,tmod);
+		cAdd.g*=Math.pow(0.8,tmod);
+		cAdd.b*=Math.pow(0.8,tmod);
 	}
 
 	//function hasCircColl() {
@@ -448,8 +448,8 @@ class Entity {
 		cAdd.b = 1;
 	}
 
-	public function setDt(v:Float) {
-		dt = v * ( isAffectBySlowMo && game.isSlowMo() ? Const.PAUSE_SLOWMO : 1 );
+	public function setTmod(v:Float) {
+		tmod = v * ( isAffectBySlowMo && game.isSlowMo() ? Const.PAUSE_SLOWMO : 1 );
 	}
 
 	public function hasSkillCharging() {
@@ -465,7 +465,7 @@ class Entity {
 
 	public function update() {
 		for( s in skills )
-			s.update(dt);
+			s.update(tmod);
 
 		if( cover!=null && !cover.isAlive() )
 			leaveCover();
@@ -499,8 +499,8 @@ class Entity {
 		}
 
 		// X
-		var steps = MLib.ceil( MLib.fabs(dx*dt) );
-		var step = dx*dt / steps;
+		var steps = MLib.ceil( MLib.fabs(dx*tmod) );
+		var step = dx*tmod / steps;
 		while( steps>0 ) {
 			xr+=step;
 			if( hasColl ) {
@@ -519,15 +519,15 @@ class Entity {
 			while( xr<0 ) { xr++; cx--; }
 			steps--;
 		}
-		dx*=Math.pow(frict,dt);
+		dx*=Math.pow(frict,tmod);
 
 		// Gravity
 		if( !onGround && hasGravity )
-			dy += gravity*dt;
+			dy += gravity*tmod;
 
 		// Y
-		var steps = MLib.ceil( MLib.fabs(dy*dt) );
-		var step = dy*dt / steps;
+		var steps = MLib.ceil( MLib.fabs(dy*tmod) );
+		var step = dy*tmod / steps;
 		while( steps>0 ) {
 			yr+=step;
 			if( hasColl ) {
@@ -546,6 +546,6 @@ class Entity {
 			while( yr<0 ) { yr++; cy--; }
 			steps--;
 		}
-		dy*=Math.pow(frict,dt);
+		dy*=Math.pow(frict,tmod);
 	}
 }

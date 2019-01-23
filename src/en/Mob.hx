@@ -119,11 +119,11 @@ class Mob extends Entity {
 			var s = 0.015;
 			if( tx>cx ) {
 				dir = 1;
-				dx+=s*dt;
+				dx+=s*tmod;
 			}
 			if( tx<cx ) {
 				dir = -1;
-				dx-=s*dt;
+				dx-=s*tmod;
 			}
 
 			if( tx==cx ) {

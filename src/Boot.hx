@@ -47,22 +47,9 @@ class Boot extends hxd.App {
 		}
 		#end
 
-		mt.heaps.slib.SpriteLib.DT = tmod*speed;
+		mt.heaps.slib.SpriteLib.TMOD = tmod*speed;
 		if( speed>0 )
 			mt.Process.updateAll(tmod*speed);
-
-		//mt.heaps.slib.SpriteLib.DT = dt;
-		//accu+=speed;
-		//while( accu>=1 ) {
-			//mt.Process.updateAll(dt);
-			//accu--;
-		//}
-
-		//accu+=dt*speed;
-		//while( accu>=1 ) {
-			//mt.Process.updateAll(1);
-			//accu--;
-		//}
 	}
 }
 

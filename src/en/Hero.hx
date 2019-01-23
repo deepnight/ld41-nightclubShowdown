@@ -389,7 +389,7 @@ class Hero extends Entity {
 		super.postUpdate();
 		if( spr.groupName=="heroRoll" ) {
 			spr.setCenterRatio(0.5,0.5);
-			spr.rotation+=0.6*dt*dir;
+			spr.rotation+=0.6*tmod*dir;
 			spr.y -= 7;
 		}
 		else {
@@ -519,11 +519,11 @@ class Hero extends Entity {
 				var s = 0.011;
 				if( moveTarget.x>centerX ) {
 					dir = 1;
-					dx+=s*dt;
+					dx+=s*tmod;
 				}
 				if( moveTarget.x<centerX ) {
 					dir = -1;
-					dx-=s*dt;
+					dx-=s*tmod;
 				}
 			}
 
