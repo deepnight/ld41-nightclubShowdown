@@ -26,6 +26,7 @@ class Main extends mt.Process {
 		//#end
 
 		Assets.init();
+		new mt.deepnight.GameFocusHelper(root, Assets.font);
 		hxd.Timer.wantedFPS = Const.FPS;
 		console = new Console();
 		#if !debug
