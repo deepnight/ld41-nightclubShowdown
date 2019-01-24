@@ -4,7 +4,7 @@ import hxd.Key;
 class Boot extends hxd.App {
 	public static var ME : Boot;
 	var accu = 0.;
-	var speed = 1.;
+	public var speed = 1.;
 
 	// Boot
 	static function main() {
@@ -47,7 +47,6 @@ class Boot extends hxd.App {
 		}
 		#end
 
-		mt.heaps.slib.SpriteLib.TMOD = tmod*speed;
 		if( speed>0 )
 			mt.Process.updateAll(tmod*speed);
 	}

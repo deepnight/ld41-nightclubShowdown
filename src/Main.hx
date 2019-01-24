@@ -26,9 +26,9 @@ class Main extends mt.Process {
 		//#end
 
 		Assets.init();
-		new mt.deepnight.GameFocusHelper(root, Assets.font);
-		hxd.Timer.wantedFPS = Const.FPS;
 		console = new Console();
+		new mt.deepnight.GameFocusHelper(Boot.ME.s2d, Assets.font);
+		hxd.Timer.wantedFPS = Const.FPS;
 		#if !debug
 		toggleFullscreen();
 		#end
@@ -37,7 +37,7 @@ class Main extends mt.Process {
 		black = new h2d.Bitmap(h2d.Tile.fromColor(BG,1,1), root);
 		black.visible = false;
 
-		restartGame();
+		delayer.addF(()->restartGame(), 1);
 
 		onResize();
 	}
@@ -139,5 +139,6 @@ class Main extends mt.Process {
 
 	override function update() {
 		super.update();
+		mt.heaps.slib.SpriteLib.TMOD = tmod*Boot.ME.speed;
 	}
 }
