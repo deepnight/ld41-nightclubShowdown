@@ -13,6 +13,7 @@ class Main extends mt.Process {
 		super();
 
 		ME = this;
+		presses = new Map();
 
 		createRoot(Boot.ME.s2d);
 
@@ -48,9 +49,6 @@ class Main extends mt.Process {
 	public function keyPressed(k:Int) {
 		if( console.isActive() || isTransitioning() )
 			return false;
-
-		if( presses==null )
-			presses = new Map();
 
 		if( presses.exists(k) )
 			return false;
