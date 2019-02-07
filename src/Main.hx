@@ -18,6 +18,7 @@ class Main extends mt.Process {
 		createRoot(Boot.ME.s2d);
 
 		cached = new h2d.Object(root);
+		cached.filter = new h2d.filter.ColorMatrix();
 
 		//#if( debug && hl )
 		//hxd.Res.initLocal();
@@ -87,9 +88,6 @@ class Main extends mt.Process {
 		super.onResize();
 		Const.SCALE = MLib.floor( w() / (20*Const.GRID) );
 		cached.scaleX = cached.scaleY = Const.SCALE;
-
-		//cached.width = MLib.ceil(Boot.ME.s2d.width/cached.scaleX);
-		//cached.height = MLib.ceil(Boot.ME.s2d.height/cached.scaleY);
 		black.scaleX = Boot.ME.s2d.width;
 		black.scaleY = Boot.ME.s2d.height;
 	}
