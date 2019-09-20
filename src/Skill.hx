@@ -1,5 +1,3 @@
-import mt.MLib;
-
 class Skill {
 	public var id : String;
 	var owner : Null<Entity>;
@@ -81,7 +79,7 @@ class Skill {
 
 		if( isCharging() ) {
 			curChargeS+=dt*1/Const.FPS;
-			onProgress( MLib.fclamp(curChargeS/chargeS, 0, 1) );
+			onProgress( M.fclamp(curChargeS/chargeS, 0, 1) );
 			if( curChargeS>=chargeS ) {
 				curChargeS = -1;
 				curCdS = cooldownS;

@@ -1,8 +1,4 @@
-import mt.MLib;
-import mt.deepnight.Color;
-import mt.heaps.slib.*;
-
-class Level extends mt.Process {
+class Level extends dn.Process {
 	var curWaveId : Int;
 
 	public var wid : Int;
@@ -182,14 +178,14 @@ class Level extends mt.Process {
 		pixels = new Map();
 		for(cy in 0...hei)
 		for(cx in 0...wid) {
-			var c = mt.deepnight.Color.removeAlpha( bd.getPixel(cx,cy+curWaveId*6) );
+			var c = dn.Color.removeAlpha( bd.getPixel(cx,cy+curWaveId*6) );
 			if( !pixels.exists(c) )
 				pixels.set(c, []);
 			pixels.get(c).push( new CPoint(cx,cy) );
 		}
 
-		var c = mt.deepnight.Color.removeAlpha( bd.getPixel(0,curWaveId*6) );
-		hue(mt.deepnight.Color.intToHsl(c).h*6.28, 2.5);
+		var c = dn.Color.removeAlpha( bd.getPixel(0,curWaveId*6) );
+		hue(dn.Color.intToHsl(c).h*6.28, 2.5);
 
 		waveMobCount = getPixels(0xff6600).length + getPixels(0x20d5fc).length + getPixels(0x00ff00).length;
 

@@ -1,11 +1,8 @@
-import mt.Process;
-import mt.deepnight.Tweenie;
-import mt.MLib;
 import hxd.Key;
 
 typedef HistoryEntry = { t:Int, a:en.Hero.Action } ;
 
-class Game extends mt.Process {
+class Game extends dn.Process {
 	public static var ME : Game;
 	public var scroller : h2d.Layers;
 	public var vp : Viewport;
@@ -21,7 +18,7 @@ class Game extends mt.Process {
 
 	public var hud : h2d.Flow;
 
-	public var cm : mt.deepnight.Cinematic;
+	public var cm : dn.Cinematic;
 
 
 	public function new(ctx:h2d.Object, replayHistory:Array<HistoryEntry>) {
@@ -39,7 +36,7 @@ class Game extends mt.Process {
 			isReplay = false;
 		}
 
-		cm = new mt.deepnight.Cinematic(Const.FPS);
+		cm = new dn.Cinematic(Const.FPS);
 		//Console.ME.runCommand("+ bounds");
 
 		scroller = new h2d.Layers(root);
@@ -115,7 +112,7 @@ class Game extends mt.Process {
 		cd.unset("invalidateHud");
 
 
-		for( i in 0...MLib.min(hero.maxLife,6) ) {
+		for( i in 0...M.imin(hero.maxLife,6) ) {
 			var e = Assets.gameElements.h_get("iconHeart", hud);
 			e.colorize(i+1<=hero.life ? 0xFFFFFF : 0xFF0000);
 			e.alpha = i+1<=hero.life ? 1 : 0.8;
@@ -383,14 +380,14 @@ class Game extends mt.Process {
 			Main.ME.toggleFullscreen();
 
 		if( Main.ME.keyPressed(hxd.Key.S) ) {
-			notify("Sounds: "+(mt.deepnight.Sfx.isMuted(0) ? "ON" : "off"));
-			mt.deepnight.Sfx.toggleMuteGroup(0);
+			notify("Sounds: "+(dn.heaps.Sfx.isMuted(0) ? "ON" : "off"));
+			dn.heaps.Sfx.toggleMuteGroup(0);
 			Assets.SBANK.grunt0().playOnGroup(0);
 		}
 
 		if( Main.ME.keyPressed(hxd.Key.M) ) {
-			notify("Music: "+(mt.deepnight.Sfx.isMuted(1) ? "ON" : "off"));
-			mt.deepnight.Sfx.toggleMuteGroup(1);
+			notify("Music: "+(dn.heaps.Sfx.isMuted(1) ? "ON" : "off"));
+			dn.heaps.Sfx.toggleMuteGroup(1);
 		}
 
 		if( isReplay && heroHistory.length>0 && itime>=heroHistory[0].t )

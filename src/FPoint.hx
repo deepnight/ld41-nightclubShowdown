@@ -1,6 +1,3 @@
-import mt.MLib;
-import mt.deepnight.Lib;
-
 class FPoint {
 	public var x = 0.;
 	public var y = 0.;

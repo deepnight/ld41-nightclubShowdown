@@ -1,7 +1,4 @@
-import mt.deepnight.Lib;
-import mt.MLib;
-
-class Viewport extends mt.Process {
+class Viewport extends dn.Process {
 	var game(get,never) : Game; inline function get_game() return Game.ME;
 	var level(get,never) : Level; inline function get_level() return Game.ME.level;
 
@@ -22,11 +19,11 @@ class Viewport extends mt.Process {
 	inline function get_screenHei() return Boot.ME.s2d.height;
 
 	inline function get_wid() {
-		return MLib.ceil( Boot.ME.s2d.width / Const.SCALE );
+		return M.ceil( Boot.ME.s2d.width / Const.SCALE );
 	}
 
 	inline function get_hei() {
-		return MLib.ceil( Boot.ME.s2d.height / Const.SCALE );
+		return M.ceil( Boot.ME.s2d.height / Const.SCALE );
 	}
 
 	public function repos() {
@@ -56,10 +53,10 @@ class Viewport extends mt.Process {
 		tx/=n;
 		ty/=n;
 		var a = Math.atan2(ty-y, tx-x);
-		var d = mt.deepnight.Lib.distance(x, y, tx, ty);
+		var d = dn.Lib.distance(x, y, tx, ty);
 		if( d>=10 ) {
-			var s = 0.5 * MLib.fclamp(d/100,0,1);
-			//var s = 0.03 + 0.8 * MLib.fclamp(d/100,0,1);
+			var s = 0.5 * M.fclamp(d/100,0,1);
+			//var s = 0.03 + 0.8 * M.fclamp(d/100,0,1);
 			dx+=Math.cos(a)*s;
 			dy+=Math.sin(a)*s;
 		}
@@ -75,7 +72,7 @@ class Viewport extends mt.Process {
 			dx*=0.8;
 			dy*=0.8;
 		}
-		//x = MLib.fclamp(x,-screenWid,0);
+		//x = M.fclamp(x,-screenWid,0);
 		var prioCenter = 0;
 		//if( Console.ME.has("screen") ) {
 			//game.scroller.x = -level.wid*0.5*Const.GRID + wid*0.5;
@@ -85,7 +82,7 @@ class Viewport extends mt.Process {
 			game.scroller.x = Std.int( -(x+prioCenter*level.wid*0.5*Const.GRID)/(1+prioCenter) + wid*0.5 );
 			game.scroller.y = 0;
 			//game.scroller.y = Std.int( -(y+prioCenter*level.hei*0.5*Const.GRID)/(1+prioCenter) + hei*0.5 );
-			game.scroller.x = MLib.fclamp(game.scroller.x, -level.wid*Const.GRID+wid-15, 15);
+			game.scroller.x = M.fclamp(game.scroller.x, -level.wid*Const.GRID+wid-15, 15);
 		//}
 	}
 }

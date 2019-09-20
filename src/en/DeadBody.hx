@@ -1,7 +1,5 @@
 package en;
 
-import mt.MLib;
-
 class DeadBody extends Entity {
 	public static var ALL : Array<DeadBody> = [];
 	public function new(e:Entity,sid:String) {
@@ -31,7 +29,7 @@ class DeadBody extends Entity {
 	}
 
 	override function onLand() {
-		if( MLib.fabs(dy)<=0.05 ) {
+		if( M.fabs(dy)<=0.05 ) {
 			dy = 0;
 			frict = 0.8;
 		}

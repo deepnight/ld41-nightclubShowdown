@@ -1,7 +1,4 @@
-import mt.Process;
-import mt.MLib;
-
-class Main extends mt.Process {
+class Main extends dn.Process {
 	public static var BG = 0x0;
 	public static var ME : Main;
 	public var console : Console;
@@ -29,7 +26,7 @@ class Main extends mt.Process {
 
 		Assets.init();
 		console = new Console();
-		new mt.deepnight.GameFocusHelper(Boot.ME.s2d, Assets.font);
+		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.font);
 		hxd.Timer.wantedFPS = Const.FPS;
 		#if !debug
 		toggleFullscreen();
@@ -86,7 +83,7 @@ class Main extends mt.Process {
 
 	override public function onResize() {
 		super.onResize();
-		Const.SCALE = MLib.floor( w() / (20*Const.GRID) );
+		Const.SCALE = M.floor( w() / (20*Const.GRID) );
 		cached.scaleX = cached.scaleY = Const.SCALE;
 		black.scaleX = Boot.ME.s2d.width;
 		black.scaleY = Boot.ME.s2d.height;
@@ -135,6 +132,6 @@ class Main extends mt.Process {
 
 	override function update() {
 		super.update();
-		mt.heaps.slib.SpriteLib.TMOD = tmod*Boot.ME.speed;
+		dn.heaps.slib.SpriteLib.TMOD = tmod*Boot.ME.speed;
 	}
 }

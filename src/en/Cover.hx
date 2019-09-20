@@ -1,8 +1,5 @@
 package en;
 
-import mt.heaps.slib.*;
-import mt.MLib;
-
 class Cover extends Entity {
 	public static var ALL : Array<Cover> = [];
 

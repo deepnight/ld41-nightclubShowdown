@@ -1,7 +1,5 @@
 package en;
 
-import mt.MLib;
-
 class Grenade extends Entity {
 	var range : Float;
 

@@ -1,7 +1,3 @@
-import mt.MLib;
-import mt.heaps.slib.*;
-import mt.deepnight.Lib;
-
 class Entity {
 	public static var ALL : Array<Entity> = [];
 
@@ -10,7 +6,7 @@ class Entity {
 	public var level(get,never) : Level; inline function get_level() return Game.ME.level;
 	public var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
 	public var destroyed(default,null) = false;
-	public var cd : mt.Cooldown;
+	public var cd : dn.Cooldown;
 	public var tmod : Float;
 
 	public var spr : HSprite;
@@ -68,14 +64,14 @@ class Entity {
 		lifeBar.horizontalSpacing = 1;
 		lifeBar.visible = false;
 
-		cd = new mt.Cooldown(Const.FPS);
+		cd = new dn.Cooldown(Const.FPS);
 		radius = Const.GRID*0.6;
 		setPosCase(x,y);
 		initLife(3);
 		skills = [];
 
-		spr = new mt.heaps.slib.HSprite(Assets.gameElements);
-		//spr = new mt.heaps.slib.HSprite(Assets.gameElements);
+		spr = new dn.heaps.slib.HSprite(Assets.gameElements);
+		//spr = new dn.heaps.slib.HSprite(Assets.gameElements);
 		game.scroller.add(spr, Const.DP_PROPS);
 		spr.setCenterRatio(0.5,1);
 		spr.colorAdd = cAdd = new h3d.Vector();
@@ -126,7 +122,7 @@ class Entity {
 			return false;
 		}
 
-		dmg = MLib.min(life,dmg);
+		dmg = M.imin(life,dmg);
 		life-=dmg;
 		updateLifeBar();
 		onDamage(dmg);
@@ -293,7 +289,7 @@ class Entity {
 
 	public inline function rnd(min,max,?sign) return Lib.rnd(min,max,sign);
 	public inline function irnd(min,max,?sign) return Lib.irnd(min,max,sign);
-	public inline function pretty(v,?p=1) return Lib.prettyFloat(v,p);
+	public inline function pretty(v,?p=1) return M.pretty(v,p);
 
 	public inline function distCase(e:Entity) {
 		return Lib.distance(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
@@ -312,11 +308,11 @@ class Entity {
 	//public inline function sightCheck(e:Entity) {
 		//if( level.hasColl(cx,cy) || level.hasColl(e.cx,e.cy) )
 			//return true;
-		//return mt.deepnight.Bresenham.checkThinLine(cx, cy, e.cx, e.cy, canSeeThrough);
+		//return dn.Bresenham.checkThinLine(cx, cy, e.cx, e.cy, canSeeThrough);
 	//}
 //
 	//public inline function sightCheckCase(x,y) {
-		//return mt.deepnight.Bresenham.checkThinLine(cx, cy, x, y, canSeeThrough);
+		//return dn.Bresenham.checkThinLine(cx, cy, x, y, canSeeThrough);
 	//}
 
 	public inline function getMoveAng() {
@@ -499,7 +495,7 @@ class Entity {
 		}
 
 		// X
-		var steps = MLib.ceil( MLib.fabs(dx*tmod) );
+		var steps = M.ceil( M.fabs(dx*tmod) );
 		var step = dx*tmod / steps;
 		while( steps>0 ) {
 			xr+=step;
@@ -526,7 +522,7 @@ class Entity {
 			dy += gravity*tmod;
 
 		// Y
-		var steps = MLib.ceil( MLib.fabs(dy*tmod) );
+		var steps = M.ceil( M.fabs(dy*tmod) );
 		var step = dy*tmod / steps;
 		while( steps>0 ) {
 			yr+=step;

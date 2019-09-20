@@ -1,9 +1,6 @@
 package en;
 
 import hxd.Key;
-import mt.MLib;
-import mt.deepnight.*;
-import mt.heaps.slib.*;
 
 enum Action {
 	None;
@@ -191,7 +188,7 @@ class Hero extends Entity {
 	}
 
 	//override function onTouchWall(wallDir:Int) {
-		//dx = -wallDir*MLib.fabs(dx);
+		//dx = -wallDir*M.fabs(dx);
 	//}
 
 	override public function controlsLocked() {
@@ -235,17 +232,17 @@ class Hero extends Entity {
 			return a;
 
 		// Movement
-		if( MLib.fabs(y-footY)<=1.5*Const.GRID && grabbedMob==null ) {
+		if( M.fabs(y-footY)<=1.5*Const.GRID && grabbedMob==null ) {
 			var ok = true;
 			for(e in Entity.ALL)
-				if( e.isBlockingHeroMoves() && MLib.fabs(x-e.centerX)<=Const.GRID*0.8 ) {
+				if( e.isBlockingHeroMoves() && M.fabs(x-e.centerX)<=Const.GRID*0.8 ) {
 					ok = false;
 					break;
 				}
 
 			if( ok ) {
 				var tx = x;
-				tx = MLib.fclamp(tx, 5, level.wid*Const.GRID-5);
+				tx = M.fclamp(tx, 5, level.wid*Const.GRID-5);
 				if( game.waveId<=1 && level.waveMobCount>0 && tx>=(level.wid-3)*Const.GRID )
 					tx = (game.level.wid-3)*Const.GRID;
 				a = Move(x,footY);
@@ -253,15 +250,15 @@ class Hero extends Entity {
 		}
 
 		// Throw grabbed mob
-		if( grabbedMob!=null && MLib.fabs(centerX-dir*10-x)<=9 && MLib.fabs(centerY-y)<=20 )
+		if( grabbedMob!=null && M.fabs(centerX-dir*10-x)<=9 && M.fabs(centerY-y)<=20 )
 			a = KickGrab;
 
 		// Turn back
-		if( a==null && grabbedMob!=null && MLib.fabs(x-centerX)>=Const.GRID && ( x>centerX && dir==-1 || x<centerX && dir==1 ) )
+		if( a==null && grabbedMob!=null && M.fabs(x-centerX)>=Const.GRID && ( x>centerX && dir==-1 || x<centerX && dir==1 ) )
 			a = TurnBack;
 
 		// Wait
-		if( grabbedMob==null && game.isSlowMo() && ammo>=maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		if( grabbedMob==null && game.isSlowMo() && ammo>=maxAmmo && M.fabs(centerX-x)<=Const.GRID*0.3 && M.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Wait(0.6);
 
 		// Take cover
@@ -277,7 +274,7 @@ class Hero extends Entity {
 		if( grabbedMob==null ) {
 			var best : en.Mob = null;
 			for(e in en.Mob.ALL)
-				if( e.canBeShot() && e.canBeGrabbed() && grabbedMob!=e && MLib.fabs(x-e.centerX)<=Const.GRID && MLib.fabs(y-e.centerY)<=Const.GRID && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
+				if( e.canBeShot() && e.canBeGrabbed() && grabbedMob!=e && M.fabs(x-e.centerX)<=Const.GRID && M.fabs(y-e.centerY)<=Const.GRID && ( best==null || e.distPxFree(x,y)<=best.distPxFree(x,y) ) )
 					best = e;
 			if( best!=null )
 				a = GrabMob(best, x<best.centerX ? -1 : 1);
@@ -299,7 +296,7 @@ class Hero extends Entity {
 		}
 
 		// Relaod
-		if( grabbedMob==null && ammo<maxAmmo && MLib.fabs(centerX-x)<=Const.GRID*0.3 && MLib.fabs(centerY-y)<=Const.GRID*0.7 )
+		if( grabbedMob==null && ammo<maxAmmo && M.fabs(centerX-x)<=Const.GRID*0.3 && M.fabs(centerY-y)<=Const.GRID*0.7 )
 			a = Reload;
 
 		return a;
@@ -505,14 +502,14 @@ class Hero extends Entity {
 
 		// Move
 		if( moveTarget!=null && !movementLocked() )
-			if( MLib.fabs(centerX-moveTarget.x)<=5 ) {
+			if( M.fabs(centerX-moveTarget.x)<=5 ) {
 				// Arrived
 				game.cm.signal("move");
 				executeAction( afterMoveAction );
 				moveTarget = null;
 				afterMoveAction = None;
 				dx*=0.3;
-				if( MLib.fabs(dx)>=0.04 )
+				if( M.fabs(dx)>=0.04 )
 					cd.setS("braking",0.2);
 			}
 			else {

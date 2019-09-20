@@ -1,12 +1,8 @@
 import h2d.Sprite;
-import mt.heaps.HParticle;
-import mt.deepnight.Lib;
-import mt.deepnight.Color;
-import mt.deepnight.Tweenie;
-import mt.MLib;
+import dn.heaps.HParticle;
 
 
-class Fx extends mt.Process {
+class Fx extends dn.Process {
 	public var pool : ParticlePool;
 
 	public var bgAddSb    : h2d.SpriteBatch;
@@ -168,7 +164,7 @@ class Fx extends mt.Process {
 	public function shoot(fx:Float, fy:Float, tx:Float, ty:Float, c:UInt) {
 		var dir = fx<tx ? 1 : -1;
 		var a = Math.atan2(ty-fy, tx-fx);
-		a = Lib.angularClampRad(a, dir==1 ? 0 : 3.14, 0.1);
+		a = M.radClamp(a, dir==1 ? 0 : 3.14, 0.1);
 
 		// Core
 		for(i in 0...4) {
@@ -261,7 +257,7 @@ class Fx extends mt.Process {
 		// Line
 		var n = 40;
 		var a = 3.14 + Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
-		a = Lib.angularClampRad(a, dir==1 ? 3.14 : 0, 0.2);
+		a = M.radClamp(a, dir==1 ? 3.14 : 0, 0.2);
 		for( i in 0...n) {
 			var a = a+rnd(0,0.03,true);
 			var d = rnd(0,15);
@@ -303,7 +299,7 @@ class Fx extends mt.Process {
 		// Line
 		var n = 40;
 		var a = 3.14 + Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
-		a = Lib.angularClampRad(a, dir==1 ? 3.14 : 0, 0.2);
+		a = M.radClamp(a, dir==1 ? 3.14 : 0, 0.2);
 		for( i in 0...n) {
 			var a = a+rnd(0,0.03,true);
 			var d = rnd(0,15);
@@ -324,7 +320,7 @@ class Fx extends mt.Process {
 		// Brain
 		var n = 20;
 		var a = Math.atan2(y+rnd(0,3,true)-fy, x+rnd(0,3,true)-fx);
-		a = Lib.angularClampRad(a, dir==1 ? 0 : 3.14, 0.2);
+		a = M.radClamp(a, dir==1 ? 0 : 3.14, 0.2);
 		for( i in 0...n) {
 			var a = a+rnd(0,0.06,true);
 			var d = rnd(0,15);
@@ -532,7 +528,7 @@ class Fx extends mt.Process {
 
 		// Planks
 		//var n = 40;
-		//a = Lib.angularClampRad(a, dir==1 ? 3.14 : 0, 0.2);
+		//a = M.radClamp(a, dir==1 ? 3.14 : 0, 0.2);
 		//for( i in 0...n) {
 			//var a = a+rnd(0,0.03,true);
 			//var d = rnd(0,15);

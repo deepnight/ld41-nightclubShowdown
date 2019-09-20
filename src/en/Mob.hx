@@ -5,7 +5,7 @@ class Mob extends Entity {
 	var tx = -1;
 	var onArrive : Null<Void->Void>;
 
-	var hitSounds : Array<Float->mt.deepnight.Sfx>;
+	var hitSounds : Array<Float->dn.heaps.Sfx>;
 
 	public function new(x,y) {
 		super(x,y);
@@ -20,7 +20,7 @@ class Mob extends Entity {
 			Assets.SBANK.grunt3,
 			Assets.SBANK.grunt4,
 		];
-		mt.deepnight.Lib.shuffleArray(hitSounds, Std.random);
+		dn.Lib.shuffleArray(hitSounds, Std.random);
 		//var g = new h2d.Graphics(spr);
 		//g.beginFill(0xFF0000,1);
 		//g.drawCircle(0,-radius,radius);

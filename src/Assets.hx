@@ -1,5 +1,4 @@
-import mt.heaps.slib.*;
-import mt.deepnight.Sfx;
+import dn.heaps.Sfx;
 
 class Assets {
 	public static var SBANK = Sfx.importDirectory("sfx");
@@ -18,14 +17,14 @@ class Assets {
 		#end
 
 		#if hl
-		musicIn = new mt.deepnight.Sfx( hxd.Res.music.musicIn );
-		musicOut = new mt.deepnight.Sfx( hxd.Res.music.musicOut );
+		musicIn = new Sfx( hxd.Res.music.musicIn );
+		musicOut = new Sfx( hxd.Res.music.musicOut );
 		#else
-		musicIn = new mt.deepnight.Sfx( hxd.Res.music.f_musicIn );
-		musicOut = new mt.deepnight.Sfx( hxd.Res.music.f_musicOut );
+		musicIn = new Sfx( hxd.Res.music.f_musicIn );
+		musicOut = new Sfx( hxd.Res.music.f_musicOut );
 		#end
 
-		gameElements = mt.heaps.slib.assets.Atlas.load("gameElements.atlas");
+		gameElements = dn.heaps.slib.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");
 		gameElements.defineAnim("heroGrabBlindShoot","0(4), 1(10)");
 		gameElements.defineAnim("heroBlindShoot","0(4), 1(10)");
@@ -60,7 +59,7 @@ class Assets {
 		gameElements.defineAnim("dancingB","0-1(10)");
 		gameElements.defineAnim("dancingC","0-1(10)");
 
-		//tiles = mt.heaps.slib.assets.Atlas.load("tiles.atlas");
+		//tiles = dn.heaps.slib.assets.Atlas.load("tiles.atlas");
 	}
 
 	public static function playMusic(isIn:Bool) {
