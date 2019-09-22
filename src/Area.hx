@@ -24,6 +24,6 @@ class Area {
 	}
 
 	public function contains(x,y) {
-		return Lib.distance(centerX, centerY, x, y)<=radius;
+		return M.dist(centerX, centerY, x, y)<=radius;
 	}
 }

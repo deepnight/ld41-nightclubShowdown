@@ -53,7 +53,7 @@ class Viewport extends dn.Process {
 		tx/=n;
 		ty/=n;
 		var a = Math.atan2(ty-y, tx-x);
-		var d = dn.Lib.distance(x, y, tx, ty);
+		var d = dn.M.dist(x, y, tx, ty);
 		if( d>=10 ) {
 			var s = 0.5 * M.fclamp(d/100,0,1);
 			//var s = 0.03 + 0.8 * M.fclamp(d/100,0,1);
@@ -68,7 +68,7 @@ class Viewport extends dn.Process {
 		y+=dy;
 		dx*=0.97;
 		dy*=0.97;
-		if( Lib.distance(x,y,tx,ty)<=20 ) {
+		if( M.dist(x,y,tx,ty)<=20 ) {
 			dx*=0.8;
 			dy*=0.8;
 		}

@@ -292,15 +292,15 @@ class Entity {
 	public inline function pretty(v,?p=1) return M.pretty(v,p);
 
 	public inline function distCase(e:Entity) {
-		return Lib.distance(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
+		return M.dist(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
 	}
 
 	public inline function distPx(e:Entity) {
-		return Lib.distance(footX, footY, e.footX, e.footY);
+		return M.dist(footX, footY, e.footX, e.footY);
 	}
 
 	public inline function distPxFree(x:Float, y:Float) {
-		return Lib.distance(footX, footY, x, y);
+		return M.dist(footX, footY, x, y);
 	}
 
 	//function canSeeThrough(x,y) return !level.hasColl(x,y);

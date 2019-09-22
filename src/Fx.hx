@@ -200,7 +200,7 @@ class Fx extends dn.Process {
 
 		// Shoot line
 		var n = 40;
-		var d = Lib.distance(fx,fy,tx,ty)-10;
+		var d = M.dist(fx,fy,tx,ty)-10;
 		for(i in 0...n) {
 			var d = 0.8 * d*i/(n-1) + rnd(0,6);
 			var p = allocTopAdd(getTile("dot"), fx+Math.cos(a)*d, fy+Math.sin(a)*d);

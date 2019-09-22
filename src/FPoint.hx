@@ -15,10 +15,10 @@ class FPoint {
 	}
 
 	public function distEntCenter(e:Entity) {
-		return Lib.distance(e.centerX,e.centerY,x,y);
+		return M.dist(e.centerX,e.centerY,x,y);
 	}
 	public function distEntFoot(e:Entity) {
-		return Lib.distance(e.footX,e.footY,x,y);
+		return M.dist(e.footX,e.footY,x,y);
 	}
 
 	inline function get_cx() return Std.int(x/Const.GRID);
