@@ -699,7 +699,7 @@ class Fx extends dn.Process {
 	}
 
 	override function update() {
-		speedMod = game.getSlowMoFactor();
+		timeMultiplier = game.getSlowMoFactor();
 
 		super.update();
 

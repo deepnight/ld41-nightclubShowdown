@@ -1,7 +1,7 @@
 import dn.heaps.Sfx;
 
 class Assets {
-	public static var SBANK = Sfx.importDirectory("sfx");
+	public static var SBANK = dn.heaps.assets.SfxDirectory.load("sfx");
 	public static var gameElements : SpriteLib;
 	public static var font : h2d.Font;
 	public static var musicIn : Sfx;
@@ -24,7 +24,7 @@ class Assets {
 		musicOut = new Sfx( hxd.Res.music.f_musicOut );
 		#end
 
-		gameElements = dn.heaps.slib.assets.Atlas.load("gameElements.atlas");
+		gameElements = dn.heaps.assets.Atlas.load("gameElements.atlas");
 		gameElements.defineAnim("heroAimShoot","0(10), 1(10)");
 		gameElements.defineAnim("heroGrabBlindShoot","0(4), 1(10)");
 		gameElements.defineAnim("heroBlindShoot","0(4), 1(10)");

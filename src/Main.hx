@@ -77,7 +77,7 @@ class Main extends dn.Process {
 		#if hl
 		var s = hxd.Window.getInstance();
 		full = !full;
-		s.setFullScreen(full);
+		s.displayMode = Borderless;
 		#end
 	}
 
