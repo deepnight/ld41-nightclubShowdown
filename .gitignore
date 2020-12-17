@@ -1,3 +1,4 @@
 .tmp
 *.js.map
 bin
+*.zip
