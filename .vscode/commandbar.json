@@ -4,9 +4,9 @@
     "skipErrorMessage": true,
     "commands": [
       {
-        "text": "Make redist",
+        "text": "Redist",
         "color": "lightgreen",
-        "command": "haxelib run redistHelper hl.hxml js.hxml -o redist.$",
+        "command": "haxelib run redistHelper hl.hxml js.hxml",
         "alignment": "right",
         "skipTerminateQuickPick": false,
         "priority": 10
