@@ -170,7 +170,7 @@ class Hero extends Entity {
 		super.onDie();
 		stopGrab();
 		new en.DeadBody(this,"hero");
-		game.announce("ESCAPE to restart",0xFF0000,true);
+		game.announce("R to restart",0xFF0000,true);
 	}
 
 	override public function dispose() {
@@ -497,7 +497,7 @@ class Hero extends Entity {
 		}
 
 
-		if( !controlsLocked() && Main.ME.keyPressed(hxd.Key.R) && ammo<maxAmmo )
+		if( !controlsLocked() && ammo<maxAmmo )
 			executeAction(Reload);
 
 		// Move
