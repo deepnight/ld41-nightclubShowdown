@@ -37,6 +37,7 @@ class Main extends dn.Process {
 		black = new h2d.Bitmap(h2d.Tile.fromColor(BG,1,1), root);
 		black.visible = false;
 
+		hxd.Timer.skip();
 		delayer.addF(()->restartGame(), 1);
 
 		onResize();
