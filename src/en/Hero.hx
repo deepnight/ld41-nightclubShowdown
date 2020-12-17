@@ -497,9 +497,6 @@ class Hero extends Entity {
 		}
 
 
-		if( !controlsLocked() && ammo<maxAmmo )
-			executeAction(Reload);
-
 		// Move
 		if( moveTarget!=null && !movementLocked() )
 			if( M.fabs(centerX-moveTarget.x)<=5 ) {
