@@ -265,7 +265,7 @@ class Level extends dn.Process {
 
 	override public function update() {
 		var game = Game.ME;
-		timeMultiplier = game.getSlowMoFactor();
+		baseTimeMul = game.getSlowMoFactor();
 		super.update();
 		for(e in people)
 			e.anim.setGlobalSpeed( game.getSlowMoFactor() );

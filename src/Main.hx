@@ -132,6 +132,6 @@ class Main extends dn.Process {
 
 	override function update() {
 		super.update();
-		dn.heaps.slib.SpriteLib.TMOD = tmod*Boot.ME.speed;
+		Assets.gameElements.tmod = tmod*Boot.ME.speed;
 	}
 }

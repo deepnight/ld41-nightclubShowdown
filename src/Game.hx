@@ -317,7 +317,7 @@ class Game extends dn.Process {
 	}
 
 	public function getSlowMoDt() {
-		return isSlowMo() ? dt*Const.PAUSE_SLOWMO : dt;
+		return isSlowMo() ? tmod*Const.PAUSE_SLOWMO : tmod;
 	}
 
 	public function getSlowMoFactor() {
@@ -340,7 +340,7 @@ class Game extends dn.Process {
 	}
 
 	override public function update() {
-		cm.update(dt);
+		cm.update(tmod);
 
 		super.update();
 
