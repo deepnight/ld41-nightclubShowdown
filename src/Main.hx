@@ -24,6 +24,7 @@ class Main extends dn.Process {
 		hxd.Res.initEmbed();
 		//#end
 
+		hxd.snd.Manager.get(); // force sound init
 		Assets.init();
 		console = new Console();
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.font);
