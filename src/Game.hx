@@ -205,17 +205,17 @@ class Game extends dn.Process {
 
 	}
 
-	public function announce(txt:String, ?c=0xFFFFFF, ?permanent=false) {
+	public function announce(txt:String, ?c=0xFFFFFF, ?permanent=false, ?delayMs=500) {
 		var tf = new h2d.Text(Assets.font,root);
 		tf.text = txt;
 		tf.textColor = c;
 		tf.y = Std.int( 58 - tf.textHeight );
-		tw.createMs(tf.x, 500|-tf.textWidth>12, 200).onEnd = function() {
+		tw.createMs(tf.x, -tf.textWidth>12, 200).end( ()->{
 			if( !permanent ) {
 				var d = 1000+txt.length*75;
 				tw.createMs(tf.alpha, d|0, 1500).onEnd = tf.remove;
 			}
-		}
+		} ).delayMs(delayMs);
 	}
 
 	var lastNotif : Null<h2d.Text>;
@@ -356,7 +356,15 @@ class Game extends dn.Process {
 		if( canStartNextWave() )
 			exitLevel();
 
-		if( Main.ME.keyPressed(hxd.Key.ESCAPE) ) {
+		#if hl
+		if( Main.ME.keyPressed(Key.ESCAPE) )
+			if( !cd.hasSetS("exitTwice",3) )
+				announce("Escape again to quit...", 0x9900ff, 0);
+			else
+				hxd.System.exit();
+		#end
+
+		if( Main.ME.keyPressed(hxd.Key.R) ) {
 			if( Key.isDown(Key.SHIFT) ) {
 				Main.ME.cd.unset("intro");
 				Assets.musicIn.stop();
