@@ -496,6 +496,9 @@ class Hero extends Entity {
 				setHelp(e,"Grab enemy",0xA6EE11);
 		}
 
+		if( !controlsLocked() && Main.ME.keyPressed(hxd.Key.R) && ammo<maxAmmo )
+			executeAction(Reload);
+
 
 		// Move
 		if( moveTarget!=null && !movementLocked() )
