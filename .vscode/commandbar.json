@@ -12,7 +12,7 @@
         "priority": 10
       },
       {
-        "text": "✪ Build HL",
+        "text": "✪ HL",
         "color": "orange",
         "commandType":"palette",
         "command": "workbench.action.tasks.runTask|HL release",
@@ -29,7 +29,7 @@
         "priority": 4
       },
       {
-        "text": "⛴ Build JS",
+        "text": "⛴ JS",
         "color": "yellow",
         "commandType":"palette",
         "command": "workbench.action.tasks.runTask|JS release",
@@ -46,7 +46,7 @@
         "priority": 2
       },
       {
-        "text": "⛴ Build SWF",
+        "text": "⛴ SWF",
         "color": "cyan",
         "commandType":"palette",
         "command": "workbench.action.tasks.runTask|SWF release",
