@@ -364,7 +364,7 @@ class Game extends dn.Process {
 				hxd.System.exit();
 		#end
 
-		if( Main.ME.keyPressed(hxd.Key.ESCAPE) ) {
+		if( Main.ME.keyPressed(hxd.Key.T) ) {
 			if( Key.isDown(Key.SHIFT) ) {
 				Main.ME.cd.unset("intro");
 				Assets.musicIn.stop();

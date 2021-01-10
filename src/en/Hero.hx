@@ -170,7 +170,7 @@ class Hero extends Entity {
 		super.onDie();
 		stopGrab();
 		new en.DeadBody(this,"hero");
-		game.announce("R to restart",0xFF0000,true);
+		game.announce("T to restart",0xFF0000,true);
 	}
 
 	override public function dispose() {
