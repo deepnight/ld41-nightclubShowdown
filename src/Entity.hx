@@ -328,13 +328,13 @@ class Entity {
 		destroyed = true;
 	}
 
-	public function is<T:Entity>(c:Class<T>) return Std.is(this, c);
+	public function is<T:Entity>(c:Class<T>) return Std.isOfType(this, c);
 	public function as<T:Entity>(c:Class<T>) : T return Std.downcast(this, c);
 
 	public function dispose() {
 		ALL.remove(this);
 		lifeBar.remove();
-		cd.destroy();
+		cd.dispose();
 		spr.remove();
 		skills = null;
 		if( label!=null )

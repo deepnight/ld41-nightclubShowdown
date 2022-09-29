@@ -49,7 +49,7 @@ class Fx extends dn.Process {
 	}
 
 	public function clear() {
-		pool.killAll();
+		pool.clear();
 	}
 
 	public inline function allocTopAdd(t:h2d.Tile, x:Float, y:Float) : HParticle {
@@ -73,7 +73,7 @@ class Fx extends dn.Process {
 	}
 
 	public function killAll() {
-		pool.killAll();
+		pool.clear();
 	}
 
 	public function markerEntity(e:Entity, ?c=0xFF00FF, ?short=false) {
