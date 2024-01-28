@@ -43,13 +43,13 @@ class Boot extends hxd.App {
 
         #if debug
         if (!Console.ME.isActive()) {
-            if (Key.isPressed(Key.NUMPAD_SUB))
+            if (Key.isPressed(Key.NUMPAD_SUB) || Key.isPressed(Key.QWERTY_MINUS))
                 speed = speed == 1 ? 0.35 : speed == 0.35 ? 0.1 : 1;
 
             if (Key.isPressed(Key.P))
                 speed = speed == 0 ? 1 : 0;
 
-            if (Key.isDown(Key.NUMPAD_ADD))
+            if (Key.isDown(Key.NUMPAD_ADD) || Key.isDown(Key.QWERTY_EQUALS))
                 speed = 3;
             else if (speed > 1)
                 speed = 1;
