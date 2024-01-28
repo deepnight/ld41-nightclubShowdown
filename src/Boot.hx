@@ -19,9 +19,9 @@ class Boot extends hxd.App {
         ME = this;
 
         // Set alpha channel to 0xFF and color to BG
-        engine.backgroundColor = 0xFF << 24 | Main.BG;
+        this.engine.backgroundColor = 0xFF << 24 | Main.BG;
 
-        onResize();
+        this.onResize();
 
         #if hl // Probably supposed to make graphics smoother
         @:privateAccess hxd.Window.getInstance().window.vsync = true;
@@ -45,21 +45,21 @@ class Boot extends hxd.App {
         if (!Console.ME.isActive()) {
             // (-) Toggle normal, slow, and very slow speeds
             if (Key.isPressed(Key.NUMPAD_SUB))
-                speed = speed == 1 ? 0.35 : speed == 0.35 ? 0.1 : 1;
+                this.speed = if (this.speed == 1) 0.35 else if (this.speed == 0.35) 0.1 else 1;
 
             // (P) Toggle pause
             if (Key.isPressed(Key.P))
-                speed = speed == 0 ? 1 : 0;
+                this.speed = if (this.speed == 0) 1 else 0;
 
             // (+) Hold to fast forward
             if (Key.isDown(Key.NUMPAD_ADD))
-                speed = 3;
-            else if (speed > 1)
-                speed = 1;
+                this.speed = 3;
+            else if (this.speed > 1)
+                this.speed = 1;
         }
         #end
 
-        if (speed > 0)
-            dn.Process.updateAll(tmod * speed);
+        if (this.speed > 0)
+            dn.Process.updateAll(tmod * this.speed);
     }
 }
