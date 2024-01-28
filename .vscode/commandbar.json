@@ -1,49 +1,49 @@
 {
-    "skipTerminateQuickPick": true,
-    "skipSwitchToOutput": false,
-    "skipErrorMessage": true,
-    "commands": [
-      {
-        "text": " Redist",
-        "color": "blue",
-        "command": "haxelib run redistHelper hl.hxml js.hxml -zip",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 10
-      },
-      {
-        "text": "✪ HL",
-        "color": "brown",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|HL release",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 5
-      },
-      {
-        "text": "(Run)",
-        "color": "brown",
-        "command": "hl bin/client.hl",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 4
-      },
-      {
-        "text": "⛴ JS",
-        "color": "orange",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|JS release",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 3
-      },
-      {
-        "text": "(Run) ",
-        "color": "orange",
-        "command": "start js.html",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 2
-      }
-    ]
-  }
+  "skipTerminateQuickPick": true,
+  "skipSwitchToOutput": false,
+  "skipErrorMessage": true,
+  "commands": [
+    {
+      "text": " Redist",
+      "color": "blue",
+      "command": "haxelib run redistHelper hl.hxml js.hxml -zip",
+      "alignment": "right",
+      "skipTerminateQuickPick": false,
+      "priority": 10
+    },
+    {
+      "text": "✪ HL",
+      "color": "brown",
+      "commandType": "palette",
+      "command": "workbench.action.tasks.runTask|HL release",
+      "alignment": "right",
+      "skipTerminateQuickPick": false,
+      "priority": 5
+    },
+    {
+      "text": "(Run)",
+      "color": "brown",
+      "command": "hl bin/client.hl",
+      "alignment": "right",
+      "skipTerminateQuickPick": false,
+      "priority": 4
+    },
+    {
+      "text": "⛴ JS",
+      "color": "orange",
+      "commandType": "palette",
+      "command": "workbench.action.tasks.runTask|JS release",
+      "alignment": "right",
+      "skipTerminateQuickPick": false,
+      "priority": 3
+    },
+    {
+      "text": "(Run) ",
+      "color": "orange",
+      "command": "start js.html",
+      "alignment": "right",
+      "skipTerminateQuickPick": false,
+      "priority": 2
+    }
+  ]
+}
