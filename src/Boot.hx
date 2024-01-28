@@ -1,24 +1,32 @@
 import hxd.Key;
 
+/**
+    The main application singleton class.
+**/
 class Boot extends hxd.App {
     public static var ME: Boot;
 
     public var speed = 1.;
 
-    // Boot
     static function main() {
         new Boot();
     }
 
-    // Engine ready
+    /**
+        Called when the engine is ready.
+    **/
     override function init() {
         ME = this;
 
-        engine.backgroundColor = 0xff << 24 | Main.BG;
+        // Set alpha channel to 0xFF and color to BG
+        engine.backgroundColor = 0xFF << 24 | Main.BG;
+
         onResize();
-        #if hl
+
+        #if hl // Probably supposed to make graphics smoother
         @:privateAccess hxd.Window.getInstance().window.vsync = true;
         #end
+
         new Main();
     }
 
@@ -29,16 +37,21 @@ class Boot extends hxd.App {
 
     override function update(deltaTime: Float) {
         super.update(deltaTime);
+
+        // Multiplies this.speed to ensures game speed is consistent
         var tmod = hxd.Timer.tmod;
 
         #if debug
         if (!Console.ME.isActive()) {
+            // (-) Toggle normal, slow, and very slow speeds
             if (Key.isPressed(Key.NUMPAD_SUB))
                 speed = speed == 1 ? 0.35 : speed == 0.35 ? 0.1 : 1;
 
+            // (P) Toggle pause
             if (Key.isPressed(Key.P))
                 speed = speed == 0 ? 1 : 0;
 
+            // (+) Hold to fast forward
             if (Key.isDown(Key.NUMPAD_ADD))
                 speed = 3;
             else if (speed > 1)
