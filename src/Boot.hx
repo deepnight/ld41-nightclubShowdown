@@ -1,5 +1,8 @@
 import hxd.Key;
 
+/**
+    The main application singleton class.
+**/
 class Boot extends hxd.App {
     public static var ME: Boot;
 
