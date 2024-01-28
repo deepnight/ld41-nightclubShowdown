@@ -12,7 +12,9 @@ class Boot extends hxd.App {
         new Boot();
     }
 
-    // Engine ready
+    /**
+        Called when the engine is ready.
+    **/
     override function init() {
         ME = this;
 
