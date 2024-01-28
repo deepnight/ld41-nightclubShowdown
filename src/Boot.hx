@@ -38,7 +38,7 @@ class Boot extends hxd.App {
     override function update(deltaTime: Float) {
         super.update(deltaTime);
 
-        // Ensures game speed is consistent
+        // Multiplies this.speed to ensures game speed is consistent
         final tmod = hxd.Timer.tmod;
 
         #if debug
