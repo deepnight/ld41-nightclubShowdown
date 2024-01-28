@@ -37,7 +37,7 @@ class Boot extends hxd.App {
 
     override function update(deltaTime: Float) {
         super.update(deltaTime);
-        var tmod = hxd.Timer.tmod;
+        final tmod = hxd.Timer.tmod;
 
         #if debug
         if (!Console.ME.isActive()) {
