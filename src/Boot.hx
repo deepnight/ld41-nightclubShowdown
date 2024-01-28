@@ -1,53 +1,54 @@
 import hxd.Key;
 
 class Boot extends hxd.App {
-	public static var ME : Boot;
-	var accu = 0.;
-	public var speed = 1.;
+    public static var ME: Boot;
 
-	// Boot
-	static function main() {
-		new Boot();
-	}
+    var accu = 0.;
 
-	// Engine ready
-	override function init() {
-		ME = this;
+    public var speed = 1.;
 
-		engine.backgroundColor = 0xff<<24|Main.BG;
-		onResize();
-		#if hl
-		@:privateAccess hxd.Window.getInstance().window.vsync = true;
-		#end
-		new Main();
-	}
+    // Boot
+    static function main() {
+        new Boot();
+    }
 
-	override function onResize() {
-		super.onResize();
-		dn.Process.resizeAll();
-	}
+    // Engine ready
+    override function init() {
+        ME = this;
 
-	override function update(deltaTime:Float) {
-		super.update(deltaTime);
-		var tmod = hxd.Timer.tmod;
+        engine.backgroundColor = 0xff << 24 | Main.BG;
+        onResize();
+        #if hl
+        @:privateAccess hxd.Window.getInstance().window.vsync = true;
+        #end
+        new Main();
+    }
 
-		#if debug
-		if( !Console.ME.isActive() ) {
-			if( Key.isPressed(Key.NUMPAD_SUB) )
-				speed = speed==1 ? 0.35 : speed==0.35 ? 0.1 : 1;
+    override function onResize() {
+        super.onResize();
+        dn.Process.resizeAll();
+    }
 
-			if( Key.isPressed(Key.P) )
-				speed = speed==0 ? 1 : 0;
+    override function update(deltaTime: Float) {
+        super.update(deltaTime);
+        var tmod = hxd.Timer.tmod;
 
-			if( Key.isDown(Key.NUMPAD_ADD) )
-				speed = 3;
-			else if( speed>1 )
-				speed = 1;
-		}
-		#end
+        #if debug
+        if (!Console.ME.isActive()) {
+            if (Key.isPressed(Key.NUMPAD_SUB))
+                speed = speed == 1 ? 0.35 : speed == 0.35 ? 0.1 : 1;
 
-		if( speed>0 )
-			dn.Process.updateAll(tmod*speed);
-	}
+            if (Key.isPressed(Key.P))
+                speed = speed == 0 ? 1 : 0;
+
+            if (Key.isDown(Key.NUMPAD_ADD))
+                speed = 3;
+            else if (speed > 1)
+                speed = 1;
+        }
+        #end
+
+        if (speed > 0)
+            dn.Process.updateAll(tmod * speed);
+    }
 }
-
