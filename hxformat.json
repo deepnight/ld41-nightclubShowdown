@@ -1,5 +1,8 @@
 {
   "indentation": {
     "character": "    "
+  },
+  "whitespace": {
+    "typeHintColonPolicy": "after"
   }
 }
