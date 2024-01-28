@@ -4,8 +4,8 @@
     "skipErrorMessage": true,
     "commands": [
       {
-        "text": "Redist",
-        "color": "lightgreen",
+        "text": " Redist",
+        "color": "blue",
         "command": "haxelib run redistHelper hl.hxml js.hxml -zip",
         "alignment": "right",
         "skipTerminateQuickPick": false,
@@ -13,7 +13,7 @@
       },
       {
         "text": "✪ HL",
-        "color": "orange",
+        "color": "brown",
         "commandType":"palette",
         "command": "workbench.action.tasks.runTask|HL release",
         "alignment": "right",
@@ -22,7 +22,7 @@
       },
       {
         "text": "(Run)",
-        "color": "orange",
+        "color": "brown",
         "command": "hl bin/client.hl",
         "alignment": "right",
         "skipTerminateQuickPick": false,
@@ -30,7 +30,7 @@
       },
       {
         "text": "⛴ JS",
-        "color": "yellow",
+        "color": "orange",
         "commandType":"palette",
         "command": "workbench.action.tasks.runTask|JS release",
         "alignment": "right",
@@ -38,29 +38,12 @@
         "priority": 3
       },
       {
-        "text": "(Run)",
-        "color": "yellow",
+        "text": "(Run) ",
+        "color": "orange",
         "command": "start js.html",
         "alignment": "right",
         "skipTerminateQuickPick": false,
         "priority": 2
-      },
-      {
-        "text": "⛴ SWF",
-        "color": "cyan",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|SWF release",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 1
-      },
-      {
-        "text": "(Run)",
-        "color": "cyan",
-        "command": "start bin/client.swf",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 1
       }
     ]
   }
