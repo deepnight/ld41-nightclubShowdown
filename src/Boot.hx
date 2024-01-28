@@ -6,10 +6,8 @@ import hxd.Key;
 class Boot extends hxd.App {
     public static var ME: Boot;
 
-    /** The game's speed **/
     public var speed = 1.;
 
-    // Boot
     static function main() {
         new Boot();
     }
