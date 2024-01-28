@@ -61,7 +61,7 @@ class Boot extends hxd.App {
         }
         #end
 
-        if (speed > 0)
-            dn.Process.updateAll(tmod * speed);
+        if (this.speed > 0)
+            dn.Process.updateAll(tmod * this.speed);
     }
 }
