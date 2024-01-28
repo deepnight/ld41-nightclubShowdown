@@ -39,7 +39,7 @@ class Boot extends hxd.App {
         super.update(deltaTime);
 
         // Multiplies this.speed to ensures game speed is consistent
-        var tmod = hxd.Timer.tmod;
+        final tmod = hxd.Timer.tmod;
 
         #if debug
         if (!Console.ME.isActive()) {
