@@ -3,8 +3,6 @@ import hxd.Key;
 class Boot extends hxd.App {
     public static var ME: Boot;
 
-    var accu = 0.;
-
     public var speed = 1.;
 
     // Boot
