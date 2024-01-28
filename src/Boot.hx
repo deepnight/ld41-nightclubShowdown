@@ -18,11 +18,15 @@ class Boot extends hxd.App {
     override function init() {
         ME = this;
 
-        engine.backgroundColor = 0xff << 24 | Main.BG;
+        // Set alpha channel to 0xFF and color to BG
+        engine.backgroundColor = 0xFF << 24 | Main.BG;
+
         onResize();
-        #if hl
+
+        #if hl // Probably supposed to make graphics smoother
         @:privateAccess hxd.Window.getInstance().window.vsync = true;
         #end
+
         new Main();
     }
 
