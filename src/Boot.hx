@@ -44,7 +44,7 @@ class Boot extends hxd.App {
         #if debug
         if (!Console.ME.isActive()) {
             // (-) Toggle normal, slow, and very slow speeds
-            if (Key.isPressed(Key.NUMPAD_SUB))
+            if (Key.isPressed(Key.NUMPAD_SUB) || Key.isPressed(Key.QWERTY_MINUS))
                 this.speed = if (this.speed == 1) 0.35 else if (this.speed == 0.35) 0.1 else 1;
 
             // (P) Toggle pause
@@ -52,7 +52,7 @@ class Boot extends hxd.App {
                 this.speed = if (this.speed == 0) 1 else 0;
 
             // (+) Hold to fast forward
-            if (Key.isDown(Key.NUMPAD_ADD))
+            if (Key.isDown(Key.NUMPAD_ADD) || Key.isDown(Key.QWERTY_EQUALS))
                 this.speed = 3;
             else if (this.speed > 1)
                 this.speed = 1;
