@@ -6,7 +6,7 @@
       {
         "text": "Redist",
         "color": "lightgreen",
-        "command": "haxelib run redistHelper hl.hxml js.hxml -zip",
+        "command": "haxelib run redistHelper hl.sdl.hxml hl.directx.hxml js.hxml -zip",
         "alignment": "right",
         "skipTerminateQuickPick": false,
         "priority": 100
