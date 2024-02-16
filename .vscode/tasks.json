@@ -17,28 +17,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "label": "HL release",
-            "type": "hxml",
-            "file": "hl.hxml",
-            "presentation": {
-                "reveal": "never",
-                "panel": "dedicated",
-                "clear": true
-            },
-            "problemMatcher": ["$haxe"],
-        },
-        {
-            "label": "JS release",
-            "type": "hxml",
-            "file": "js.hxml",
-            "presentation": {
-                "reveal": "never",
-                "panel": "dedicated",
-                "clear": true
-            },
-            "problemMatcher": ["$haxe"],
         }
     ]
 }

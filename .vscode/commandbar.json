@@ -9,58 +9,50 @@
         "command": "haxelib run redistHelper hl.hxml js.hxml -zip",
         "alignment": "right",
         "skipTerminateQuickPick": false,
-        "priority": 10
+        "priority": 100
       },
       {
-        "text": "✪ HL",
+        "text": "OpenGL",
         "color": "orange",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|HL release",
+        "commandType":"exec",
+        "command": "haxe hl.sdl.hxml",
         "alignment": "right",
         "skipTerminateQuickPick": false,
-        "priority": 5
+        "priority": 50
       },
       {
-        "text": "(Run)",
+        "text": "DirectX",
+        "color": "orange",
+        "commandType":"exec",
+        "command": "haxe hl.directx.hxml",
+        "alignment": "right",
+        "skipTerminateQuickPick": false,
+        "priority": 49
+      },
+      {
+        "text": "Run HL",
         "color": "orange",
         "command": "hl bin/client.hl",
         "alignment": "right",
         "skipTerminateQuickPick": false,
-        "priority": 4
+        "priority": 40
       },
       {
         "text": "⛴ JS",
         "color": "yellow",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|JS release",
+        "commandType":"exec",
+        "command": "haxe js.hxml",
         "alignment": "right",
         "skipTerminateQuickPick": false,
-        "priority": 3
+        "priority": 30
       },
       {
-        "text": "(Run)",
+        "text": "Run JS",
         "color": "yellow",
         "command": "start js.html",
         "alignment": "right",
         "skipTerminateQuickPick": false,
-        "priority": 2
-      },
-      {
-        "text": "⛴ SWF",
-        "color": "cyan",
-        "commandType":"palette",
-        "command": "workbench.action.tasks.runTask|SWF release",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 1
-      },
-      {
-        "text": "(Run)",
-        "color": "cyan",
-        "command": "start bin/client.swf",
-        "alignment": "right",
-        "skipTerminateQuickPick": false,
-        "priority": 1
+        "priority": 20
       }
     ]
   }
